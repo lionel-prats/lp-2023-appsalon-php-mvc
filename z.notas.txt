@@ -32,3 +32,19 @@ con esto creamos el composer.json en la raiz del proyecto
 * php -S localhost:3001 para arrancar el servidor de desarrollo (en este caso, en el puerto 3001)
 
 -----
+
+VIDEO 448 
+
+SASS - nueva sintaxis (explicion en el VIDEO 167) vvv
+
+* dentro de cada subcarpeta de la carpeta /src/scss...
+* debemos tener un archivo _index.scss 
+* en este archivo _index.scss "haremos un forward" a todos los archivos "hermanos" (es decir, a todos los archivos dentro de la misma subcarpeta) vvv 
+
+@forward "archivo1";
+@forward "archivo2";
+
+* en app.scss (el archivo principal de SASS, ubicada en /src/scss) "hacemos un use" a cada subcarpeta dentro /src/scss vvv 
+
+@use 'base';
+@use 'layout';
