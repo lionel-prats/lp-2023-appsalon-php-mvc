@@ -48,3 +48,14 @@ SASS - nueva sintaxis (explicion en el VIDEO 167) vvv
 
 @use 'base';
 @use 'layout';
+
+----- 
+
+VIDEO 450 
+
+propiedades CSS vvv 
+
+flex: 0 0 10rem;
+shortcut for flex-grow, flex-shrink and flex-basis
+
+all:unset -> resetea todas las propiedades por defecto de un elemento html
