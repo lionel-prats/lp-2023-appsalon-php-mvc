@@ -1,0 +1,8 @@
+/node_modules
+/vendor
+/public/build
+/public/imagenes
+
+/includes/database.php
+package-lock.json
+composer.lock

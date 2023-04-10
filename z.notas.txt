@@ -1,0 +1,5 @@
+VIDEO 444 
+
+npm install -> para instalar node_modules con las dependencias que vamos a necesitar (por default ya teníamos el package.json) 
+
+npm run gulp -> para escuchar por cambios en archivos .scss, .js, imagenes, etc.
