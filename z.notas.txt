@@ -3,3 +3,32 @@ VIDEO 444
 npm install -> para instalar node_modules con las dependencias que vamos a necesitar (por default ya teníamos el package.json) 
 
 npm run gulp -> para escuchar por cambios en archivos .scss, .js, imagenes, etc.
+
+-----
+
+VIDEO 445 
+
+composer init -> para crear el composer.json (tendra las dependencias de PHP, no las del frontend ni las de NPM, esas estan en el package.json)
+
+configuracion en la consola vvv 
+
+- Package name (<vendor>/<name>) [user/appsalon-php-mvc]: lionelprats/appsalon-php-mvc
+- Description []: Proyecto PHP 8.1.10, MVC, SQL SASS, Gulp
+- Author [lionel-prats <lionel.prats.c@gmail.com>, n to skip]: 
+- Minimum Stability []: 
+- Package Type (e.g. library, project, metapackage, composer-plugin) []: project
+- License []: 
+- Would you like to define your dependencies (require) interactively [yes]? no
+- Would you like to define your dev dependencies (require-dev) interactively [yes]? no
+- Add PSR-4 autoload mapping? Maps namespace "Lionelprats\AppsalonPhpMvc" to the entered relative path. [src/, n to skip]: n
+- Do you confirm generation [yes]? yes
+
+con esto creamos el composer.json en la raiz del proyecto 
+
+* luego agregamos los namespaces para acceder a las clases del proyecto 
+* luego corremos composer update, ya que modificamos el composer.json (con esto se crea la carpeta /vendor con el archivo autoload.php) y se modifica el composer.lock
+
+* cd public
+* php -S localhost:3001 para arrancar el servidor de desarrollo (en este caso, en el puerto 3001)
+
+-----

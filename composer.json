@@ -1,0 +1,19 @@
+{
+    "name": "lionelprats/appsalon-php-mvc",
+    "description": "Proyecto PHP 8.1.10, MVC, SQL SASS, Gulp",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Controllers\\": "./controllers",
+            "Model\\": "./models"
+        }
+    },
+    "authors": [
+        {
+            "name": "lionel-prats",
+            "email": "lionel.prats.c@gmail.com"
+        }
+    ],
+    "require": {}
+}
