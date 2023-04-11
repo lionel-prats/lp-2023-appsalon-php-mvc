@@ -22,7 +22,18 @@ class LoginController {
         echo "Desde logout";
     }
     public static function olvide(/* Router */ $router) {
-        echo "Desde olvide";
+        $first_path = "/"; 
+        $first_brand = "¿Ya tienes una cuenta? Inicia sesión";
+        $second_path = "/crear-cuenta"; 
+        $second_brand = "¿Aún no tienes una cuenta? Crear una";
+        $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
+
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        }
+        $router->render("auth/olvide", [
+            "componenteEnlacesForm" => $componenteEnlacesForm
+        ]);
     }
     public static function recuperar(/* Router */ $router) {
         echo "Desde recuperar";
