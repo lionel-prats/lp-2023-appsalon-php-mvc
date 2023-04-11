@@ -1,13 +1,22 @@
 <?php 
 
 namespace Controllers;
-
 //use MVC\Router;
 
+require __DIR__ . "/../views/partials/enlaces-form.php";
 
 class LoginController {
     public static function login(/* Router */ $router) {
-        $router->render("auth/login");
+
+        $first_path = "/crear-cuenta"; 
+        $first_brand = "¿Aún no tienes una cuenta? Crear una";
+        $second_path = "/olvide";
+        $second_brand = "¿Olvidaste tu password?";
+        $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
+
+        $router->render("auth/login", [
+            "componenteEnlacesForm" => $componenteEnlacesForm
+        ]);
     }
     public static function logout() {
         echo "Desde logout";
@@ -19,6 +28,20 @@ class LoginController {
         echo "Desde recuperar";
     }
     public static function crear(/* Router */ $router) {
-        echo "Desde crear";
+
+        $first_path = "/"; 
+        $first_brand = "¿Ya tienes una cuenta? Inicia sesión";
+        $second_path = "/olvide";
+        $second_brand = "¿Olvidaste tu password?";
+        $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
+
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        }
+        $router->render("auth/crear-cuenta", [
+            "componenteEnlacesForm" => $componenteEnlacesForm
+        ]);
     }
 }
+
+

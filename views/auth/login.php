@@ -1,4 +1,5 @@
 <h1 class="nombre-pagina">Login</h1>
+
 <p class="descripcion-pagina">Inicia sesión con tus datos</p>
 
 <form action="/" class="formulario" method="POST">
@@ -22,7 +23,10 @@
     </div>
     <input type="submit" value="Iniciar Sesión" class="boton">
 </form>
-<div class="acciones">
+<!-- <div class="acciones">
     <a href="/crear-cuenta">¿Aún no tienes una cuenta? Crear una</a>
     <a href="/olvide">¿Olvidaste tu password?</a>
-</div>
+</div> -->
+<?php 
+    echo $componenteEnlacesForm;
+?>
