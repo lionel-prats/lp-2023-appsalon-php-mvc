@@ -4,7 +4,7 @@
 
 <?php include_once __DIR__ . "/../templates/alertas.php"; ?>
 
-<form action="/crear-cuenta" class="formulario" method="POST">
+<form action="/crear-cuenta" class="formulario" method="POST" novalidate>
     <div class="campo">
         <label for="nombre">Nombre</label>
         <input 

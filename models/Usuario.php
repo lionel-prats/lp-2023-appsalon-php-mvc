@@ -38,12 +38,24 @@ class Usuario extends ActiveRecord {
         $expresion_regular_telefono = "|^\d\d\d\d\d\d\d\d\d?\d?$|"; 
 
         if(!$this->nombre) {
-            self::$alertas["error"][] = "El nombre del cliente es obligatorio"; 
+            self::$alertas["error"][] = "El nombre es obligatorio"; 
         }
         if(!$this->apellido) {
-            self::$alertas["error"][] = "El apellido del cliente es obligatorio";
+            self::$alertas["error"][] = "El apellido es obligatorio";
+        }
+        if(!$this->telefono) {
+            self::$alertas["error"][] = "El teléfono es obligatorio";
+        } elseif(!preg_match($expresion_regular_telefono, $this->telefono)) {
+            self::$alertas["error"][] = "El nro. de teléfono debe contener entre 8 y 10 dígitos numéricos";
+        }
+        if(!$this->email) {
+            self::$alertas["error"][] = "El email es obligatorio";
+        } elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            self::$alertas["error"][] = "El email ingresado no es válido";
+        }
+        if(!$this->password || strlen($this->password) < 6) {
+            self::$alertas["error"][] = "El password es obligatorio y debe contener al menos 6 caracteres";
         }
         return self::$alertas;
     }
-
 }
