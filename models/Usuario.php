@@ -34,9 +34,8 @@ class Usuario extends ActiveRecord {
 
     // mensajes de validacion para la creacion de una cuenta
     public function validarNuevaCuenta() {
-        
         $expresion_regular_telefono = "|^\d\d\d\d\d\d\d\d\d?\d?$|"; 
-
+        
         if(!$this->nombre) {
             self::$alertas["error"][] = "El nombre es obligatorio"; 
         }
@@ -57,5 +56,17 @@ class Usuario extends ActiveRecord {
             self::$alertas["error"][] = "El password es obligatorio y debe contener al menos 6 caracteres";
         }
         return self::$alertas;
+    }
+
+    // revisa si el usuario (email) ya existe en la DB
+    public function existeUsuario() {
+        
+        $query = "SELECT * FROM " . self::$tabla . " WHERE email = '$this->email' LIMIT 1";
+        $resultado = self::$db->query($query);
+        if($resultado->num_rows) {
+            self::$alertas["error"][] = "El email ingresado ya se encuentra registrado";
+            return;
+        }
+        return $resultado;
     }
 }
