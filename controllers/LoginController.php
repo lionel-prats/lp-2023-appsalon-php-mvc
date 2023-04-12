@@ -1,6 +1,8 @@
 <?php 
 
 namespace Controllers;
+
+use Model\Usuario;
 //use MVC\Router;
 
 require __DIR__ . "/../views/partials/enlaces-form.php";
@@ -46,11 +48,17 @@ class LoginController {
         $second_brand = "¿Olvidaste tu password?";
         $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
 
-        if($_SERVER["REQUEST_METHOD"] === "POST") {
+        $usuario = new Usuario();
 
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+            
+            $usuario->sincronizar($_POST);
+            
         }
+
         $router->render("auth/crear-cuenta", [
-            "componenteEnlacesForm" => $componenteEnlacesForm
+            "componenteEnlacesForm" => $componenteEnlacesForm,
+            "usuario" => $usuario,
         ]);
     }
 }
