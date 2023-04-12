@@ -60,3 +60,168 @@ shortcut for flex-grow, flex-shrink and flex-basis
 
 all:unset -> resetea todas las propiedades por defecto de un elemento html
 
+-----
+
+VIDEO 456
+
+* creé la base appsalon_mvc con tableplus 
+
+name: appsalon_mvc
+Encoding: utf_8
+Collation: utf8_general_ci
+
+* creacion tabla usuarios desde WorkBench (para evitar problemas que tiene tableplus para crear tablas)
+
+columna id vvv 
+
+Column Name   -> id 
+Datatype      -> int(11)
+PK            -> OK -> primary key
+NN            -> OK -> not null 
+AI            -> OK -> auto increment 
+
+*** luego agregue las columnas nombre, apellido, email, telefono, admin, confirmado y token
+
+*** codigo SQL para la creacion de la tabla (generado por Workbench) vvv 
+
+CREATE TABLE `appsalon_mvc`.`usuarios` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(60) NULL,
+  `apellido` VARCHAR(60) NULL,
+  `email` VARCHAR(30) NULL,
+  `telefono` VARCHAR(10) NULL,
+  `admin` TINYINT(1) NULL,
+  `confirmado` TINYINT(1) NULL,
+  `token` VARCHAR(15) NULL,
+  PRIMARY KEY (`id`)
+);
+
+-----
+
+VIDEO 457
+
+* creacion tabla servicios desde WorkBench (para evitar problemas que tiene tableplus para crear tablas) 
+
+*** codigo SQL para la creacion de la tabla (generado por Workbench) vvv 
+
+CREATE TABLE `appsalon_mvc`.`servicios` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(60) NULL,
+  `precio` DECIMAL(5,2) NULL, // 5 digitos total maximo; 2 digitos total parte decimal
+  PRIMARY KEY (`id`)
+);
+
+*** insertando algunos registros vvv
+
+INSERT INTO `servicios` (`id`, `nombre`, `precio`) VALUES
+(1, 'Corte de Cabello Mujer', 90.00),
+(2, 'Corte de Cabello Hombre', 80.00),
+(3, 'Corte de Cabello Niño', 60.00),
+(4, 'Peinado Mujer', 80.00),
+(5, 'Peinado Hombre', 60.00),
+(6, 'Peinado Niño', 60.00),
+(7, 'Corte de Barba', 60.00),
+(8, 'Tinte Mujer', 300.00),
+(9, 'Uñas', 400.00),
+(10, 'Lavado de Cabello', 50.00),
+(11, 'Tratamiento Capilar', 150.00);
+
+-----
+
+VIDEO 458
+
+* creacion tabla citas 
+
+*** codigo SQL para la creacion de la tabla vvv 
+
+CREATE TABLE citas (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  fecha DATE NULL,
+  hora TIME NULL,
+  usuarioId INT(11),
+  PRIMARY KEY (id),
+  FOREIGN KEY (usuarioId) REFERENCES usuarios(id)
+);
+
+-----
+
+VIDEO 459
+
+* creacion tabla citasServicios 
+
+*** codigo SQL para la creacion de la tabla vvv 
+
+CREATE TABLE citasServicios (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  citaId INT(11),
+  servicioId INT(11),
+  PRIMARY KEY (id),
+  FOREIGN KEY (citaId) REFERENCES citas(id),
+  FOREIGN KEY (servicioId) REFERENCES servicios(id)
+);
+
+*** notar que la tabla se creo como "citasservicios" (con la "s" de "servicios" en minuscula) 
+
+*** z.foreigns_keys_workbench.PNG -> captura de las preguntas del VIDEO 459, donde un alumno muestra como definir foreigns keys de la tabla citasServicios "manualmente" desde workbench  
+
+*** desde wirkbench, genere las foreign keys manualmente, ya que si bien todo funcionaba, habian dando vueltas unos nombres raros en el apartade de foreigns keys de workbench 
+*** este es el codigo SQL para editar los foreigns keys de ambas tablas tabla vvv
+
+ALTER TABLE `appsalon_mvc`.`citas` 
+DROP FOREIGN KEY `citas_ibfk_1`;
+ALTER TABLE `appsalon_mvc`.`citas` 
+ADD CONSTRAINT `usuarioId`
+FOREIGN KEY (`usuarioId`)
+REFERENCES `appsalon_mvc`.`usuarios` (`id`);
+
+ALTER TABLE `appsalon_mvc`.`citasservicios` 
+DROP FOREIGN KEY `citasservicios_ibfk_1`,
+DROP FOREIGN KEY `citasservicios_ibfk_2`;
+ALTER TABLE `appsalon_mvc`.`citasservicios` 
+ADD CONSTRAINT `citaId`
+FOREIGN KEY (`citaId`)
+REFERENCES `appsalon_mvc`.`citas` (`id`),
+ADD CONSTRAINT `servicioId`
+FOREIGN KEY (`servicioId`)
+REFERENCES `appsalon_mvc`.`servicios` (`id`);
+
+-----
+
+VIDEO 460 
+
+*** NOW() -> funcion SQL 
+*** en un campo DATE, retorna la fecha actual 
+*** en un campo TIME, retorna la hora actual (supongo que la toma del servidor, pero en las pruebas de este video coincide exactamente con la hora real de Argentina)
+
+Restricciones de Integridad Referencial...
+
+Para permitir elimiar un usuario por mas que sea FK de registros en otras tablas (el problema que habia con vendedores y propiedades en Bienes Raices) tenemos varias opciones vvv 
+
+vamos a solucionar ese problema con los registros de las tabla usuarios y citas vvv 
+
+en Table Plus vvv 
+
+CASCADE -> eliminando un registro padre, se eliminan los registros dependientes
+
+1. editar la FK usuarioId de citas
+2 On Update (que va a pasar cuando el usuario se edite...) -> CASCADE
+3 On Delete (que va a pasar cuando el usuario se elimine...) -> CASCADE
+
+*** con CASCADE, cuando elimino un registro padre, se eliminan los registros dependientes (en nuestro caso, los registros de citas son dependientes de los registros de usuarios)
+
+-----
+
+SET NULL -> eliminando un registro padre, la referencia en los registros dependientes queda con valor NULL
+
+1. editar la FK usuarioId de citas
+2 On Update (que va a pasar cuando el usuario se edite...) -> SET NULL
+3 On Delete (que va a pasar cuando el usuario se elimine...) -> SET null
+
+----
+
+VIDEO 461
+
+"Active Record mantiene una referencia en memoria, crea un objeto que es exactamente igual a lo que tenemos en la base de datos"
+
+* se habia olvidado de crear el campo password en usuarios
+* lo creo desde tableplus con # = 5 y al guardar cambios password se coloque como 5ta columna, corriendo a las que le siguen una posicion a la derecha 

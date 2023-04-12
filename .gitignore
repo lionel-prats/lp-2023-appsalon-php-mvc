@@ -5,3 +5,6 @@
 /includes/database.php
 package-lock.json
 composer.lock
+
+z.esquema-db.pdf
+z.foreigns_keys_workbench.PNG
