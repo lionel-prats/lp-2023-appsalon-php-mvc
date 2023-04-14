@@ -256,25 +256,49 @@ echo '</pre>';
 
 *** lo que creo entender es que la funcion unqid() genera alfanumericos "determinados" o "fijos" en el tiempo; con el for(){} de arriba se ve claramente que los tokens generados por uniqid() van difiriendo muy de a poco y eso explica el planteo del primer alumno
 
+----- 
 
+VIDEO 470 
 
+el profesor de arranque usa el termino "bannear" cuando habla sobre la capa de seguridad que agregamos con el tema de enviarle un token al usuario para asegurarnos que no es un bot el que esta registrando usuarios en nuestra db -> escuchar y comprender que es lo que esta explicando
 
+----- 
 
+"vamos a estar usando MailTrap de nuevo para probar los emails" 
 
+"vamos a instalar la extension de PHPMailer" vvv 
 
+composer require phpmailer/phpmailer
+* coon este comando instalo la libreria phpmailer en el proyecto (en los hechos, se creo la carpeta /vendor/phpmailer, que es lo que llamamos "libreria", "dependencia", "extension", etc.)
 
+composer update -> mensaje por consola vvv 
 
+Loading composer repositories with package information
+Updating dependencies
+Nothing to modify in lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+Generating autoload files
+1 package you are using is looking for funding.
+Use the `composer fund` command to find out more!
+No security vulnerability advisories found
 
+*** al respecto de composer update -> "instalé una nueva dependencia y la actualizo para que el archivo /vendor/autoload.php ya cargue esta libreria que acabamos de instalar"
 
+*** APRENDIZAJE -> instalo una libreria/dependencia/extension en un proyecto PHP -> acto seguido corro composer update para que funcione el autoload de clases
 
+* creo la carpeta /classes y dentro la clase "helper" Email (/classes/Email.php), que nos va a permitir enviar un email
 
+* modifique el "autoload" del composer.json, asi que luego vuelvo a correr composer update vvv
 
-
-
-
-
-
-
+"autoload": {
+    "psr-4": {
+        "MVC\\": "./",
+        "Controllers\\": "./controllers",
+        "Model\\": "./models",
+        "Classes\\": "./classes"
+    }
+},
 
 
 
