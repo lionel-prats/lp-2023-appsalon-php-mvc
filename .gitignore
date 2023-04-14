@@ -6,5 +6,6 @@
 package-lock.json
 composer.lock
 
-z.esquema-db.pdf
 z.foreigns_keys_workbench.PNG
+z.40-AppSalonBD.pdf
+z.41-RegistroUsuarios.pdf

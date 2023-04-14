@@ -234,3 +234,75 @@ password_hash($string, PASSWORD_DEFAULT);
 password_hash($string, PASSWORD_BCRYPT);
 
 * funcion PHP para hashear strings (usually use to hash passwords)
+
+----- 
+
+VIDEO 469
+
+Vamos a implementar el registro por e-mail basado en Tokens 
+
+el profesor usa la funcion PHP uniqid(), que genera un string alfanumerico de 13 digitos.
+
+*** ver consultas del video, ya que un alumno dice que esta funcion puede generar exactamente el mismo token (string) si dos usuarios crean un usuario exactamente al mismo tiempo desde 2 servidores distintos.
+*** como solucion, sugiere usar la combinacion de funciones PHP bin2hex(random_bytes(8))
+*** ver y probar con el script de abajo e ir a la fuente para leer respuesta de otro alumno y documentacion adjunta vvv
+
+echo '<pre>';
+for($i=0;$i<20;$i++) {
+    echo uniqid(), PHP_EOL;
+    //echo bin2hex(random_bytes(8)), PHP_EOL, PHP_EOL;
+}
+echo '</pre>';
+
+*** lo que creo entender es que la funcion unqid() genera alfanumericos "determinados" o "fijos" en el tiempo; con el for(){} de arriba se ve claramente que los tokens generados por uniqid() van difiriendo muy de a poco y eso explica el planteo del primer alumno
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----
+
+VIDEO 478
+
+* Comentario de un alumno en el VIDEO 469, relacionado al VIDEO 478 vvv
+
+Por cierto, en el capítulo 478, la función "s" para sanitizar el HTML tampoco es tan fiable. Yo usé ctype_alnum
+
+if(!ctype_alnum($token)) 
+{
+    // token no válido
+}

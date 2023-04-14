@@ -64,6 +64,10 @@ class LoginController {
                 if($resultado) { 
                     // hashear el password
                     $usuario->hashPassword();
+                    
+                    // generar un token unico  
+                    $usuario->crearToken();
+                    
                     debuguear($usuario);
                 } 
                 $alertas = Usuario::getAlertas();
