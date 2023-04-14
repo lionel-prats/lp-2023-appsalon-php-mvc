@@ -225,3 +225,12 @@ VIDEO 461
 
 * se habia olvidado de crear el campo password en usuarios
 * lo creo desde tableplus con # = 5 y al guardar cambios password se coloque como 5ta columna, corriendo a las que le siguen una posicion a la derecha 
+
+----- 
+
+VIDEO 468 
+
+password_hash($string, PASSWORD_DEFAULT);
+password_hash($string, PASSWORD_BCRYPT);
+
+* funcion PHP para hashear strings (usually use to hash passwords)

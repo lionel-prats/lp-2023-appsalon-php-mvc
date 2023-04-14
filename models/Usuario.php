@@ -60,7 +60,6 @@ class Usuario extends ActiveRecord {
 
     // revisa si el usuario (email) ya existe en la DB
     public function existeUsuario() {
-        
         $query = "SELECT * FROM " . self::$tabla . " WHERE email = '$this->email' LIMIT 1";
         $resultado = self::$db->query($query);
         if($resultado->num_rows) {
@@ -68,5 +67,11 @@ class Usuario extends ActiveRecord {
             return;
         }
         return $resultado;
+    }
+    // hashea el string que le mandamos
+    public function hashPassword() {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+        return;
     }
 }

@@ -5,7 +5,7 @@ class ActiveRecord {
     // Base DE DATOS
     protected static $db;
     protected static $tabla = '';
-    protected static $columnasDB = [];
+    protected static $columnasDB = []; // array con los campos de cada tabla, definidos en cada modelo
 
     // Alertas y Mensajes
     protected static $alertas = [];
@@ -127,14 +127,13 @@ class ActiveRecord {
     public function crear() {
         // Sanitizar los datos
         $atributos = $this->sanitizarAtributos();
-
         // Insertar en la base de datos
         $query = " INSERT INTO " . static::$tabla . " ( ";
         $query .= join(', ', array_keys($atributos));
         $query .= " ) VALUES (' "; 
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
-
+        
         // Resultado de la consulta
         $resultado = self::$db->query($query);
         return [
@@ -142,7 +141,7 @@ class ActiveRecord {
            'id' => self::$db->insert_id
         ];
     }
-
+    
     // Actualizar el registro
     public function actualizar() {
         // Sanitizar los datos

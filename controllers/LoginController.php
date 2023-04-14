@@ -62,7 +62,9 @@ class LoginController {
                 // verificar que el usuario no este registrado
                 $resultado = $usuario->existeUsuario($usuario->email);
                 if($resultado) { 
-                    echo "Registrando usuario nuevo...";
+                    // hashear el password
+                    $usuario->hashPassword();
+                    debuguear($usuario);
                 } 
                 $alertas = Usuario::getAlertas();
             }
