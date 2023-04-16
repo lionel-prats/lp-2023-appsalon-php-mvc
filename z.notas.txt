@@ -317,10 +317,7 @@ Mailtrap es un servidor de pruebas, por lo que sin importar a que correo quieras
 
 Puedes usar servicios como https://sendinblue.com/ para enviar correos reales, en este caso el destinatario si debe ser un correo real y existente al que tengas acceso para comprobarlo.
 
-
-
-
-
+-----
 
 
 

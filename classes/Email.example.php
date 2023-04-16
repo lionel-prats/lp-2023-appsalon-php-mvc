@@ -31,13 +31,12 @@ class Email {
         // crear el objeto de email
         $mail = new PHPMailer();
         $mail->isSMTP(); // SMTP -> protocolo de envio de emails
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->Host = 'your_email_host';
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
+        $mail->Port = 'port_number';
         $mail->Username = 'your_email_username';
         $mail->Password = 'your_email_password';
         $mail->setFrom('your_email_accoount@yout_host.com');
-        //$mail->addAddress('cuentas@appsalon.com', 'AppSalon.com');
         $mail->addAddress($this->email, $this->nombre);
         $mail->Subject = 'Confirma tu cuenta';
         $mail->isHTML(true); 
