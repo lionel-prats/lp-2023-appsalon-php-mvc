@@ -72,16 +72,23 @@ class LoginController {
                     // este metodo le asigna un token unico a $usuario->token
                     $usuario->crearToken();
 
-                    // enviar el email (con el token)
+                    // enviar el email (con el token) vvv
+
+                    // instancia de la clase Email
                     $email = new Email(
                         $usuario->email,
                         $usuario->nombre,
                         $usuario->token
                     );
 
+                    // metodo de Email para enviar el correo de confirmacion de cuenta al usuario, usando la libreria PHPMailer 
                     $email->enviarConfirmacion();
 
-                    debuguear($usuario);
+                    // crear el usuario
+                    $reultado = $usuario->guardar();
+                    if($resultado){
+                        header("Location: /mensaje");
+                    }
                 } 
                 $alertas = Usuario::getAlertas();
             }
@@ -92,6 +99,9 @@ class LoginController {
             "usuario" => $usuario,
             "alertas" => $alertas,
         ]);
+    }
+    public static function mensaje($router) {
+        $router->render("auth/mensaje");
     }
 }
 

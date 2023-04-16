@@ -36,7 +36,7 @@ class Email {
         $mail->Port = 'port_number';
         $mail->Username = 'your_email_username';
         $mail->Password = 'your_email_password';
-        $mail->setFrom('your_email_accoount@yout_host.com');
+        $mail->setFrom('your_email_account@you_host.com');
         $mail->addAddress($this->email, $this->nombre);
         $mail->Subject = 'Confirma tu cuenta';
         $mail->isHTML(true); 
