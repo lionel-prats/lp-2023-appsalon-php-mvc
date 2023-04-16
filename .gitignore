@@ -8,4 +8,5 @@ composer.lock
 
 z.foreigns_keys_workbench.PNG
 z.40-AppSalonBD.pdf
-z.41-RegistroUsuarios.pdf
+z.41-RegistroUsuarios.pdf 
+/classes/Email.php

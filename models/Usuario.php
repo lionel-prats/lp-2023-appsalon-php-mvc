@@ -70,12 +70,12 @@ class Usuario extends ActiveRecord {
     }
     // hashea el string que le mandamos (lo usamos para hashear el pass de un nuevo usuario que se registra)
     public function hashPassword() {
-        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        //$this->password = password_hash($this->password, PASSWORD_DEFAULT);
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
         return;
     }
     
-    // crea un token (lo usamos para generar el token de un nuevo usuario que se registra)
+    // edita el atributo token del objeto Usuario en memoria (lo usamos para generar el token de un usuario al momento de crear una cuenta nueva)
     public function creartoken() {
         $this->token = uniqid();
         return;

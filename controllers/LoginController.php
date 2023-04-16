@@ -61,12 +61,15 @@ class LoginController {
             // revisar que no hayan errores de validacion 
             if(empty($alertas)) {
                 // verificar que el usuario no este registrado
+                // este metodo bueca en la tabla usuarios un egistro con el mail almacenado en $usuario->email
                 $resultado = $usuario->existeUsuario($usuario->email);
                 if($resultado) { 
                     // hashear el password
+                    // este metodo haschea el password ingresado por el usuario, almacenado en $usuario->password
                     $usuario->hashPassword();
                     
                     // generar un token unico  
+                    // este metodo le asigna un token unico a $usuario->token
                     $usuario->crearToken();
 
                     // enviar el email (con el token)
@@ -75,7 +78,8 @@ class LoginController {
                         $usuario->nombre,
                         $usuario->token
                     );
-                    debuguear($email);
+
+                    $email->enviarConfirmacion();
 
                     debuguear($usuario);
                 } 

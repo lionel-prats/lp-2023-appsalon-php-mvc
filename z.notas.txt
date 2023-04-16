@@ -288,8 +288,9 @@ No security vulnerability advisories found
 *** APRENDIZAJE -> instalo una libreria/dependencia/extension en un proyecto PHP -> acto seguido corro composer update para que funcione el autoload de clases
 
 * creo la carpeta /classes y dentro la clase "helper" Email (/classes/Email.php), que nos va a permitir enviar un email
+* esta clase va a contener toda la configuracion para enviar emails correctamente, que vimos en bienes raices (y en los proyectos locales de prueba phpmailer y phpmailer2023)
 
-* modifique el "autoload" del composer.json, asi que luego vuelvo a correr composer update vvv
+* modifique el "autoload" del composer.json para agregar el namespace de /classes, asi que luego vuelvo a correr composer update para actualizar nuestro autoload vvv
 
 "autoload": {
     "psr-4": {
@@ -300,9 +301,21 @@ No security vulnerability advisories found
     }
 },
 
+----- 
 
+VIDEO 471 
 
+ENVIAR MAIL DE CONFIRMACION DE CUENTA AL USUARIO LUEGO DE GENERAR EL TOKEN DE SEGURIDAD:
 
+En el VIDEO 426 pregunte vvv
+
+Hola. En $mail->addAddress('xxx', 'xxxx'); coloqué una casilla de correo donde quiero que lleguen los correos que se envían desde el formulario de contacto de la app y no están llegando. Si llegan correctamente al inbox de Mailtrap. Como lo soluciono?
+
+Respuesta de un profesor asistente vvv 
+
+Mailtrap es un servidor de pruebas, por lo que sin importar a que correo quieras enviarlo, si usas el servidor smtp de mailtrap siempre llegaran a la bandeja de tu mailtrap.
+
+Puedes usar servicios como https://sendinblue.com/ para enviar correos reales, en este caso el destinatario si debe ser un correo real y existente al que tengas acceso para comprobarlo.
 
 
 
