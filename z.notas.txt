@@ -319,6 +319,30 @@ Puedes usar servicios como https://sendinblue.com/ para enviar correos reales, e
 
 -----
 
+VIDEO 473 
+
+formato del array de $alertas (mensaje de error, exito, etc, en los envíos de datos desde formularios) en ActiveRecord.php vvv
+
+array(1) {
+  ["error"]=>
+  array(5) {
+    [0]=>
+    string(24) "El nombre es obligatorio"
+    [1]=>
+    string(26) "El apellido es obligatorio"
+    [2]=>
+    string(27) "El teléfono es obligatorio"
+    [3]=>
+    string(23) "El email es obligatorio"
+    [4]=>
+    string(64) "El password es obligatorio y debe contener al menos 6 caracteres"
+  }
+}
+
+*** en /views/templates/alertas.php tenemos el template que reutilizamos para renderizar las alertas
+
+
+
 
 
 

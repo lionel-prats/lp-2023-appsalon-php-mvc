@@ -19,7 +19,6 @@ class Router
 
     public function comprobarRutas()
     {
-        
         // Proteger Rutas...
         session_start();
 

@@ -7,7 +7,7 @@ function debuguear($variable) : string {
     exit;
 }
 
-// Escapa / Sanitizar el HTML / retorna un string sanitizado
+// Escapa / Sanitizar el HTML / recibe un string y lo retorna sanitizado (nos sirve para evitar la inyeccion SQL o ataques desde el cliente)
 function s($html) : string {
     $s = htmlspecialchars($html);
     return $s;

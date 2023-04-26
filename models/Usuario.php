@@ -3,7 +3,7 @@
 namespace Model;
 
 class Usuario extends ActiveRecord {
-
+    
     // base de datos
     protected static $tabla = 'usuarios';
     protected static $columnasDB = ['id','nombre','apellido','email','password','telefono','admin','confirmado','token'];
@@ -60,6 +60,7 @@ class Usuario extends ActiveRecord {
 
     // revisa si el usuario (email) ya existe en la DB
     public function existeUsuario() {
+        
         $query = "SELECT * FROM " . self::$tabla . " WHERE email = '$this->email' LIMIT 1";
         $resultado = self::$db->query($query);
         if($resultado->num_rows) {

@@ -50,7 +50,7 @@ class LoginController {
         $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
 
         $usuario = new Usuario();
-
+        
         // alertas vacias
         $alertas = [];
 
@@ -61,7 +61,7 @@ class LoginController {
             // revisar que no hayan errores de validacion 
             if(empty($alertas)) {
                 // verificar que el usuario no este registrado
-                // este metodo bueca en la tabla usuarios un egistro con el mail almacenado en $usuario->email
+                // este metodo busca en la tabla usuarios un registro con el mail almacenado en $usuario->email
                 $resultado = $usuario->existeUsuario($usuario->email);
                 if($resultado) { 
                     // hashear el password
@@ -80,12 +80,11 @@ class LoginController {
                         $usuario->nombre,
                         $usuario->token
                     );
-
                     // metodo de Email para enviar el correo de confirmacion de cuenta al usuario, usando la libreria PHPMailer 
                     $email->enviarConfirmacion();
-
+                    
                     // crear el usuario
-                    $reultado = $usuario->guardar();
+                    $resultado = $usuario->guardar();
                     if($resultado){
                         header("Location: /mensaje");
                     }
@@ -93,7 +92,6 @@ class LoginController {
                 $alertas = Usuario::getAlertas();
             }
         }
-
         $router->render("auth/crear-cuenta", [
             "componenteEnlacesForm" => $componenteEnlacesForm,
             "usuario" => $usuario,
@@ -102,6 +100,19 @@ class LoginController {
     }
     public static function mensaje($router) {
         $router->render("auth/mensaje");
+    }
+    public static function confirmar($router) {
+        $alertas = [];
+        if(isset($_GET['token'])) 
+            $token = s($_GET['token']);
+        
+        $usuario = Usuario::where('token', $token);
+
+        debuguear($usuario);
+
+        $router->render("auth/confirmar-cuenta", [
+            'alertas' => $alertas
+        ]);
     }
 }
 
