@@ -9,6 +9,7 @@
     font-weight: v.$bold;
     text-transform: uppercase;
     text-align: center;
+    line-height: 1.5;
     color: v.$blanco;
     &.error {
         background-color: v.$rojo;

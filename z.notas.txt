@@ -319,7 +319,15 @@ Puedes usar servicios como https://sendinblue.com/ para enviar correos reales, e
 
 -----
 
+VIDEO 472
+
+* Retomé el curso el 11/5/23 en este video (esta explicando cosas del registro de usuarios)
+
+----- 
+
 VIDEO 473 
+
+array_shift() -> funcion PHP que elimina y retorna el primer elemento de un array 
 
 formato del array de $alertas (mensaje de error, exito, etc, en los envíos de datos desde formularios) en ActiveRecord.php vvv
 
@@ -341,16 +349,9 @@ array(1) {
 
 *** en /views/templates/alertas.php tenemos el template que reutilizamos para renderizar las alertas
 
+-----
 
-
-
-
-
-
-
-
-
-
+VIDEO 475
 
 -----
 

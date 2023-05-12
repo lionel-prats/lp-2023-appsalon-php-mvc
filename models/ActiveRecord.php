@@ -123,11 +123,11 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
-    // Busca un registro por su id
+    // SELECT en $tabla filtrando por la columna pasada por parametro
     public static function where($columna, $valor) {
-        $query = "SELECT * FROM " . static::$tabla  ." WHERE $columna = '$valor'";
+        $query = "SELECT * FROM " . static::$tabla  . " WHERE $columna = '$valor'";
         $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        return $resultado;
     }
 
     // crea un nuevo registro
