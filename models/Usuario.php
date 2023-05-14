@@ -32,7 +32,7 @@ class Usuario extends ActiveRecord {
         $this->token = $args['token'] ?? '';
     }
 
-    // mensajes de validacion para la creacion de una cuenta
+    // Validacion Formulario Creacion De Cuenta
     public function validarNuevaCuenta() {
         $expresion_regular_telefono = "|^\d\d\d\d\d\d\d\d\d?\d?$|"; 
         
@@ -58,6 +58,22 @@ class Usuario extends ActiveRecord {
         return self::$alertas;
     }
 
+    // Validacion formulario de Login
+    public function validarLogin() {
+
+        // slef::$alertas el atributo proteced y static, es un array vacío heredado de ActiveRecord
+        
+        if(!$this->email) {
+            self::$alertas["error"][] = "El email es obligatorio";
+        } elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            self::$alertas["error"][] = "El email ingresado no es válido";
+        }
+        if(!$this->password || strlen($this->password) < 6) {
+            self::$alertas["error"][] = "El password es obligatorio y debe contener al menos 6 caracteres";
+        }
+        return self::$alertas; 
+    }
+
     // revisa si el usuario (email) ya existe en la DB
     public function existeUsuario() {
         
@@ -65,12 +81,15 @@ class Usuario extends ActiveRecord {
         $resultado = self::$db->query($query);
         if($resultado->num_rows) {
             self::$alertas["error"][] = "El email ingresado ya se encuentra registrado";
-            return;
+            //return NULL;
         }
         return $resultado;
     }
     // hashea el string que le mandamos (lo usamos para hashear el pass de un nuevo usuario que se registra)
     public function hashPassword() {
+
+        //debuguear(password_hash($this->password, PASSWORD_BCRYPT));
+
         //$this->password = password_hash($this->password, PASSWORD_DEFAULT);
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
         return;
@@ -80,5 +99,18 @@ class Usuario extends ActiveRecord {
     public function creartoken() {
         $this->token = uniqid();
         return;
+    }
+
+    public function comprobarPasswordAndVerificado($password) { 
+        
+        $resultado = password_verify($password/* $string */, $this->password/* hash */);
+        
+        if(!$resultado) {
+            self::$alertas["error"][] = "Credenciales inválidas";
+        } elseif(!$this->confirmado) {
+            self::$alertas["error"][] = "Tu cuenta no ha sido confirmada. Por favor, revisa tu casila de e-mail.";
+        } else {
+            return true;
+        }
     }
 }

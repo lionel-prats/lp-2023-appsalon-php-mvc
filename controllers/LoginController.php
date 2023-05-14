@@ -11,6 +11,47 @@ require __DIR__ . "/../views/partials/enlaces-form.php";
 class LoginController {
 
     public static function login(/* Router */ $router) {
+        //debuguear($_SESSION);
+        $alertas = [];
+        
+        $auth = new Usuario();
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+            
+            $auth = new Usuario($_POST);
+
+            $alertas = $auth->validarLogin();
+            
+            if(empty($alertas)){ 
+                // $alertas esta vacio; significa que los datos ingresados por el usuario en el formulario de login son validos; comprobamos que exista el usuario vvv
+
+                $usuario = Usuario::where("email", $auth->email);
+                
+                if($usuario) {
+                    // existe el mail en la DB; comprobamos si ambos passwords coinciden y que el usuario este confirmado vvv
+
+                    if( $usuario[0]->comprobarPasswordAndVerificado($auth->password) ) {
+                        // existe el mail, coinciden los passwords y el usuario esta confirmado; lo autenticamos vvv 
+
+                        //session_start();
+                        $_SESSION["id"] = $usuario[0]->id;
+                        $_SESSION["nombre"] = $usuario[0]->nombre . " " . $usuario[0]->apellido;
+                        $_SESSION["email"] = $usuario[0]->email;
+                        $_SESSION["login"] = true;
+                        
+                        if($usuario[0]->admin === "1") {
+                            $_SESSION["admin"] = $usuario[0]->admin ?? null;
+                            header("Location: /admin");
+                        } else {
+                            header("Location: /cita");
+                        }   
+                    
+                    }
+                } else {
+                    // no existe el mail en la DB; enviamos mensaje de error por pantalla vvv
+                    Usuario::setAlerta("error","Credenciales inválidas");
+                } 
+            } 
+        }
 
         $first_path = "/crear-cuenta"; 
         $first_brand = "¿Aún no tienes una cuenta? Crear una";
@@ -18,8 +59,12 @@ class LoginController {
         $second_brand = "¿Olvidaste tu password?";
         $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
 
+        $alertas = Usuario::getAlertas();
+
         $router->render("auth/login", [
-            "componenteEnlacesForm" => $componenteEnlacesForm
+            "componenteEnlacesForm" => $componenteEnlacesForm,
+            "alertas" => $alertas,
+            "auth" => $auth
         ]);
     }
 
@@ -68,7 +113,8 @@ class LoginController {
                 // verificar que el usuario no este registrado
                 // este metodo busca en la tabla usuarios un registro con el mail almacenado en $usuario->email
                 $resultado = $usuario->existeUsuario($usuario->email);
-                if($resultado) { 
+                //debuguear($resultado);
+                if(!$resultado->num_rows) { 
                     // hashear el password
                     // este metodo haschea el password ingresado por el usuario, almacenado en $usuario->password
                     $usuario->hashPassword();

@@ -353,7 +353,21 @@ array(1) {
 
 VIDEO 475
 
+en Usuario.php/validarLogin() vvv
+
+self::$alertas -> atributo proteced y static (array vacío) heredado de ActiveRecord con la finalidad de notificar al cliente de posibles errores, cargando eventualues mensajes de error en dicho array para que se muestren por pantalla llegado el caso.
+
 -----
+
+VIDEO 476 
+
+- password_hash($string, PASSWORD_DEFAULT) -> funcion nativa PHP para hashear un password al momento de crear un usuario nuevo en la DB
+
+- password_hash($string, PASSWORD_BCRYPT) -> funcion nativa PHP para hashear un password al momento de crear un usuario nuevo en la DB
+
+- password_verify($string_no_hasheado, $string_hasheado) -> funcion nativa PHP para validar passwords en un login
+
+----- 
 
 VIDEO 478
 
