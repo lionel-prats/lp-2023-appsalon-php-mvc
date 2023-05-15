@@ -138,8 +138,36 @@ class LoginController {
         $second_brand = "¿Aún no tienes una cuenta? Crear una";
         $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
 
+        $alertas = array();
+        $error = false;
+
+        if(isset($_GET['token'])) {
+            $token = s($_GET['token']);
+            $usuario = Usuario::where('token', $token); 
+            if(empty($usuario)) {
+                Usuario::setAlerta("error", "Token inválido");
+                $error = true;
+            } elseif(count($usuario) === 1){
+                if($_SERVER["REQUEST_METHOD"] === "POST") {
+                    // leer el nuevo password y guardarlo
+
+
+                }
+            } else {
+                // este seria para el "improbable" caso de que dos usuarios que quieran reestablecer su contraseña cuenten con un mismo token en un momento determinado
+                Usuario::setAlerta("error", "Ha ocurrido un error inesperado 😩");
+                Usuario::setAlerta("error", "Por favor, vuelve a completar el <a href=\"http://localhost:3000/crear-cuenta\">formulario de registro de usuario</a> 🙏🏻🙏🏻🙏🏻");
+            }
+        } else {
+            $error = true;
+            Usuario::setAlerta("error", "Token inválido");
+        } 
+
+        $alertas = Usuario::getAlertas();
         $router->render("auth/recuperar-password", [
-            "componenteEnlacesForm" => $componenteEnlacesForm
+            "componenteEnlacesForm" => $componenteEnlacesForm,
+            "alertas" => $alertas,
+            "error" => $error
         ]);
     }
 
