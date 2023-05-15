@@ -132,7 +132,15 @@ class LoginController {
     }
 
     public static function recuperar(/* Router */ $router) {
-        echo "Desde recuperar";
+        $first_path = "/"; 
+        $first_brand = "¿Ya tienes una cuenta? Inicia sesión";
+        $second_path = "/crear-cuenta"; 
+        $second_brand = "¿Aún no tienes una cuenta? Crear una";
+        $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
+
+        $router->render("auth/recuperar-password", [
+            "componenteEnlacesForm" => $componenteEnlacesForm
+        ]);
     }
 
     public static function crear(/* Router */ $router) {
