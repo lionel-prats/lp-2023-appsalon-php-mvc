@@ -83,18 +83,39 @@ class LoginController {
 
         $alertas = array();
 
+        $email = "";
         if($_SERVER["REQUEST_METHOD"] === "POST") {
             $auth = new Usuario($_POST);
+            $email = $auth->email;
+
             $alertas = $auth->validarEmail();
 
             if(empty($alertas)) {
-                
+                $usuario = Usuario::where("email", $auth->email);
+                if($usuario){
+                    if($usuario[0]->confirmado === "1") {
+                        $usuario[0]->crearToken();
+                        $usuario[0]->guardar();
+                        Usuario::setAlerta("exito", "Te hemos enviado un correo con los pasos a seguir para crear una nueva contraseña.");
+                    } else {
+                        Usuario::setAlerta("error", "Aún no has confirmado tu cuenta.");
+                        Usuario::setAlerta("error", "Te hemos enviado un mail el día xxxx/xx/xx.");
+                        Usuario::setAlerta("error", "Sigue las instrucciones de ese mail para confirmar tu cuenta.");
+                        Usuario::setAlerta("error", "Luego de confirmar tu cuenta podrás volver y generar una nueva contraseña.");
+                        
+                    }
+                } else {
+                    Usuario::setAlerta("error", "El mail ingresado no pertence a un usuario registrado");
+                }        
             }
         }
+        
+        $alertas = Usuario::getAlertas();
 
         $router->render("auth/olvide", [
             "componenteEnlacesForm" => $componenteEnlacesForm,
-            "alertas" => $alertas 
+            "alertas" => $alertas,
+            "email" => $email
         ]);
     }
 

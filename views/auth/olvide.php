@@ -11,7 +11,8 @@
             type="email"
             id="email"
             placeholder="Tu Email"
-            name="email"     
+            name="email" 
+            value="<?= s($email); ?>"    
         >
     </div>
     <input type="submit" value="Enviar Instrucciones" class="boton">
