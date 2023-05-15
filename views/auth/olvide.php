@@ -2,7 +2,9 @@
 
 <p class="descripcion-pagina">Reestablece tu password escribiendo tu email a continuación</p>
 
-<form action="/olvide" class="formulario" method="POST">
+<?php include_once __DIR__ . "/../templates/alertas.php"; ?>
+
+<form action="/olvide" class="formulario" method="POST" novalidate>
     <div class="campo">
         <label for="email">Email</label>
         <input 

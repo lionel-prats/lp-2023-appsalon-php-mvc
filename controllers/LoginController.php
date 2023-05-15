@@ -32,7 +32,9 @@ class LoginController {
                     if( $usuario[0]->comprobarPasswordAndVerificado($auth->password) ) {
                         // existe el mail, coinciden los passwords y el usuario esta confirmado; lo autenticamos vvv 
 
-                        //session_start();
+                        if(!isset($_SESSION)){
+                            session_start();
+                        }
                         $_SESSION["id"] = $usuario[0]->id;
                         $_SESSION["nombre"] = $usuario[0]->nombre . " " . $usuario[0]->apellido;
                         $_SESSION["email"] = $usuario[0]->email;
@@ -79,11 +81,20 @@ class LoginController {
         $second_brand = "¿Aún no tienes una cuenta? Crear una";
         $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
 
-        if($_SERVER["REQUEST_METHOD"] === "POST") {
+        $alertas = array();
 
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+            $auth = new Usuario($_POST);
+            $alertas = $auth->validarEmail();
+
+            if(empty($alertas)) {
+                
+            }
         }
+
         $router->render("auth/olvide", [
-            "componenteEnlacesForm" => $componenteEnlacesForm
+            "componenteEnlacesForm" => $componenteEnlacesForm,
+            "alertas" => $alertas 
         ]);
     }
 
