@@ -95,8 +95,20 @@ class LoginController {
                 if($usuario){
                     if($usuario[0]->confirmado === "1") {
                         $usuario[0]->crearToken();
-                        $usuario[0]->guardar();
-                        Usuario::setAlerta("exito", "Te hemos enviado un correo con los pasos a seguir para crear una nueva contraseña.");
+
+                        $email = new Email(
+                            $usuario[0]->email,
+                            $usuario[0]->nombre,
+                            $usuario[0]->token
+                        );
+                        $email->enviarInstrucciones();
+                        
+                        $resultado = $usuario[0]->guardar();
+
+                        if($resultado){
+                            header("Location: /mensaje");
+                        }
+                        
                     } else {
                         Usuario::setAlerta("error", "Aún no has confirmado tu cuenta.");
                         Usuario::setAlerta("error", "Te hemos enviado un mail el día xxxx/xx/xx.");
@@ -148,7 +160,7 @@ class LoginController {
                 //debuguear($resultado);
                 if(!$resultado->num_rows) { 
                     // hashear el password
-                    // este metodo haschea el password ingresado por el usuario, almacenado en $usuario->password
+                    // este metodo hashea el password ingresado por el usuario, almacenado en $usuario->password
                     $usuario->hashPassword();
                     
                     // generar un token unico  
@@ -170,15 +182,17 @@ class LoginController {
                     // crear el usuario
                     $resultado = $usuario->guardar();
 
-                    if($resultado){
+                    Usuario::setAlerta("exito", "Te hemos enviado un correo para que termines de completar el registro");
+
+                    /* if($resultado){
                         header("Location: /mensaje");
-                    }
+                    } */
                 
                 } 
-
-                $alertas = Usuario::getAlertas();
             }
         }
+
+        $alertas = Usuario::getAlertas();
 
         $router->render("auth/crear-cuenta", [
             "componenteEnlacesForm" => $componenteEnlacesForm,
