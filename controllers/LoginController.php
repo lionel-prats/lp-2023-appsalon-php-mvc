@@ -151,7 +151,18 @@ class LoginController {
                 if($_SERVER["REQUEST_METHOD"] === "POST") {
                     // leer el nuevo password y guardarlo
 
-
+                    $password = new Usuario($_POST);
+                    $alertas = $password->validarPassword();
+                    if(empty($alertas)) {
+                        $usuario[0]->password = null;
+                        $usuario[0]->password = $password->password;
+                        $usuario[0]->hashPassword();
+                        $usuario[0]->token = "";
+                        $resultado = $usuario[0]->guardar();
+                        if($resultado) {
+                            header("Location: /");
+                        }
+                    }
                 }
             } else {
                 // este seria para el "improbable" caso de que dos usuarios que quieran reestablecer su contraseña cuenten con un mismo token en un momento determinado
