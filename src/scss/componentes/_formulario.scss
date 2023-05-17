@@ -19,5 +19,13 @@
         padding: calc(v.$separacion / 4);
         border: none;
         border-radius: 1rem;
+        
+        /* pseudoselector para seleccionar inputs con atributo disabled, en este caso deberan estar dentro de un elemento con clase "campo" */
+        &:disabled {
+            /* lighten() es una funcion de SASS, que me permite aclarar un color pasandole 2 argumentos (tambien existe darken()) */
+            background-color: lighten(v.$negro, 30%);
+            color: v.$blanco;
+            cursor: not-allowed;/* propiedad para que al hacer hover sobre el elemento aparezca un icono de "prohibido" */
+        }
     }
 }

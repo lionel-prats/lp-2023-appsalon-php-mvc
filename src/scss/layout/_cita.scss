@@ -1,0 +1,20 @@
+.seccion {
+    .text-center {
+        text-align: center;
+    }
+
+    &:nth-child(2),
+    &:nth-child(3) {
+        display: none;
+    }
+    /* con &:nth-child(1) estoy haciendo referencia al elemento hijo nro. 1 que tenga clase="seccion" */
+
+    /* 
+    EJEMPLO vvv
+    <div> -> elemento padre
+        <section class="seccion"></section> -> &:nth-child(1)
+        <section class="seccion"></section> -> &:nth-child(2)
+        <section class="seccion"></section> -> &:nth-child(3)
+    </div>
+    */   
+}
