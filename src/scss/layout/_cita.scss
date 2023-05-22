@@ -7,14 +7,6 @@
         text-align: center;
     }
 
-    .mostrar {
-        display: block;
-    }
-
-    .ocultar {
-        display: none;
-    }
-
     // VIDEO 491 - en este video comenta las 4 lineas de aabajo para hacerlo de otra manera, ya que con (2) y (3) no funciona como se supone deberia funcionar (ver VIDEO 491, donde lo dice) 
     // &:nth-child(2),
     // &:nth-child(3) {
@@ -30,4 +22,12 @@
         <section class="seccion"></section> -> &:nth-child(3)
     </div>
     */   
+}
+
+.mostrar {
+    display: block;
+}
+
+.ocultar {
+    display: none;
 }

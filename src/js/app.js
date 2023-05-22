@@ -9,7 +9,15 @@ function iniciarApp(){
     tabs(); // muestra y oculta las secciones de /cita segun los clicks en <div class="tabs">
 }
 function mostrarSeccion(){
-    console.log('mostrando seccion');
+
+    const seccionAnterior = document.querySelector('.mostrar');
+    if(seccionAnterior) {
+        seccionAnterior.classList.remove('mostrar');
+    }
+
+    const pasoSelector = `#paso-${paso}`;
+    const seccion = document.querySelector(pasoSelector);
+    seccion.classList.add('mostrar');
 }
 function tabs(){
     const botones = document.querySelectorAll('.tabs button');
