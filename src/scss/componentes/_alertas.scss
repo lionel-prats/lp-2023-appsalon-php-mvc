@@ -4,7 +4,8 @@
 .alerta {
     display: block;
     width: 100%;
-    padding: v.$separacion/4;
+    //padding: v.$separacion/4;
+    padding: calc(v.$separacion/4);
     margin-bottom: 2rem;
     font-weight: v.$bold;
     text-transform: uppercase;

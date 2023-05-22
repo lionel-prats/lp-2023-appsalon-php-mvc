@@ -1,0 +1,32 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.tabs {
+
+    @include m.desktopXL { // min-width: 1200px
+        display:flex;
+    };
+
+    button {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: none;
+        font-weight: v.$bold;
+        text-transform: uppercase;
+        background-color: v.$azul;
+        color: v.$blanco;
+        transition: background-color 300ms ease; // transicion para el :hover sobre los botones
+
+        &:hover {
+            background-color: darken(v.$azul, 10%);
+            cursor: pointer;
+        }
+        
+        &.actual {
+            background-color: v.$blanco;
+            color: v.$azul;
+        }
+    }
+}

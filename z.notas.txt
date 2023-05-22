@@ -381,3 +381,36 @@ if(!ctype_alnum($token))
 }
 
 -----
+
+VIDEO 488 
+
+Estilos para el formulario de la vista "/cita" vvv 
+
+/src/scss/componentes/_formulario.scss
+
+Luego crea un nuevo nuevo .scss para definir estilos de "/cita" vvv
+/src/scss/layout/_cita.scss 
+
+-----
+
+VIDEO 489 
+
+* darken & lighten -> mixins de SASS vvv
+
+background-color: darken(v.$azul, 10%);
+background-color: lighten(v.$azul, 10%);
+
+----- 
+
+data recuperada del proyecto frontend FESTIVAL DE MUSICA vvv 
+
+Como crear un snippet en VSCode:
+Ctrl + Shift + P (en Windows)
+Buscar "Snippets: Configure User Snippets"
+Buscar "scss.json (SCSS)"
+Es un json para configurar snippets de scss.
+Ver el archivo "scss.json (SCSS)" y repasar el video si hace falta (VIDEO 178)
+
+-----
+
+VIDEO 490 
