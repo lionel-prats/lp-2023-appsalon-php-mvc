@@ -414,3 +414,5 @@ Ver el archivo "scss.json (SCSS)" y repasar el video si hace falta (VIDEO 178)
 -----
 
 VIDEO 490 
+
+/views/cita/index.php -> &laquo -> "esto se conoce como ENTIDAD"
