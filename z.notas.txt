@@ -416,3 +416,17 @@ Ver el archivo "scss.json (SCSS)" y repasar el video si hace falta (VIDEO 178)
 VIDEO 490 
 
 /views/cita/index.php -> &laquo -> "esto se conoce como ENTIDAD"
+
+---- 
+
+VIDEO 491 
+
+/views/layout.php vvv 
+
+<?php echo $script ?? ''; ?>
+
+* de esta manera estamos diciendo "imprimí $script, si no existe, no imprimas nada"
+* es una especie de if ternario
+* a "??" le llamamos placeholder
+
+
