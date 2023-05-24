@@ -444,6 +444,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ----- 
 
-VIDEO 493
+VIDEO 495
+
+Comentario util jQuery usuario vvv
+
+Para los que usen JQuery. -> Buenas, gente.
+
+En el día de hoy les traigo el mismo código que contiene la misma funcionalidad del tab; pero agregada con JQuery en este proyecto.
+
+Tabs()
+{
+    return $('.btn-tab').on("click", (e) => {
+    e.preventDefault();
+    let step = parseInt(e.target.dataset.step);
+        this.ShowSection(step);
+    })        
+}
+ 
+ShowSection(section)
+{
+    $('.show').removeClass('show');
+    $(`.btn-tab`).removeClass('actual');
+    $(`[data-step="${section}"]`).addClass('actual');
+    $(`#step-${section}`).addClass('show');
+}
+NOTA: Pueden agregar JQuery por medio de un CDN (link:  Link para JQuery.), para que no batallen y puedan usar AJAX. Ya en caso de que lo quieran agregar con NPM y quieran agregar otras librerías como SweetAlert2, deben de hacer una configuración extra con Webpack y modificar el gulpfile; pero requiere de conocimientos acerca de ES6.
 
 
