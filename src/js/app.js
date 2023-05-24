@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function iniciarApp(){
+    mostrarSeccion(); 
     tabs(); // muestra y oculta las secciones de /cita segun los clicks en <div class="tabs">
 }
-function mostrarSeccion(){
 
+function mostrarSeccion(){
+    
     const seccionAnterior = document.querySelector('.mostrar');
     if(seccionAnterior) {
         seccionAnterior.classList.remove('mostrar');
@@ -18,9 +20,23 @@ function mostrarSeccion(){
     const pasoSelector = `#paso-${paso}`;
     const seccion = document.querySelector(pasoSelector);
     seccion.classList.add('mostrar');
+
+    // quita la clase "actual" al tab anterior
+    const tabAnterior = document.querySelector('.actual');
+    if(tabAnterior) {
+        tabAnterior.classList.remove('actual');
+    }
+    // resalta el tab actual
+    // este selector es un "selector de atributo"; captura cualquier <element data-paso="${paso}">
+    // apenas se carga el documento, paso == 1 (asi lo definimos en la 1era. linea de este script), entonces va a capturar el tab "servicios"
+    const tab = document.querySelector(`[data-paso="${paso}"]`);
+    tab.classList.add('actual');
 }
+
 function tabs(){
     const botones = document.querySelectorAll('.tabs button');
+    // con la sintaxis '.tabs button' selecciono todos los <button> hijos de un <element class="tabs">
+
     botones.forEach( boton => {
         boton.addEventListener('click', function(e){
             paso = parseInt(e.target.dataset.paso);

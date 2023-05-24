@@ -6,12 +6,12 @@
 
     <!-- VIDEO 489 -->
     <nav class="tabs">
-        <button type="button" data-paso="1" class="actual">Servicios</button>
+        <button type="button" data-paso="1">Servicios</button>
         <button type="button" data-paso="2">Información Cita</button>
         <button type="button" data-paso="3">Resumen</button>
     </nav>
 
-    <div id="paso-1" class="seccion mostrar">
+    <div id="paso-1" class="seccion">
         <h2>Servicios</h2>
         <p class="text-center">Elige tus servicios a continuación</p>
         <div id="servicios" class="listado-servicios"></div>
