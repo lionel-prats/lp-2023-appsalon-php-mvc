@@ -470,4 +470,28 @@ ShowSection(section)
 }
 NOTA: Pueden agregar JQuery por medio de un CDN (link:  Link para JQuery.), para que no batallen y puedan usar AJAX. Ya en caso de que lo quieran agregar con NPM y quieran agregar otras librerías como SweetAlert2, deben de hacer una configuración extra con Webpack y modificar el gulpfile; pero requiere de conocimientos acerca de ES6.
 
+----- 
 
+VIDEO 497
+
+API = Application Programming Interface
+
+Ayuda memoria:
+
+Creamos el endpoint /api/servicios
+el controlador del endpoint vvv 
+- ejecuta el metodo estatico all() (puede ser invocado sin instanciar la clase o el modelo) del modelo Servicio -> herencia del modelo ActiveRecord
+
+***
+- all() le pasa la consulta SQL (SELECT * FROM servicios) a consultarSQL
+- consultarSQL invoca a $db, que es un objeto instancia de la conexión a la DB (supongo que una clase), y a un metodo propio del objeto, query(), que recibe el string de una consulta SQL y lo ejecuta en la DB 
+- iteramos el resultado de la consulta con un while y el metodo fetch_assoc() del objeto/instancia de mysqli $resultado 
+- cada iteracion es un registro de la respuesta de la consulta, en formato array asociativo
+- cada uno de estos registros (array asociativos), se lo pasamos al metodo crearObjeto(), que los convierte en un objeto/instancia del modelo/clase Servicio 
+- vamos almacenando en $array estos objetos
+- liberamos la memoria con $resultado->free(); ???
+
+all() -> consultarSQL() -> crearObjeto()
+*** 
+
+la ejecucion de all() la guarda en $servicios, y el metodo del endpoint termina retornando un json de ese array de objetos con la funcion nativa de PHP json_encode()

@@ -4,7 +4,7 @@ class ActiveRecord {
 
     // Base DE DATOS
     protected static $db;
-    protected static $tabla = '';
+    protected static $tabla = ''; // nombre de la tabla
     protected static $columnasDB = []; // array con los campos de cada tabla, definidos en cada modelo
 
     // Alertas y Mensajes
@@ -33,30 +33,54 @@ class ActiveRecord {
     public static function consultarSQL($query) {
         // Consultar la base de datos
         $resultado = self::$db->query($query);
-
+        //debuguear($database);
+        
         // Iterar los resultados
         $array = [];
         while($registro = $resultado->fetch_assoc()) {
+            
+            /* echo "<pre>";
+            print_r($registro);
+            echo "</pre>"; */
+        
             $array[] = static::crearObjeto($registro);
         }
+        //debuguear();
 
         // liberar la memoria
         $resultado->free();
 
         // retornar los resultados
+        // $array = array de objetos/instancias de un modelo (cada objeto es un registro, parte de una consulta SQL a la BD)
         return $array;
     }
 
     // Crea el objeto en memoria que es igual al de la BD
+    // VIDEO 497 - recibe un array y lo convierte en objeto
     protected static function crearObjeto($registro) {
-        $objeto = new static;
-
+        $objeto = new static; // instancia del modelo que invoque este metodo crearObjeto (en este caso, Servicio - VIDEO 497)
+        /* 
+        VIDEO 497
+        object(Model\Servicio)#5 (3) {
+            ["id"]=>
+            NULL
+            ["nombre"]=>
+            string(0) ""
+            ["precio"]=>
+            string(0) ""
+        }
+        */
+        
         foreach($registro as $key => $value ) {
             if(property_exists( $objeto, $key  )) {
                 $objeto->$key = $value;
             }
         }
-
+        /*
+        echo "<pre>";
+        var_dump($objeto);
+        debuguear($registro);
+        */
         return $objeto;
     }
 

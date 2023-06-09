@@ -73,3 +73,19 @@
         <script src=\"build/js/app.js\"></script>
     "; 
 ?>
+
+<script>
+    setTimeout(() => {
+        fetch('/api/servicios')
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function(data){
+            console.log(data);
+        })
+        .catch(function (e) {
+            console.log(e);
+        });  
+    }, 5000);
+    
+</script>

@@ -17,11 +17,13 @@ function iniciarApp(){
 
 function mostrarSeccion(){
     
+    // oculta la seccion renderizada antes de un nuevo click
     const seccionAnterior = document.querySelector('.mostrar');
     if(seccionAnterior) {
         seccionAnterior.classList.remove('mostrar');
     }
 
+    // renderiza la seccion que corresponda segun un nuevo click
     const pasoSelector = `#paso-${paso}`;
     const seccion = document.querySelector(pasoSelector);
     seccion.classList.add('mostrar');
@@ -31,7 +33,7 @@ function mostrarSeccion(){
     if(tabAnterior) {
         tabAnterior.classList.remove('actual');
     }
-    // resalta el tab actual
+    // resalta el tab actual (agregando la clase "actual")
     // este selector es un "selector de atributo"; captura cualquier <element data-paso="${paso}">
     // apenas se carga el documento, paso == 1 (asi lo definimos en la 1era. linea de este script), entonces va a capturar el tab "servicios"
     const tab = document.querySelector(`[data-paso="${paso}"]`);
@@ -45,8 +47,11 @@ function tabs(){
     botones.forEach( boton => {
         boton.addEventListener('click', function(e){
             paso = parseInt(e.target.dataset.paso);
-            mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun los clicks en los tabs
-            botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun los clicks en los tabs
+            console.clear();
+            console.log(`linea 51, paso == ${paso}`);
+
+            mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
+            botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
         })
     });
 }
@@ -76,8 +81,10 @@ function paginaAnterior() {
             return;
         }
         paso --;
-        mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun los clicks en los botones del paginador
-        botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun los clicks en los botones del paginador
+        console.clear();
+        console.log(`linea 84, paso == ${paso}`);
+        mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
+        botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
     })
 }
 
@@ -85,10 +92,12 @@ function paginaSiguiente() {
     const paginaSiguiente = document.querySelector('#siguiente');
     paginaSiguiente.addEventListener('click', () => {
         // el return de este if corta la ejecucion de todo el Listener (VIDEO 496)
-        // lo uso para que paso no siga decrementando cuando su valor es === 1
+        // lo uso para que paso no siga incrementando cuando su valor es === 3
         if(paso === pasoFinal) return; 
         paso ++;
-        mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun los clicks en los botones del paginador
-        botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun los clicks en los botones del paginador
+        console.clear();
+        console.log(`linea 99, paso == ${paso}`);
+        mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
+        botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
     })
 }
