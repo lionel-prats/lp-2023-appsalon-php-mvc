@@ -525,3 +525,19 @@ const objeto = {
 const {nombre, apellido} = objeto;
 
 console.log(`Hola ${nombre} ${apellido}!!`);
+
+-----
+
+VIDEO 501
+agregué snippet para el mixin grid (SCSS / SASS):
+
+1) Ctrl + shift + "P"
+2) Click en "Snippets: Configure User Snippets"
+3) Click en scss.json
+4) Agrego al .json la configuración del nuevo snippet vvv 
+"grid": {
+  "prefix": "grid",
+  "body": [
+    "@include m.grid($1, $2);"
+  ]
+}

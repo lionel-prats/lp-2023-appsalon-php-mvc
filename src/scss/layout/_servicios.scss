@@ -1,0 +1,37 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.listado-servicios {
+    
+    @include m.grid(1, 2rem);
+    
+    @include m.tablet {
+        @include m.grid(2, 2rem);
+    };
+
+    // <div class="servicio"> -> creado en /src/js/app.js, con info de la consulta al enpoint /api/servicios
+    .servicio {
+        padding: 3rem;
+        border-radius: 1rem;
+        background-color: v.$blanco;
+        transition-property: transform;
+        transition-duration: 300ms;
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        p {
+            margin: 0 0 calc(v.$separacion / 4) 0;
+            text-align: center;
+            color: v.$negro;
+        }
+        // <p class="precio-servicio"> -> creado en /src/js/app.js
+        .precio-servicio {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: v.$bold;
+            color: v.$azul;
+        }
+    }
+}
