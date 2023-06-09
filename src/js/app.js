@@ -113,9 +113,8 @@ async function consultarAPI(){
         const url = 'http://localhost:3000/api/servicios'; 
         const resultado = await fetch(url); // fetch nos va a permitir consumir servicios
         const servicios = await resultado.json();
-        console.log(servicios);
+        mostrarServicios(servicios);
         // de esta manera, estamos consultando la base de datos (appsalon_mvc) desde JS front, no directamente, si no que por medio de una capa de abstraccion que es nuestra API (VIDEO 499)
-   
     } catch (error) {
         console.log(error);
     }
@@ -132,3 +131,31 @@ async function consultarAPI(){
         });  
     }, 5000); */
 }
+
+function mostrarServicios(servicios){
+    const fragment = document.createDocumentFragment();
+    servicios.forEach( (servicio, index, arrayCompleto) => {
+        const {id, nombre, precio} = servicio;
+
+        // lo vamos a hacer con scripting (VIDEO 500)
+        // el scripting es mas tardado para nosotros, los que desarrollamos las aplicaciones, pero en performance es mas rapido, ademas de que es mas seguro (VIDEO 500) 
+        const nombreServicio = document.createElement('P');
+        nombreServicio.classList.add('nombre-servicio');
+        nombreServicio.textContent = nombre;
+
+        const precioServicio = document.createElement('P');
+        precioServicio.classList.add('precio-servicio');
+        precioServicio.textContent = `$${precio}`;
+        
+        const servicioDiv = document.createElement('DIV');
+        servicioDiv.classList.add('servicio');
+        servicioDiv.dataset.idServicio = id;
+
+        servicioDiv.appendChild(nombreServicio);
+        servicioDiv.appendChild(precioServicio);
+
+        fragment.appendChild(servicioDiv);
+    })
+    document.querySelector('#servicios').appendChild(fragment);
+}
+

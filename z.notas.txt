@@ -510,3 +510,18 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+----- 
+
+VIDEO 500
+
+ejemplo de destructuring en JS vvv
+const objeto = {
+    nombre: "Lionel",
+    apellido: "Prats",
+    edad: "37"
+}
+
+const {nombre, apellido} = objeto;
+
+console.log(`Hola ${nombre} ${apellido}!!`);
