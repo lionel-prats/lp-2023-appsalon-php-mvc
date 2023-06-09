@@ -13,6 +13,9 @@ function iniciarApp(){
     botonesPaginador() // ejecutamos esta funcion al principio para que se arranque ocultando la el boton "anterior" (paso === 1)
     paginaAnterior(); // ejecutamos esta funcion al principio para que escuche permanentemente por clicks en el boton "anterior" del paginador
     paginaSiguiente(); // ejecutamos esta funcion al principio para que escuche permanentemente por clicks en el boton "anterior" del paginador
+    
+    consultarAPI(); // consulta la API en el backend de PHP (VIDEO 499)
+
 }
 
 function mostrarSeccion(){
@@ -100,4 +103,32 @@ function paginaSiguiente() {
         mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
         botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
     })
+}
+
+// haciendo esta funcion asincrona, se sigue ejecutando el codigo de debajo sin importar que no haya terminado de ejecutarse el codigo de esta funcion (VIDEO 499)
+// hacemos esta funcion asincrona ya que estamos consultando a una API y no sabemos cuanto va a demorar en traer los resultados (VIDEO 499)
+async function consultarAPI(){ 
+    try {
+        //const url = '/api/servicios';
+        const url = 'http://localhost:3000/api/servicios'; 
+        const resultado = await fetch(url); // fetch nos va a permitir consumir servicios
+        const servicios = await resultado.json();
+        console.log(servicios);
+        // de esta manera, estamos consultando la base de datos (appsalon_mvc) desde JS front, no directamente, si no que por medio de una capa de abstraccion que es nuestra API (VIDEO 499)
+   
+    } catch (error) {
+        console.log(error);
+    }
+    /* setTimeout(() => {
+        fetch('/api/servicios')
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function(data){
+            console.log(data);
+        })
+        .catch(function (e) {
+            console.log(e);
+        });  
+    }, 5000); */
 }

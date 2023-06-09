@@ -474,7 +474,7 @@ NOTA: Pueden agregar JQuery por medio de un CDN (link:  Link para JQuery.), para
 
 VIDEO 497
 
-API = Application Programming Interface
+API = Application Programming Interface (capa de abstraccion)
 
 Ayuda memoria:
 
@@ -495,3 +495,18 @@ all() -> consultarSQL() -> crearObjeto()
 *** 
 
 la ejecucion de all() la guarda en $servicios, y el metodo del endpoint termina retornando un json de ese array de objetos con la funcion nativa de PHP json_encode()
+
+----- 
+
+VIDEO 499
+
+javaScript - funciones asíncronas - Async Await
+
+- ejemplo didactico de para que puede servir un bloque try cath
+- si intento imprimir una variable no definida, js me tira error y deja de ejecutarse el codigo a partir de esa linea
+- si en cambio, esto mismo lo hago dentro de un try catch, este error no cortara la ejecucion del codigo que sigue
+try {
+    console.log(respuesta);
+} catch (error) {
+    console.log(error);
+}
