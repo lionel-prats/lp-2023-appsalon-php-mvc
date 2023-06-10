@@ -529,6 +529,7 @@ console.log(`Hola ${nombre} ${apellido}!!`);
 -----
 
 VIDEO 501
+
 agregué snippet para el mixin grid (SCSS / SASS):
 
 1) Ctrl + shift + "P"
@@ -541,3 +542,27 @@ agregué snippet para el mixin grid (SCSS / SASS):
     "@include m.grid($1, $2);"
   ]
 }
+
+-----
+
+VIDEO 502
+
+/src/js/app.js -> gran explicacion con un ejemplo de como usar destructuring y el spread operator de javaScript vvv 
+
+1) 
+const {servicios} = cita;
+* extraigo en la variable servicios, la propiedad 'servicios' del objeto 'cita' (declarado al inicio del archivo) usando destructuring de javaScript
+
+2) 
+cita.servicios = [...servicios, servicio];
+* reescribo el array cita.servicios usando el spread operator de javaScript 
+* con esta tecnica, al hacer click sobre un <div>, cita.servicios quedara constituido por el contenido previo al click + el nuevo servicio seleccionado por el usuario
+* es decir, en cita.servicio se ira agregando cada servicio que el usuario vaya seleccionando desde la pantalla 
+
+OBSERVACION:
+* aparentemente se podría haber hecho lo mismo con una sola linea de código vvv 
+cita.servicios.push(servicio);
+
+-----
+
+VIDEO 503

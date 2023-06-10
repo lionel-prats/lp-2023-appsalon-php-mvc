@@ -9,7 +9,7 @@
         @include m.grid(2, 2rem);
     };
 
-    // <div class="servicio"> -> creado en /src/js/app.js, con info de la consulta al enpoint /api/servicios
+    // <div class="servicio"> -> creado en /src/js/app.js, con info de la consulta al enpoint /api/servicios (VIDEO 500)
     .servicio {
         padding: 3rem;
         border-radius: 1rem;
@@ -26,7 +26,7 @@
             text-align: center;
             color: v.$negro;
         }
-        // <p class="precio-servicio"> -> creado en /src/js/app.js
+        // <p class="precio-servicio"> -> creado en /src/js/app.js (VIDEO 500)
         .precio-servicio {
             margin: 0;
             font-size: 3rem;

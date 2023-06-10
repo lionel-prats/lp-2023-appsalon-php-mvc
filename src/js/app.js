@@ -2,6 +2,14 @@ let paso = 1;
 const pasoInicial = 1;
 const pasoFinal = 3;
 
+// objeto de la cita, que vamos a guardar en la base de datos (VIDEO 502)
+const cita = {
+    nombre: '',
+    fecha: '',
+    hora: '',
+    servicios: []
+};
+
 // 'DOMContentLoaded' es un evento en JavaScript que se dispara cuando el árbol DOM (Documento Object Model) de una página web ha sido completamente cargado y parseado. El evento 'DOMContentLoaded' ocurre después de que el navegador ha construido el árbol DOM a partir del código HTML de la página, pero antes de que se hayan descargado todos los recursos externos, como imágenes o scripts adicionales.
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
@@ -132,8 +140,9 @@ async function consultarAPI(){
     }, 5000); */
 }
 
-function mostrarServicios(servicios){
+function mostrarServicios(servicios){ // VIDEO 500
     const fragment = document.createDocumentFragment();
+    console.log(servicios);
     servicios.forEach( (servicio, index, arrayCompleto) => {
         const {id, nombre, precio} = servicio;
 
@@ -151,11 +160,25 @@ function mostrarServicios(servicios){
         servicioDiv.classList.add('servicio');
         servicioDiv.dataset.idServicio = id;
 
+        // agrego un "listener" sobre cada uno de los <div>, que va a ejecutar la funcion seleccionarServicio (VIDEO 502)
+        // al evento onclick le asocio un callback que ejecutara selecionarServicio cada vez que se ejecute el click sobre un <div>
+        // lo hacemos de esta manera para que funcione como esperamos (explicado en el VIDEO 502)
+        servicioDiv.onclick = function(){
+            seleccionarServicio(servicio); 
+        } 
+
         servicioDiv.appendChild(nombreServicio);
         servicioDiv.appendChild(precioServicio);
 
         fragment.appendChild(servicioDiv);
     })
     document.querySelector('#servicios').appendChild(fragment);
+}
+
+// ver explicacion en z.notas.txt -> VIDEO 502
+function seleccionarServicio(servicio) {
+    const {servicios} = cita;
+    cita.servicios = [...servicios, servicio];
+    console.log(cita);
 }
 
