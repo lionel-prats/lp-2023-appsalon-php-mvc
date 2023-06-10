@@ -611,4 +611,77 @@ programadores = programadores.filter(programador => programador.nombre !== "Marc
 
 -----
 
-VIDEO 505
+VIDEO 506 
+
+en /src/js/app.js 
+
+function seleccionarFecha() {
+    const inputFecha = document.querySelector('#fecha');
+    inputFecha.addEventListener('input', function(e){
+        console.log("seleccionaste una fecha");
+        console.log(e.target.value);
+        console.log(inputFecha.value);
+    })
+}
+
+*** listener evento "input" de javascript 
+*** escucha por un nuevo estado en el input que nos interesa
+
+----- 
+
+objeto Date javaScript (prueba realizada el Sábado 10/06/2023 a las 15:31:40) vvv
+
+console.log(`new Date() = ${new Date()}`);
+console.log({
+    aSun: 0,
+    bMon: 1,
+    cTue: 2,
+    dWed: 3,
+    eThu: 4,
+    fFri: 5,
+    gSat: 6,
+});
+console.log(`new Date().getUTCDay() = ${new Date().getUTCDay()} (diaSemana - Sat)`);
+console.log({
+    aJan: 0,
+    bFeb: 1,
+    cMar: 2,
+    dApr: 3,
+    eMay: 4,
+    fJun: 5,
+    gJul: 6,
+    hAug: 7,
+    iSep: 8,
+    jOct: 9,
+    kNov: 10,
+    lDec: 11,
+});
+console.log(`new Date().getUTCMonth() = ${new Date().getUTCMonth()} (mes - June)`);
+console.log(`new Date().getUTCDate() = ${new Date().getUTCDate()} (dia)`);
+console.log(`new Date().getUTCFullYear() = ${new Date().getUTCFullYear()} (año)`);
+console.log(`new Date().getHours() = ${new Date().getHours()} (hora)`);
+console.log(`new Date().getMinutes() = ${new Date().getMinutes()} (minutos)`);
+console.log(`new Date().getSeconds() = ${new Date().getSeconds()} (segundos)`);
+console.log(`new Date().getMilliseconds() = ${new Date().getMilliseconds()} (milisegundos)`);
+console.log(`new Date().getTime() = ${new Date().getTime()} (fecha en milisegundos - transcurridos desde el 1970-01-01 00:00:00 00000 -)`);
+console.log(`new Date().getTimezoneOffset() = ${new Date().getTimezoneOffset()} (desplazamiento de zona horaria actual en minutos entre la hora local y la hora UTC (Coordinated Universal Time), considerando el horario de verano si corresponde. El valor retornado es un número entero que representa la diferencia en minutos entre la hora local y UTC. Por ejemplo, si el resultado es -120, significa que la hora local está 2 horas detrás de UTC (UTC+2). Si el resultado es +180, significa que la hora local está 3 horas por delante de UTC (UTC-3).)`);
+console.log('UTC = \'Coordinated Universal Time (Tiempo Universal Coordinado)\'');
+console.log('GMT = \'Greenwich Mean Time (Tiempo Medio de Greenwich)\'');
+
+new Date() = Sat Jun 10 2023 15:31:40 GMT-0300 (hora estándar de Argentina)
+new Date().getUTCDay() = 6 (diaSemana - Sat)
+new Date().getUTCMonth() = 5 (mes - June)
+new Date().getUTCDate() = 10 (dia)
+new Date().getUTCFullYear() = 2023 (año)
+new Date().getHours() = 15 (hora)
+new Date().getMinutes() = 31 (minutos)
+new Date().getSeconds() = 40 (segundos)
+new Date().getMilliseconds() = 686 (milisegundos)
+new Date().getTime() = 1686421900686 (fecha en milisegundos - transcurridos desde el 1970-01-01 21:00:00 00000 -)
+new Date().getTimezoneOffset() = 180 (desplazamiento de zona horaria actual en minutos entre la hora local y la hora UTC (Coordinated Universal Time), considerando el horario de verano si corresponde. El valor retornado es un número entero que representa la diferencia en minutos entre la hora local y UTC. Por ejemplo, si el resultado es -120, significa que la hora local está 2 horas detrás de UTC (UTC+2). Si el resultado es +180, significa que la hora local está 3 horas por delante de UTC (UTC-3).)
+UTC = 'Coordinated Universal Time (Tiempo Universal Coordinado)'
+GMT = 'Greenwich Mean Time (Tiempo Medio de Greenwich)'
+
+-----
+
+VIDEO 507 

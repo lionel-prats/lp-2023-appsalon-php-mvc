@@ -21,11 +21,12 @@ function iniciarApp(){
     botonesPaginador() // ejecutamos esta funcion al principio para que se arranque ocultando la el boton "anterior" (paso === 1)
     paginaAnterior(); // ejecutamos esta funcion al principio para que escuche permanentemente por clicks en el boton "anterior" del paginador
     paginaSiguiente(); // ejecutamos esta funcion al principio para que escuche permanentemente por clicks en el boton "anterior" del paginador
-    
+
     consultarAPI(); // consulta la API en el backend de PHP (VIDEO 499)
 
-    nombreCliente(); // VIDEO 505
+    nombreCliente(); // añade el nombre del cliente al objeto de cita (VIDEO 505)
 
+    seleccionarFecha(); // añade la fecha de la cita en el objeto (VIDEO 506)
 }
 
 function mostrarSeccion(){
@@ -214,4 +215,40 @@ function seleccionarServicio(servicio) {
 // esta funcion inserta en cita.nombre el nombre del usuario logueado y que esta añadiendo servicios para reservar una cita en el salon (VIDEO 505)
 function nombreCliente() {
     cita.nombre = document.querySelector('#nombre').value;
+}
+
+// VIDEO 506
+function seleccionarFecha() {
+    const inputFecha = document.querySelector('#fecha');
+    inputFecha.addEventListener('input', function(e){
+        /* cita.fecha = inputFecha.value;
+        console.log(e.target.value);
+        console.log(`new Date().getUTCDay() = ${new Date().getUTCDay()} (diaSemana - Sat)`); */
+        
+        const dia = new Date(e.target.value).getUTCDay();
+        
+        // 0 y 6 representan los dias Domingo y Sábado respectivamente para el objeto Date
+        //if([0,6].some( elemento => elemento === dia)) { // tambien sirve (VIDEO 506)
+        if([0,6].includes(dia)) {
+            console.log("Sábados y Domingos no abrimos");
+
+            // inputFecha.value = ''; // tambien sirve (VIDEO 506)
+            e.target.value = '';
+        } else {
+            //cita.fecha = inputFecha.value; // tambien sirve (VIDEO 506)
+            cita.fecha = e.target.value;
+        }
+        
+        // ejemplos para imprimir por consola y entender bien el objeto Date (VIDEO 506)
+        // console.log(`objeto Date = ${new Date(e.target.value)}`);
+        // console.log(`dia de la semana = ${new Date(e.target.value).getUTCDay()}`);
+        // console.log(`mes = ${new Date(e.target.value).getUTCMonth()}`);
+        // console.log(`nro dia = ${new Date(e.target.value).getUTCDate()}`);
+        // console.log(`año = ${new Date(e.target.value).getUTCFullYear()}`);
+        // console.log(`horas = ${new Date(e.target.value).getHours()}`);
+        // console.log(`minutos = ${new Date(e.target.value).getMinutes()}`);
+        // console.log(`segundos = ${new Date(e.target.value).getSeconds()}`);
+        // console.log(`millisegundos = ${new Date(e.target.value).getMilliseconds()}`);
+        // console.log(`fecha Unix = ${new Date(e.target.value).getTime()}`);
+    })
 }
