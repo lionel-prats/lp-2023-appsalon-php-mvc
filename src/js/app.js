@@ -27,6 +27,8 @@ function iniciarApp(){
     nombreCliente(); // añade el nombre del cliente al objeto de cita (VIDEO 505)
 
     seleccionarFecha(); // añade la fecha de la cita en el objeto (VIDEO 506)
+
+    seleccionarHora(); // añade la hora de la cita en el objeto (VIDEO 509)
 }
 
 function mostrarSeccion(){
@@ -215,6 +217,9 @@ function seleccionarServicio(servicio) {
 // esta funcion inserta en cita.nombre el nombre del usuario logueado y que esta añadiendo servicios para reservar una cita en el salon (VIDEO 505)
 function nombreCliente() {
     cita.nombre = document.querySelector('#nombre').value;
+
+    console.clear();
+    console.log(cita);
 }
 
 // VIDEO 506
@@ -230,16 +235,19 @@ function seleccionarFecha() {
             // inputFecha.value = ''; // tambien sirve (VIDEO 506)
             e.target.value = ''; // si el dia ingresado para la cita es invalido (sabado o domingo), reseteamos el input para que el usuario no piense que pudop reservar correctamente
             
-            mostrarAlerta(document.querySelector(`#paso-2`).children[1], 'afterend', 'Atendemos de Lunes a Viernes. Por favor, ingrese otra fecha para reservar su turno.', ['alerta', 'error']); // renderizar alerta de error cuando la fecha ingresada sea invalida (VIDEO 507)
+            mostrarAlerta(document.querySelector(`#contenedor-alertas`), 'afterBegin', 'Turnos disponibles de Lunes a Viernes.', 'fecha', ['alerta', 'error']); // renderizar alerta de error cuando la fecha ingresada sea invalida (VIDEO 507)
 
         } else {
 
             // en este bloque, cuando la fecha ingresada es correcta, quito la alerta del DOM si es que existe por un errror anterior
-            const alertaPrevia = document.querySelector('.alerta');
-            if(alertaPrevia) alertaPrevia.remove();
+            const alertaPrevia = document.querySelector('[data-tipo="fecha"]');
+            if(alertaPrevia) removerAlerta(alertaPrevia);
 
             //cita.fecha = inputFecha.value; // tambien sirve (VIDEO 506)
             cita.fecha = e.target.value; // si el dia ingresado para la cita es valido, lo agregamos al objeto cita
+
+            console.clear();
+            console.log(cita);
         }
         
         // ejemplos para imprimir por consola y entender bien el objeto Date (VIDEO 506)
@@ -256,20 +264,53 @@ function seleccionarFecha() {
     })
 }
 
-function mostrarAlerta(referencia, posicion, mensaje, clases) { // VIDEO 507
+function seleccionarHora() {
+    const inputHora = document.querySelector('#hora');
+    inputHora.addEventListener('input', function(e){
+        
+        const horaCita = e.target.value; 
+
+        const hora = horaCita.split(':')[0];
+        const minutos = horaCita.split(':')[1];
+
+        if(hora < 9 || hora > 17 || (hora == 17 && minutos > 30)) {
+            
+            e.target.value = '';
+
+            mostrarAlerta(document.querySelector(`#contenedor-alertas`), 'beforeEnd', 'Turnos disponibles de 9 AM a 17:30 PM.', 'hora', ['alerta', 'error']);
+
+        } else {
+            
+            const alertaPrevia = document.querySelector('[data-tipo="hora"]');
+            if(alertaPrevia) removerAlerta(alertaPrevia);
+            
+            cita.hora = horaCita;
+
+            console.clear();
+            console.log(cita);
+        }
+    })
+}
+
+function mostrarAlerta(contenedor, posicion, mensaje, tipo, clases) { // VIDEO 507
 
     // en este bloque, con el return corto la ejecucion del resto de la funcion si ya existe un alerta en el DOM por un error anterior (de esta forma evito que se multipliquen las alertas ante muchos errores consecutivos)
-    const alertaPrevia = document.querySelector('.alerta');
+    const alertaPrevia = document.querySelector(`[data-tipo="${tipo}"]`);
     if(alertaPrevia) return;
 
     // sripting para crear e insertar en el DOM la alerta
     const alerta = document.createElement('DIV');
     alerta.textContent = mensaje;
+    alerta.dataset.tipo = tipo;
     clases.forEach( clase => {
         alerta.classList.add(clase);
     });
 
-    // tutorial Dorian (curso JS YT) de como usar este metodo de JS 
+    // Curso JS Dorian -> DOM - Insertar, clonar y borrar elementos vvv 
     // https://www.youtube.com/watch?v=NnRd-glMupU&list=PLROIqh_5RZeBAnmi0rqLkyZIAVmT5lZxG&index=31
-    referencia.insertAdjacentElement(posicion, alerta);
+    contenedor.insertAdjacentElement(posicion, alerta);
+}
+
+function removerAlerta(alerta) {
+    alerta.remove();
 }
