@@ -221,22 +221,25 @@ function nombreCliente() {
 function seleccionarFecha() {
     const inputFecha = document.querySelector('#fecha');
     inputFecha.addEventListener('input', function(e){
-        /* cita.fecha = inputFecha.value;
-        console.log(e.target.value);
-        console.log(`new Date().getUTCDay() = ${new Date().getUTCDay()} (diaSemana - Sat)`); */
         
-        const dia = new Date(e.target.value).getUTCDay();
+        const dia = new Date(e.target.value).getUTCDay(); // obtengo el nro de dia de la semana que nos ofrece el objeto Date (0 Domingo ... 3 Miércoles ... 6 Sábado)
         
         // 0 y 6 representan los dias Domingo y Sábado respectivamente para el objeto Date
         //if([0,6].some( elemento => elemento === dia)) { // tambien sirve (VIDEO 506)
         if([0,6].includes(dia)) {
-            console.log("Sábados y Domingos no abrimos");
-
             // inputFecha.value = ''; // tambien sirve (VIDEO 506)
-            e.target.value = '';
+            e.target.value = ''; // si el dia ingresado para la cita es invalido (sabado o domingo), reseteamos el input para que el usuario no piense que pudop reservar correctamente
+            
+            mostrarAlerta(document.querySelector(`#paso-2`).children[1], 'afterend', 'Atendemos de Lunes a Viernes. Por favor, ingrese otra fecha para reservar su turno.', ['alerta', 'error']); // renderizar alerta de error cuando la fecha ingresada sea invalida (VIDEO 507)
+
         } else {
+
+            // en este bloque, cuando la fecha ingresada es correcta, quito la alerta del DOM si es que existe por un errror anterior
+            const alertaPrevia = document.querySelector('.alerta');
+            if(alertaPrevia) alertaPrevia.remove();
+
             //cita.fecha = inputFecha.value; // tambien sirve (VIDEO 506)
-            cita.fecha = e.target.value;
+            cita.fecha = e.target.value; // si el dia ingresado para la cita es valido, lo agregamos al objeto cita
         }
         
         // ejemplos para imprimir por consola y entender bien el objeto Date (VIDEO 506)
@@ -251,4 +254,22 @@ function seleccionarFecha() {
         // console.log(`millisegundos = ${new Date(e.target.value).getMilliseconds()}`);
         // console.log(`fecha Unix = ${new Date(e.target.value).getTime()}`);
     })
+}
+
+function mostrarAlerta(referencia, posicion, mensaje, clases) { // VIDEO 507
+
+    // en este bloque, con el return corto la ejecucion del resto de la funcion si ya existe un alerta en el DOM por un error anterior (de esta forma evito que se multipliquen las alertas ante muchos errores consecutivos)
+    const alertaPrevia = document.querySelector('.alerta');
+    if(alertaPrevia) return;
+
+    // sripting para crear e insertar en el DOM la alerta
+    const alerta = document.createElement('DIV');
+    alerta.textContent = mensaje;
+    clases.forEach( clase => {
+        alerta.classList.add(clase);
+    });
+
+    // tutorial Dorian (curso JS YT) de como usar este metodo de JS 
+    // https://www.youtube.com/watch?v=NnRd-glMupU&list=PLROIqh_5RZeBAnmi0rqLkyZIAVmT5lZxG&index=31
+    referencia.insertAdjacentElement(posicion, alerta);
 }
