@@ -570,4 +570,45 @@ VIDEO 503
 repasando algo anterior vvv 
 
 document.querySelector(`[data-paso="${paso}"]`); (/src/js/app.js)
-* este selector es un "selector de atributo"; captura cualquier <element data-paso="${paso}">
+* este selector es un "selector de atributo"
+* captura cualquier <element data-paso="${paso}">
+
+-----
+
+VIDEO 504
+
+array method some() vvv 
+* metodo para recorrer un array y verificar si se da algún tipo de validacion especificada por nosotros (retorna TRUE si se da, FALSE si no se da)
+* en este ejemplo, dado el array programadores, queremos saber si alguno tiene 40 años.
+
+let programadores = [
+    {
+        nombre: "Juan",
+        edad: 24
+    },
+    {
+        nombre: "Marcelo",
+        edad: 18
+    },
+    {
+        nombre: "Daniel",
+        edad: 34
+    },
+    {
+        nombre: "Gonzalo",
+        edad: 27
+    }
+];
+
+const edad = 40;
+
+console.log( programadores.some( programador => programador.edad === edad) ); 
+*** TRUE si hay un programador de 40 años, FALSE si no lo hay
+
+*** ejemplo de como eliminar a Marcelo del array programadores vvv
+
+programadores = programadores.filter(programador => programador.nombre !== "Marcelo");
+
+-----
+
+VIDEO 505

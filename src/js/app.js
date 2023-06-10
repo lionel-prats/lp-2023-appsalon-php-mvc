@@ -142,7 +142,7 @@ async function consultarAPI(){
 
 function mostrarServicios(servicios){ // VIDEO 500
 
-    console.log(servicios);
+    //console.log(servicios);
 
     const fragment = document.createDocumentFragment();
     servicios.forEach( (servicio, index, arrayCompleto) => {
@@ -180,15 +180,34 @@ function mostrarServicios(servicios){ // VIDEO 500
 // ver explicacion en z.notas.txt -> VIDEO 502
 function seleccionarServicio(servicio) {
     
-    console.log(servicio);
-    console.log(document.querySelector([`[data-id-servicio="${servicio.id}"]`]));
+    //console.clear();
     
-    const {id} = servicio;
-    const {servicios} = cita;
-    cita.servicios = [...servicios, servicio];
+    const {id} = servicio; // id (en la base) del servicio (des)seleccionado por el usuario desde la pantalla
+    
+    let {servicios} = cita; // estado de cita.usuarios, anterior al click
 
-    //console.log(cita.servicios);
+    const divServicio = document.querySelector([`[data-id-servicio="${id}"]`]); // <div data-id-servicio="`${id}`"> (des)clickeado por el usuario
+    
+    // verificar si un servicio ya fue seleccionado (VIDEO 504) 
+    if( servicios.some( agregado => agregado.id === id) ) {
 
-    const divServicio = document.querySelector([`[data-id-servicio="${id}"]`]);
-    divServicio.classList.add('seleccionado');
+        // el servicio clickeado existe en cita.servicios, lo que significa que ya estaba seleccionado, entonces reescribimos cita.servicios filtrando de servicios el servicio clickeado
+        cita.servicios = servicios.filter( servicio => servicio.id !== id); 
+        
+        // como eliminamos de cita.servicios el servicio clickeado, entonces le quitamos al <div> correspondiente la clase "seleccionado"
+        divServicio.classList.remove('seleccionado');
+    
+    } else {
+
+        // como el servicio clickeado no existe en cita.servicios, entonces lo agregamos
+        cita.servicios = [...servicios, servicio];
+
+        // como lo agregamos, le agregamos la clase "seleccionado" al <div> correspondiente
+        divServicio.classList.add('seleccionado');
+    }
+
+    console.clear();
+    console.log(cita.servicios);
+
 }
+
