@@ -16,6 +16,14 @@
         background-color: v.$blanco;
         transition-property: transform;
         transition-duration: 300ms;
+
+        &.seleccionado {
+            background-color: v.$azul;
+            p {
+                color: v.$blanco;
+            }
+        }
+        
         &:hover {
             transform: scale(1.1);
             cursor: pointer;
@@ -33,5 +41,9 @@
             font-weight: v.$bold;
             color: v.$azul;
         }
+
+        
     }
+
+    
 }

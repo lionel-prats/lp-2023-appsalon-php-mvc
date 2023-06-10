@@ -566,3 +566,8 @@ cita.servicios.push(servicio);
 -----
 
 VIDEO 503
+
+repasando algo anterior vvv 
+
+document.querySelector(`[data-paso="${paso}"]`); (/src/js/app.js)
+* este selector es un "selector de atributo"; captura cualquier <element data-paso="${paso}">

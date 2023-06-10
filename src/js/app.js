@@ -141,8 +141,10 @@ async function consultarAPI(){
 }
 
 function mostrarServicios(servicios){ // VIDEO 500
-    const fragment = document.createDocumentFragment();
+
     console.log(servicios);
+
+    const fragment = document.createDocumentFragment();
     servicios.forEach( (servicio, index, arrayCompleto) => {
         const {id, nombre, precio} = servicio;
 
@@ -177,8 +179,16 @@ function mostrarServicios(servicios){ // VIDEO 500
 
 // ver explicacion en z.notas.txt -> VIDEO 502
 function seleccionarServicio(servicio) {
+    
+    console.log(servicio);
+    console.log(document.querySelector([`[data-id-servicio="${servicio.id}"]`]));
+    
+    const {id} = servicio;
     const {servicios} = cita;
     cita.servicios = [...servicios, servicio];
-    console.log(cita);
-}
 
+    //console.log(cita.servicios);
+
+    const divServicio = document.querySelector([`[data-id-servicio="${id}"]`]);
+    divServicio.classList.add('seleccionado');
+}
