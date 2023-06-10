@@ -37,6 +37,8 @@
                 <input 
                     id="fecha"
                     type="date"
+                    min="<?php echo date('Y-m-d', strtotime('-1 day'));  /* VIDEO 508 */ ?>"
+                    max="<?php echo date('Y-m-d', strtotime('+12 days')); /* VIDEO 508 */ ?>"
                 >
             </div>
             <div class="campo">

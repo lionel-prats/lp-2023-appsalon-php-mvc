@@ -685,3 +685,16 @@ GMT = 'Greenwich Mean Time (Tiempo Medio de Greenwich)'
 -----
 
 VIDEO 507 
+
+Curso JS Dorian -> DOM - Insertar, clonar y borrar elementos vvv 
+https://www.youtube.com/watch?v=NnRd-glMupU&list=PLROIqh_5RZeBAnmi0rqLkyZIAVmT5lZxG&index=31
+
+----- 
+
+VIDEO 508
+
+PHP -> date() -> https://www.php.net/manual/es/function.date.php
+
+----- 
+
+VIDEO 509
