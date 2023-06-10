@@ -11,7 +11,10 @@
 
     // <div class="servicio"> -> creado en /src/js/app.js, con info de la consulta al enpoint /api/servicios (VIDEO 500)
     .servicio {
+
         padding: 3rem;
+        padding: 1rem;
+
         border-radius: 1rem;
         background-color: v.$blanco;
         transition-property: transform;
@@ -25,12 +28,15 @@
         }
         
         &:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             cursor: pointer;
         }
 
         p {
+            
             margin: 0 0 calc(v.$separacion / 4) 0;
+            margin: 0 0 .75rem 0;
+
             text-align: center;
             color: v.$negro;
         }

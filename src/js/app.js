@@ -24,6 +24,8 @@ function iniciarApp(){
     
     consultarAPI(); // consulta la API en el backend de PHP (VIDEO 499)
 
+    nombreCliente(); // VIDEO 505
+
 }
 
 function mostrarSeccion(){
@@ -58,8 +60,8 @@ function tabs(){
     botones.forEach( boton => {
         boton.addEventListener('click', function(e){
             paso = parseInt(e.target.dataset.paso);
-            console.clear();
-            console.log(`linea 51, paso == ${paso}`);
+            // console.clear();
+            // console.log(`linea 51, paso == ${paso}`);
 
             mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
             botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
@@ -92,8 +94,8 @@ function paginaAnterior() {
             return;
         }
         paso --;
-        console.clear();
-        console.log(`linea 84, paso == ${paso}`);
+        // console.clear();
+        // console.log(`linea 84, paso == ${paso}`);
         mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
         botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
     })
@@ -106,8 +108,8 @@ function paginaSiguiente() {
         // lo uso para que paso no siga incrementando cuando su valor es === 3
         if(paso === pasoFinal) return; 
         paso ++;
-        console.clear();
-        console.log(`linea 99, paso == ${paso}`);
+        // console.clear();
+        // console.log(`linea 99, paso == ${paso}`);
         mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
         botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
     })
@@ -140,6 +142,7 @@ async function consultarAPI(){
     }, 5000); */
 }
 
+// renderiza en el DOM por medio de scripting (VIDEO 500), data .json que le pasa consultarAPI() 
 function mostrarServicios(servicios){ // VIDEO 500
 
     //console.log(servicios);
@@ -180,13 +183,11 @@ function mostrarServicios(servicios){ // VIDEO 500
 // ver explicacion en z.notas.txt -> VIDEO 502
 function seleccionarServicio(servicio) {
     
-    //console.clear();
+    const {id} = servicio; // id (en la base) del servicio (des)seleccionado por el usuario desde la pantalla (http://localhost:3000/cita)
     
-    const {id} = servicio; // id (en la base) del servicio (des)seleccionado por el usuario desde la pantalla
-    
-    let {servicios} = cita; // estado de cita.usuarios, anterior al click
+    let {servicios} = cita; // estado de cita.usuarios (objeto definidio al principio de este archivo), anterior al click
 
-    const divServicio = document.querySelector([`[data-id-servicio="${id}"]`]); // <div data-id-servicio="`${id}`"> (des)clickeado por el usuario
+    const divServicio = document.querySelector([`[data-id-servicio="${id}"]`]); // <div data-id-servicio="`${id}`"> (des)clickeado por el usuario (estos <div> fueron inyectados al DOM mediante la funcion mostrarServicios(), que es ejecutada en la funcion asincronica consultarAPI(), que le pasa como argumento la data .json que obtiene de una consulta a la API propia en el back (endpoint http://localhost:3000/api/servicios))
     
     // verificar si un servicio ya fue seleccionado (VIDEO 504) 
     if( servicios.some( agregado => agregado.id === id) ) {
@@ -207,7 +208,10 @@ function seleccionarServicio(servicio) {
     }
 
     console.clear();
-    console.log(cita.servicios);
-
+    console.log(cita);
 }
 
+// esta funcion inserta en cita.nombre el nombre del usuario logueado y que esta añadiendo servicios para reservar una cita en el salon (VIDEO 505)
+function nombreCliente() {
+    cita.nombre = document.querySelector('#nombre').value;
+}
