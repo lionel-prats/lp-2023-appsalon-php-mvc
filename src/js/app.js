@@ -2,6 +2,8 @@ let paso = 1;
 const pasoInicial = 1;
 const pasoFinal = 3;
 
+let resumen = false;
+
 // objeto de la cita, que vamos a guardar en la base de datos (VIDEO 502)
 const cita = {
     nombre: '',
@@ -16,10 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function iniciarApp(){
+
     mostrarSeccion(); // ejecutamos esta funcion al principio para que se arranque mostrando la seccion servicios (paso === 1)
+
     tabs(); // muestra y oculta las secciones de /cita segun los clicks en <div class="tabs">
-    botonesPaginador() // ejecutamos esta funcion al principio para que se arranque ocultando la el boton "anterior" (paso === 1)
+
+    // esta funcion muestra u oculta los botones "Anterior" y "Siguiente" según el valor de paso
+    // la ejecutamos aqui al principio para que se arranque ocultando la el boton "anterior", ya que cuando termina de cargarse el documento paso === 1
+    botonesPaginador() 
+
     paginaAnterior(); // ejecutamos esta funcion al principio para que escuche permanentemente por clicks en el boton "anterior" del paginador
+
     paginaSiguiente(); // ejecutamos esta funcion al principio para que escuche permanentemente por clicks en el boton "anterior" del paginador
 
     consultarAPI(); // consulta la API en el backend de PHP (VIDEO 499)
@@ -29,6 +38,8 @@ function iniciarApp(){
     seleccionarFecha(); // añade la fecha de la cita en el objeto (VIDEO 506)
 
     seleccionarHora(); // añade la hora de la cita en el objeto (VIDEO 509)
+    
+    mostrarResumen(); // muestra el resumen de la cita (VIDEO 510)
 }
 
 function mostrarSeccion(){
@@ -60,19 +71,28 @@ function tabs(){
     const botones = document.querySelectorAll('.tabs button');
     // con la sintaxis '.tabs button' selecciono todos los <button> hijos de un <element class="tabs">
 
+    // escucho por los clicks en los tabs superiores
     botones.forEach( boton => {
         boton.addEventListener('click', function(e){
             paso = parseInt(e.target.dataset.paso);
             // console.clear();
             // console.log(`linea 51, paso == ${paso}`);
 
+            // en este bloque valido si al momento del click, el usuario ya se encontraba en la seccion RESUMEN; si lo estaba, ebito que se ejecute mostrarResumen(), que se ejecuta dentro de botonesPaginador()
+            if(document.querySelector('.actual').dataset.paso == 3){
+                resumen = true;
+            } 
+            
+            if(paso != 3) resumen = false;
+
             mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
-            botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso
+            botonesPaginador(); // muestra u oculta los botones del paginador segun corresponda, segun el valor de la variable paso, y cuando paso es 3, ademas valida que el objeto cita este completo (ver botonesPaginador())
         })
     });
 }
 
 function botonesPaginador(){
+    
     const paginaAnterior = document.querySelector('#anterior');
     const paginaSiguiente = document.querySelector('#siguiente');
 
@@ -82,6 +102,11 @@ function botonesPaginador(){
     } else if(paso === 3) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');    
+
+        // cuando paso === 3 significa que el usuario, desde los tabs superiores, o desde el paginador inferior, fue hasta resumen, entonces ejecutamos la funcion que valida que al objeto cita no le falte ninguna propiedad
+        // a su vez, valido que resumen sea FALSE, ya que eso significa que el usuario NO estaba parado en la seccion RESUMEN antes del click
+        if(!resumen) mostrarResumen(); 
+        
     } else {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.remove('ocultar');
@@ -89,8 +114,13 @@ function botonesPaginador(){
 }
 
 function paginaAnterior() {
+
     const paginaAnterior = document.querySelector('#anterior');
     paginaAnterior.addEventListener('click', () => {
+
+        // si el usuario da click a pagina anterior seteamos resumen en FALSE para que cuando quiera volver a resumen se ejecute mostrarResumen() en botonesPaginador()
+        resumen = false;
+
         // el return de este if corta la ejecucion de todo el Listener (VIDEO 496)
         // lo uso para que paso no siga decrementando cuando su valor es === 1
         if(paso === pasoInicial) {
@@ -105,12 +135,16 @@ function paginaAnterior() {
 }
 
 function paginaSiguiente() {
+
     const paginaSiguiente = document.querySelector('#siguiente');
     paginaSiguiente.addEventListener('click', () => {
+
         // el return de este if corta la ejecucion de todo el Listener (VIDEO 496)
         // lo uso para que paso no siga incrementando cuando su valor es === 3
-        if(paso === pasoFinal) return; 
+        if(paso === pasoFinal) return;
+        
         paso ++;
+
         // console.clear();
         // console.log(`linea 99, paso == ${paso}`);
         mostrarSeccion(); // muestra u oculta las secciones segun corresponda, segun el valor de la variable paso
@@ -210,16 +244,13 @@ function seleccionarServicio(servicio) {
         divServicio.classList.add('seleccionado');
     }
 
-    console.clear();
-    console.log(cita);
+    // console.clear();
+    // console.log(cita);
 }
 
 // esta funcion inserta en cita.nombre el nombre del usuario logueado y que esta añadiendo servicios para reservar una cita en el salon (VIDEO 505)
 function nombreCliente() {
     cita.nombre = document.querySelector('#nombre').value;
-
-    console.clear();
-    console.log(cita);
 }
 
 // VIDEO 506
@@ -246,8 +277,8 @@ function seleccionarFecha() {
             //cita.fecha = inputFecha.value; // tambien sirve (VIDEO 506)
             cita.fecha = e.target.value; // si el dia ingresado para la cita es valido, lo agregamos al objeto cita
 
-            console.clear();
-            console.log(cita);
+            // console.clear();
+            // console.log(cita);
         }
         
         // ejemplos para imprimir por consola y entender bien el objeto Date (VIDEO 506)
@@ -286,8 +317,8 @@ function seleccionarHora() {
             
             cita.hora = horaCita;
 
-            console.clear();
-            console.log(cita);
+            // console.clear();
+            // console.log(cita);
         }
     })
 }
@@ -313,4 +344,30 @@ function mostrarAlerta(contenedor, posicion, mensaje, tipo, clases) { // VIDEO 5
 
 function removerAlerta(alerta) {
     alerta.remove();
+}
+
+// VIDEO 510
+function mostrarResumen() {
+
+    const resumen = document.getElementById('paso-3');
+
+    console.log(Object.values(cita));
+
+    // Object.values(object) -> metodo nativo de JS para convertir un objeto en un array
+    if(Object.values(cita).includes('')){
+        console.log("hacen falta datos");
+        setTimeout(() => {
+            console.clear();
+        }, 1500);
+    } else {
+        console.log("todo bien");
+        setTimeout(() => {
+            console.clear();
+        }, 1500);
+    };  
+    
+
+
+
+
 }

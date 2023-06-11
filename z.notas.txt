@@ -697,4 +697,21 @@ PHP -> date() -> https://www.php.net/manual/es/function.date.php
 
 ----- 
 
-VIDEO 509
+VIDEO 510 
+
+Object.values() -> metodo nativo de JS para convertir un objeto en un array 
+
+const object = {
+    nombre: "Lionel",
+    apellido: "Prats",
+    edad: "37"
+}
+
+const array = Object.values(object);
+
+console.log(object);
+console.log(array);
+
+----- 
+
+VIDEO 511
