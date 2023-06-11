@@ -52,9 +52,7 @@
     </div>
 
     <!-- VIDEO 488 - por defecto le da un display:none en _citas.scss -->
-    <div id="paso-3" class="seccion">
-        <h2>Resumen</h2>
-        <p class="text-center">Verifica que la información sea correcta</p>
+    <div id="paso-3" class="seccion contenido-resumen">
     </div>
 
     <div class="paginacion">

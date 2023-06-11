@@ -264,10 +264,12 @@ function seleccionarFecha() {
         //if([0,6].some( elemento => elemento === dia)) { // tambien sirve (VIDEO 506)
         if([0,6].includes(dia)) {
             // inputFecha.value = ''; // tambien sirve (VIDEO 506)
-            e.target.value = ''; // si el dia ingresado para la cita es invalido (sabado o domingo), reseteamos el input para que el usuario no piense que pudop reservar correctamente
+            //e.target.value = ''; // si el dia ingresado para la cita es invalido (sabado o domingo), reseteamos el input para que el usuario no piense que pudop reservar correctamente
             
             // mostrarAlerta(document.querySelector(`#contenedor-alertas-datos`), 'afterBegin', 'Turnos disponibles de Lunes a Viernes.', 'fecha', ['alerta', 'error']); // renderizar alerta de error cuando la fecha ingresada sea invalida (VIDEO 507)
             mostrarAlerta(document.querySelector(`#paso-2 p`), 'afterEnd', 'Turnos disponibles de Lunes a Viernes.', 'fecha', ['alerta', 'error']); 
+
+            cita.fecha = '';
 
         } else {
 
@@ -307,10 +309,12 @@ function seleccionarHora() {
 
         if(hora < 9 || hora > 17 || (hora == 17 && minutos > 30)) {
             
-            e.target.value = '';
+            //e.target.value = '';
 
             //mostrarAlerta(document.querySelector(`#contenedor-alertas-datos`), 'beforeEnd', 'Turnos disponibles de 9 AM a 17:30 PM.', 'hora', ['alerta', 'error']);
             mostrarAlerta(document.querySelector(`.formulario`), 'beforeBegin', 'Turnos disponibles de 9 AM a 17:30 PM.', 'hora', ['alerta', 'error']);
+
+            cita.hora = '';
 
         } else {
             
@@ -352,12 +356,11 @@ function removerAlerta(alerta) {
 function mostrarResumen() {
 
     console.clear();
-    console.log(Object.values(cita));
+    // console.log(Object.values(cita));
 
-    const alertaDatos = document.querySelector("[data-tipo='datos']");
-    const alertaServicios = document.querySelector("[data-tipo='servicios']");
-    if(alertaDatos) alertaDatos.remove();
-    if(alertaServicios) alertaServicios.remove();
+    // cada vez que el usuario accede al resumen limpio el contenedor de la posible info previa (alertas o data de la cita) ya que volveré a renderizar lo que corresponda (nuevos alertas o nueva data)
+    const seccionResumen = document.querySelector('.contenido-resumen');
+    seccionResumen.innerHTML = "";
 
     // propuesta del profesor para mostrar las posibles alertas de error en el resumen
     // // Object.values(object) -> metodo nativo de JS para convertir un objeto en un array
@@ -376,52 +379,34 @@ function mostrarResumen() {
     
     // propuesta Lionel para mostrar las posibles alertas de error en el resumen
     if(cita.servicios.length === 0) {
-        console.log(cita.servicios);
-        console.log('Debes seleccionar al menos un servicio.');
         mostrarAlerta(document.querySelector(`#paso-3`), 'beforeEnd', 'Debes seleccionar al menos un servicio.', 'servicios', ['alerta', 'error']);
         if(cita.fecha === '' && cita.hora === ''){
-            console.log('Debes completar la fecha y el horario del turno.');
-            mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha y el horario del turno.', 'datos', ['alerta', 'error']);
+            mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir la fecha y el horario del turno.', 'datos', ['alerta', 'error']);
         } else if(cita.fecha === '') {
-            console.log('Debes completar la fecha del turno.');
-            mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha del turno.', 'datos', ['alerta', 'error']);
+            mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir la fecha del turno.', 'datos', ['alerta', 'error']);
         } else if(cita.hora == '') {
-            console.log('Debes completar el horario del turno.');
-            mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar el horario del turno.', 'datos', ['alerta', 'error']);
+            mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir el horario del turno.', 'datos', ['alerta', 'error']);
         } 
     } else if(cita.fecha === '' && cita.hora === ''){
-        console.log('Debes completar la fecha y el horario del turno.');
-        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha y el horario del turno.', 'datos', ['alerta', 'error']);
+        mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir la fecha y el horario del turno.', 'datos', ['alerta', 'error']);
     } else if(cita.fecha === '') {
-        console.log('Debes completar la fecha del turno.');
-        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha del turno.', 'datos', ['alerta', 'error']);
+        mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir la fecha del turno.', 'datos', ['alerta', 'error']);
     } else if(cita.hora == '') {
-        console.log('Debes completar el horario del turno.');
-        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar el horario del turno.', 'datos', ['alerta', 'error']);
+        mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir el horario del turno.', 'datos', ['alerta', 'error']);
     } else {
 
-
-        const seccionResumen = document.querySelector('#paso-3');
-        
+        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
         const {nombre, fecha, hora, servicios} = cita;
-
-        const nombreCliente = document.createElement('P');
-        nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
-
-        const fechaCita = document.createElement('P');
-        fechaCita.innerHTML = `<span>Hora:</span> ${fecha}`;
         
-        const horaCita = document.createElement('P');
-        horaCita.innerHTML = `<span>Fecha:</span> ${hora}`;
-    
-        seccionResumen.appendChild(nombreCliente);
-        seccionResumen.appendChild(fechaCita);
-        seccionResumen.appendChild(horaCita);
+        const diaSemana = diasSemana[new Date(fecha).getUTCDay()]; 
+
+        const headingServicios = document.createElement('H3');
+        headingServicios.textContent = 'Resumen de servicios';
+        seccionResumen.appendChild(headingServicios);
+
 
         servicios.forEach( servicio =>{
-
-            
             const {id, nombre, precio} = servicio;
             // por el scope, nombre contendra el nombre del servicio de cada iteracion de cita.servicios, y no hay conflicto con con la variable fuera del foreach, que contiene el valor de cita.nombre (VIDEO 512)
             
@@ -439,7 +424,22 @@ function mostrarResumen() {
             seccionResumen.appendChild(contenedorServicio);
         });
        
+        const headingCita = document.createElement('H3');
+        headingCita.textContent = 'Resumen de cita';
+        seccionResumen.appendChild(headingCita);
+
+        const nombreCliente = document.createElement('P');
+        nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
+
+        const fechaCita = document.createElement('P');
+        fechaCita.innerHTML = `<span>Fecha:</span> ${diaSemana} ${fecha}`;
+        
+        const horaCita = document.createElement('P');
+        horaCita.innerHTML = `<span>Hora:</span> ${hora} hs.`;
     
+        seccionResumen.appendChild(nombreCliente);
+        seccionResumen.appendChild(fechaCita);
+        seccionResumen.appendChild(horaCita);
         
     
     };  
@@ -448,3 +448,4 @@ function mostrarResumen() {
 
 
 }
+
