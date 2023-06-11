@@ -394,12 +394,11 @@ function mostrarResumen() {
     } else if(cita.hora == '') {
         mostrarAlerta(document.querySelector(`#paso-3`), 'afterBegin', 'Debes corregir el horario del turno.', 'datos', ['alerta', 'error']);
     } else {
-
-        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-
+        
         const {nombre, fecha, hora, servicios} = cita;
         
-        const diaSemana = diasSemana[new Date(fecha).getUTCDay()]; 
+        // const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        // const diaSemana = diasSemana[new Date(fecha).getUTCDay()]; 
 
         const headingServicios = document.createElement('H3');
         headingServicios.textContent = 'Resumen de servicios';
@@ -432,7 +431,8 @@ function mostrarResumen() {
         nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
 
         const fechaCita = document.createElement('P');
-        fechaCita.innerHTML = `<span>Fecha:</span> ${diaSemana} ${fecha}`;
+        fechaCita.innerHTML = `<span>Fecha:</span> ${formatearFecha(fecha, 'es-AR')}`; // (VIDEO 514)
+        //fechaCita.innerHTML = `<span>Fecha:</span> ${formatearFecha(fecha, 'en-US')}`; // (VIDEO 514)
         
         const horaCita = document.createElement('P');
         horaCita.innerHTML = `<span>Hora:</span> ${hora} hs.`;
@@ -441,11 +441,27 @@ function mostrarResumen() {
         seccionResumen.appendChild(fechaCita);
         seccionResumen.appendChild(horaCita);
         
-    
     };  
-
-    
-
-
 }
 
+// VIDOE 514
+function formatearFecha(fecha, idioma) {
+    const fechaObj = new Date(fecha);
+    const dia = fechaObj.getDate() + 2;
+    const mes = fechaObj.getMonth();
+    const anio = fechaObj.getFullYear();
+    const fechaUTC = new Date( Date.UTC(anio, mes, dia) );
+    const opciones = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+    let fechaFormateada = fechaUTC.toLocaleDateString(idioma, opciones);
+
+    const [primerLetra, ...restoString] = fechaFormateada;
+    
+    fechaFormateada = `${primerLetra.toUpperCase()}${restoString.join('')}`;
+
+    return fechaFormateada;
+}
