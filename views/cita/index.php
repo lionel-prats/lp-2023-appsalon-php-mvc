@@ -21,9 +21,6 @@
     <div id="paso-2" class="seccion">
         <h2>Tus Datos y Cita</h2>
         <p class="text-center">Coloca tus datos y fecha de tu cita</p>
-        
-        <div id="contenedor-alertas"><!-- contenedor de alertas si el usuario ingresa datos invalidos en fecha u hora --></div>
-        
         <form class="formulario">
             <div class="campo">
                 <label for="nombre">Nombre</label>

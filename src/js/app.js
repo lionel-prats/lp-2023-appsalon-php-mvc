@@ -266,7 +266,8 @@ function seleccionarFecha() {
             // inputFecha.value = ''; // tambien sirve (VIDEO 506)
             e.target.value = ''; // si el dia ingresado para la cita es invalido (sabado o domingo), reseteamos el input para que el usuario no piense que pudop reservar correctamente
             
-            mostrarAlerta(document.querySelector(`#contenedor-alertas`), 'afterBegin', 'Turnos disponibles de Lunes a Viernes.', 'fecha', ['alerta', 'error']); // renderizar alerta de error cuando la fecha ingresada sea invalida (VIDEO 507)
+            // mostrarAlerta(document.querySelector(`#contenedor-alertas-datos`), 'afterBegin', 'Turnos disponibles de Lunes a Viernes.', 'fecha', ['alerta', 'error']); // renderizar alerta de error cuando la fecha ingresada sea invalida (VIDEO 507)
+            mostrarAlerta(document.querySelector(`#paso-2 p`), 'afterEnd', 'Turnos disponibles de Lunes a Viernes.', 'fecha', ['alerta', 'error']); 
 
         } else {
 
@@ -308,7 +309,8 @@ function seleccionarHora() {
             
             e.target.value = '';
 
-            mostrarAlerta(document.querySelector(`#contenedor-alertas`), 'beforeEnd', 'Turnos disponibles de 9 AM a 17:30 PM.', 'hora', ['alerta', 'error']);
+            //mostrarAlerta(document.querySelector(`#contenedor-alertas-datos`), 'beforeEnd', 'Turnos disponibles de 9 AM a 17:30 PM.', 'hora', ['alerta', 'error']);
+            mostrarAlerta(document.querySelector(`.formulario`), 'beforeBegin', 'Turnos disponibles de 9 AM a 17:30 PM.', 'hora', ['alerta', 'error']);
 
         } else {
             
@@ -351,19 +353,21 @@ function mostrarResumen() {
 
     const resumen = document.getElementById('paso-3');
 
+    console.clear();
     console.log(Object.values(cita));
 
     // Object.values(object) -> metodo nativo de JS para convertir un objeto en un array
-    if(Object.values(cita).includes('')){
-        console.log("hacen falta datos");
-        setTimeout(() => {
-            console.clear();
-        }, 1500);
+    if(Object.values(cita).includes('') || cita.servicios.length === 0 ){
+        console.log("hacen falta datos o servicios");
+        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Faltan datos o servicios', 'resumen', ['alerta', 'error']);
+        // setTimeout(() => {
+        //     console.clear();
+        // }, 1500);
     } else {
         console.log("todo bien");
-        setTimeout(() => {
-            console.clear();
-        }, 1500);
+        // setTimeout(() => {
+        //     console.clear();
+        // }, 1500);
     };  
     
 
