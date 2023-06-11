@@ -39,7 +39,7 @@ function iniciarApp(){
 
     seleccionarHora(); // añade la hora de la cita en el objeto (VIDEO 509)
     
-    mostrarResumen(); // muestra el resumen de la cita (VIDEO 510)
+    //mostrarResumen(); // muestra el resumen de la c+ita (VIDEO 510)
 }
 
 function mostrarSeccion(){
@@ -351,27 +351,100 @@ function removerAlerta(alerta) {
 // VIDEO 510
 function mostrarResumen() {
 
-    const resumen = document.getElementById('paso-3');
-
     console.clear();
     console.log(Object.values(cita));
 
-    // Object.values(object) -> metodo nativo de JS para convertir un objeto en un array
-    if(Object.values(cita).includes('') || cita.servicios.length === 0 ){
-        console.log("hacen falta datos o servicios");
-        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Faltan datos o servicios', 'resumen', ['alerta', 'error']);
-        // setTimeout(() => {
-        //     console.clear();
-        // }, 1500);
-    } else {
-        console.log("todo bien");
-        // setTimeout(() => {
-        //     console.clear();
-        // }, 1500);
-    };  
+    const alertaDatos = document.querySelector("[data-tipo='datos']");
+    const alertaServicios = document.querySelector("[data-tipo='servicios']");
+    if(alertaDatos) alertaDatos.remove();
+    if(alertaServicios) alertaServicios.remove();
+
+    // propuesta del profesor para mostrar las posibles alertas de error en el resumen
+    // // Object.values(object) -> metodo nativo de JS para convertir un objeto en un array
+    // if(Object.values(cita).includes('') || cita.servicios.length === 0 ){
+    //     console.log("hacen falta datos o servicios");
+    //     mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Faltan completar fecha y hora del turno y debes seleccionar al menos un servicio', 'resumen', ['alerta', 'error']);
+    //     // setTimeout(() => {
+    //     //     console.clear();
+    //     // }, 1500);
+    // } else {
+    //     console.log("todo bien");
+    //     // setTimeout(() => {
+    //     //     console.clear();
+    //     // }, 1500);
+    // };  
     
+    // propuesta Lionel para mostrar las posibles alertas de error en el resumen
+    if(cita.servicios.length === 0) {
+        console.log(cita.servicios);
+        console.log('Debes seleccionar al menos un servicio.');
+        mostrarAlerta(document.querySelector(`#paso-3`), 'beforeEnd', 'Debes seleccionar al menos un servicio.', 'servicios', ['alerta', 'error']);
+        if(cita.fecha === '' && cita.hora === ''){
+            console.log('Debes completar la fecha y el horario del turno.');
+            mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha y el horario del turno.', 'datos', ['alerta', 'error']);
+        } else if(cita.fecha === '') {
+            console.log('Debes completar la fecha del turno.');
+            mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha del turno.', 'datos', ['alerta', 'error']);
+        } else if(cita.hora == '') {
+            console.log('Debes completar el horario del turno.');
+            mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar el horario del turno.', 'datos', ['alerta', 'error']);
+        } 
+    } else if(cita.fecha === '' && cita.hora === ''){
+        console.log('Debes completar la fecha y el horario del turno.');
+        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha y el horario del turno.', 'datos', ['alerta', 'error']);
+    } else if(cita.fecha === '') {
+        console.log('Debes completar la fecha del turno.');
+        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar la fecha del turno.', 'datos', ['alerta', 'error']);
+    } else if(cita.hora == '') {
+        console.log('Debes completar el horario del turno.');
+        mostrarAlerta(document.querySelector(`#paso-3 p`), 'afterEnd', 'Debes completar el horario del turno.', 'datos', ['alerta', 'error']);
+    } else {
 
 
+        const seccionResumen = document.querySelector('#paso-3');
+        
+
+        const {nombre, fecha, hora, servicios} = cita;
+
+        const nombreCliente = document.createElement('P');
+        nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
+
+        const fechaCita = document.createElement('P');
+        fechaCita.innerHTML = `<span>Hora:</span> ${fecha}`;
+        
+        const horaCita = document.createElement('P');
+        horaCita.innerHTML = `<span>Fecha:</span> ${hora}`;
+    
+        seccionResumen.appendChild(nombreCliente);
+        seccionResumen.appendChild(fechaCita);
+        seccionResumen.appendChild(horaCita);
+
+        servicios.forEach( servicio =>{
+
+            
+            const {id, nombre, precio} = servicio;
+            // por el scope, nombre contendra el nombre del servicio de cada iteracion de cita.servicios, y no hay conflicto con con la variable fuera del foreach, que contiene el valor de cita.nombre (VIDEO 512)
+            
+            const contenedorServicio = document.createElement('DIV');
+            contenedorServicio.classList.add('contenedor-servicio');
+            
+            const textoServicio = document.createElement('P');
+            textoServicio.textContent = nombre;
+            
+            const precioServicio = document.createElement('P');
+            precioServicio.innerHTML = `<span>Precio:</span> $${precio}`;
+
+            contenedorServicio.appendChild(textoServicio);
+            contenedorServicio.appendChild(precioServicio);
+            seccionResumen.appendChild(contenedorServicio);
+        });
+       
+    
+        
+    
+    };  
+
+    
 
 
 }
