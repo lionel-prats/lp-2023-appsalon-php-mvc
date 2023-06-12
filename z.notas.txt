@@ -731,3 +731,12 @@ console.log(restoString.join('%20'));
 VIDEO 516
 
 AJAX = Asynchronous JavaScript And XML
+
+----- 
+
+VIDEO 519 
+
+Explica como trabajar con APIs de distintas maneras: 
+- POSTMAN 
+- THUNDERCLIENT 
+- Desde la las herramientas del desarrollador en el navegador: Network -> Fetch/XHR

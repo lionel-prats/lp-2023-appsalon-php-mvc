@@ -156,9 +156,11 @@ function paginaSiguiente() {
 // hacemos esta funcion asincrona ya que estamos consultando a una API y no sabemos cuanto va a demorar en traer los resultados (VIDEO 499)
 async function consultarAPI(){ 
     try {
-        //const url = '/api/servicios';
-        const url = 'http://localhost:3000/api/servicios'; 
-        const resultado = await fetch(url); // fetch nos va a permitir consumir servicios
+        const url = '/api/servicios';
+        //const url = 'http://localhost:3000/api/servicios'; 
+        
+        // el segundo parametro, objeto de configuracion, es opcional cuando la peticion que realizamos es por GET. En este caso es innecesario, pero lo agrego a modo de prueba (explicaion en el VIDEO 519) 
+        const resultado = await fetch(url, {method: 'GET'}); // fetch nos va a permitir consumir servicios
         const servicios = await resultado.json();
         mostrarServicios(servicios);
         // de esta manera, estamos consultando la base de datos (appsalon_mvc) desde JS front, no directamente, si no que por medio de una capa de abstraccion que es nuestra API (VIDEO 499)
@@ -474,8 +476,35 @@ function formatearFecha(fecha, idioma) {
     return fechaFormateada;
 }
 
-function reservarCita(){
+async function reservarCita(){
     const datos = new FormData(); // objeto nativo de JS para enviar datos al servidor (VIDEO 517)
     datos.append('nombre', 'Lionel');
+
+    // peticion hacia la api
+    const url = '/api/citas';
+    //const url = 'http://localhost:3000/api/citas'; 
+    // el 2do. parametro es un objeto de configuracion (opcional cuando enviamos peticiones GET, obligatorio cuando enviamos peticiones POST) (VIDEO 519)
+    const respuesta = await fetch(url, {
+        method: 'POST' // nuestro archivo de JS dice "voy a utilizar el meodo POST hacia ${url}"
+    });
+    const data = await respuesta.json(); // .json es uno de los metodos disponibles en el Prototype (se puede ver en la consola del navegador, si hacemos console.log(respuesta))
+    
+    console.log(data);
+
+
+    /* try {
+        const url = '/api/servicios';
+        //const url = 'http://localhost:3000/api/servicios'; 
+        const resultado = await fetch(url);
+        const servicios = await resultado.json();
+        mostrarServicios(servicios);
+    } catch (error) {
+        console.log(error);
+    } */
+
+
+
+
+
     //console.log([...datos]);
 }
