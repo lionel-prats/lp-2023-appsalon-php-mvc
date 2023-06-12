@@ -447,7 +447,10 @@ function mostrarResumen() {
         const botonReservar = document.createElement('BUTTON');
         botonReservar.classList.add('boton');
         botonReservar.textContent = 'Reservar turno';
-        botonReservar.onclick = reservarCita; // asocio la funcion reservarCita al click en el boton (VIDEO 515) 
+        //botonReservar.onclick = reservarCita; // asocio la funcion reservarCita al click en el boton (VIDEO 515) 
+        botonReservar.onclick = function() {
+            reservarCita(cita);
+        }   
 
         seccionResumen.appendChild(botonReservar);
         
@@ -476,16 +479,21 @@ function formatearFecha(fecha, idioma) {
     return fechaFormateada;
 }
 
-async function reservarCita(){
+async function reservarCita(submit){
+    console.log(submit);
     const datos = new FormData(); // objeto nativo de JS para enviar datos al servidor (VIDEO 517)
     datos.append('nombre', 'Lionel');
+    datos.append('apellido', 'Prats');
+    datos.append('edad', '38');
+    //datos.append(submit);
 
     // peticion hacia la api
     const url = '/api/citas';
     //const url = 'http://localhost:3000/api/citas'; 
     // el 2do. parametro es un objeto de configuracion (opcional cuando enviamos peticiones GET, obligatorio cuando enviamos peticiones POST) (VIDEO 519)
     const respuesta = await fetch(url, {
-        method: 'POST' // nuestro archivo de JS dice "voy a utilizar el meodo POST hacia ${url}"
+        method: 'POST', // nuestro archivo de JS dice "voy a utilizar el meodo POST hacia ${url}"
+        body: datos
     });
     const data = await respuesta.json(); // .json es uno de los metodos disponibles en el Prototype (se puede ver en la consola del navegador, si hacemos console.log(respuesta))
     
@@ -501,10 +509,6 @@ async function reservarCita(){
     } catch (error) {
         console.log(error);
     } */
-
-
-
-
 
     //console.log([...datos]);
 }
