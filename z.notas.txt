@@ -727,3 +727,7 @@ console.log(restoString);
 console.log(restoString.join('%20'));
 
 -----
+
+VIDEO 516
+
+AJAX = Asynchronous JavaScript And XML

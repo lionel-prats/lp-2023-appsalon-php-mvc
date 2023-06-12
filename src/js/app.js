@@ -440,7 +440,7 @@ function mostrarResumen() {
         seccionResumen.appendChild(nombreCliente);
         seccionResumen.appendChild(fechaCita);
         seccionResumen.appendChild(horaCita);
-        
+
         // boton para crear una cita 
         const botonReservar = document.createElement('BUTTON');
         botonReservar.classList.add('boton');
@@ -475,5 +475,7 @@ function formatearFecha(fecha, idioma) {
 }
 
 function reservarCita(){
-    console.log("reservando cita");
+    const datos = new FormData(); // objeto nativo de JS para enviar datos al servidor (VIDEO 517)
+    datos.append('nombre', 'Lionel');
+    //console.log([...datos]);
 }
