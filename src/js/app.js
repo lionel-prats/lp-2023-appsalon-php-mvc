@@ -441,10 +441,18 @@ function mostrarResumen() {
         seccionResumen.appendChild(fechaCita);
         seccionResumen.appendChild(horaCita);
         
+        // boton para crear una cita 
+        const botonReservar = document.createElement('BUTTON');
+        botonReservar.classList.add('boton');
+        botonReservar.textContent = 'Reservar turno';
+        botonReservar.onclick = reservarCita; // asocio la funcion reservarCita al click en el boton (VIDEO 515) 
+
+        seccionResumen.appendChild(botonReservar);
+        
     };  
 }
 
-// VIDOE 514
+// VIDEO 514
 function formatearFecha(fecha, idioma) {
     const fechaObj = new Date(fecha);
     const dia = fechaObj.getDate() + 2;
@@ -462,6 +470,10 @@ function formatearFecha(fecha, idioma) {
     const [primerLetra, ...restoString] = fechaFormateada;
     
     fechaFormateada = `${primerLetra.toUpperCase()}${restoString.join('')}`;
-
+    
     return fechaFormateada;
+}
+
+function reservarCita(){
+    console.log("reservando cita");
 }

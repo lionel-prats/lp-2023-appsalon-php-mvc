@@ -714,4 +714,16 @@ console.log(array);
 
 ----- 
 
-VIDEO 511
+VIDEO 514
+
+explicacion de como aprovechar el objeto Date()
+
+ejemplo de como usar el spread operator + algunos stringMethods de JS vvv 
+
+const string = "hola mundo";
+const [primerLetra, ...restoString] = string;
+console.log(primerLetra);
+console.log(restoString);
+console.log(restoString.join('%20'));
+
+-----
