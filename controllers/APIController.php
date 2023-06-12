@@ -20,3 +20,24 @@ class APIController {
     } 
 
 }
+
+/* 
+{
+    "nombre": "Pedro Raul Prats",
+    "fecha": "2023-06-13",
+    "hora": "10:30",
+    "servicios": [
+        {
+            "id": "4",
+            "nombre": "Uñas",
+            "id": "75"
+        },
+        {
+            "id": "6",
+            "nombre": "Peinado niño",
+            "id": "40"
+        }
+    ]
+}
+
+*/

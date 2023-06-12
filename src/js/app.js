@@ -449,7 +449,7 @@ function mostrarResumen() {
         botonReservar.textContent = 'Reservar turno';
         //botonReservar.onclick = reservarCita; // asocio la funcion reservarCita al click en el boton (VIDEO 515) 
         botonReservar.onclick = function() {
-            reservarCita(cita);
+            reservarCita();
         }   
 
         seccionResumen.appendChild(botonReservar);
@@ -479,13 +479,24 @@ function formatearFecha(fecha, idioma) {
     return fechaFormateada;
 }
 
-async function reservarCita(submit){
-    console.log(submit);
+async function reservarCita(){
+    
+    const {nombre, fecha, hora, servicios} = cita;
+
+    const arrayIdServicios = servicios.map( servicio => servicio.id)
+    // console.log(servicios);
+    // console.log(arrayIdServicios);
+    // return;
+
+
     const datos = new FormData(); // objeto nativo de JS para enviar datos al servidor (VIDEO 517)
-    datos.append('nombre', 'Lionel');
-    datos.append('apellido', 'Prats');
-    datos.append('edad', '38');
-    //datos.append(submit);
+    datos.append('nombre', nombre);
+    datos.append('fecha', fecha);
+    datos.append('hora', hora);
+    datos.append('servicios', arrayIdServicios);
+
+    //console.log([...datos]);
+    //return;
 
     // peticion hacia la api
     const url = '/api/citas';
@@ -510,5 +521,5 @@ async function reservarCita(submit){
         console.log(error);
     } */
 
-    //console.log([...datos]);
+    
 }
