@@ -32,6 +32,7 @@ $router->get("/mensaje", [LoginController::class, "mensaje"]);
 $router->get("/cita", [CitaController::class, "index"]);
 
 // API de Citas
+$router->get("/api/pruebas", [APIController::class, "pruebas"]);
 $router->get("/api/servicios", [APIController::class, "index"]);
 $router->post("/api/citas", [APIController::class, "guardar"]); // endpoint que va a procesar las reservas de citas en el back (VIDEO 518)
 

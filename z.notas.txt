@@ -472,11 +472,11 @@ NOTA: Pueden agregar JQuery por medio de un CDN (link:  Link para JQuery.), para
 
 ----- 
 
-VIDEO 497
+VIDEO 497 
 
 API = Application Programming Interface (capa de abstraccion)
 
-Ayuda memoria:
+Repaso de lo aprendido (Jueves 8/6/23):
 
 Creamos el endpoint /api/servicios
 el controlador del endpoint vvv 
@@ -740,3 +740,26 @@ Explica como trabajar con APIs de distintas maneras:
 - POSTMAN 
 - THUNDERCLIENT 
 - Desde la las herramientas del desarrollador en el navegador: Network -> Fetch/XHR
+
+----- 
+
+VIDEO 522 
+
+Repaso de lo aprendido (Lunes 12/6/23):
+
+Configuramos el metodo guardar() del controlador APIController, que se va a encargar de guardar en la DB las reservas de turnos que hagan los clientes desde /cita
+
+1) El usuario selecciona servicio/s, hora, fecha y confirma 
+2) El click en "Reservar turno" ejecuta la funcion reservarCita() en /src/js/app.js, que usando fetch, va a enviar por POST al servidor (/api/citas) todos los datos en el objeto cita para su almacenamiento en la DB 
+3) /api/citas ejecuta el metoodo guardar() del controlador APIController
+4) Dentro del metodom, como primer paso, instanciamos en $cita el modelo Cita, pasándole comoa argumentos lo que llegó en el body de la petición desde app.js (el array global $_POST)
+5) Luego ejecutamos el metodo publico guardar() de Cita, heredado del modelo ActiveRecord 
+6) Este metodo UPDATEA o INSERTA un registro en la tabla de turno, dependiendo si la instancia del modelo que haya llamado a guardar() incluye o no id (con id, UPDATE, sin id, INSERT)
+7) En este caso, vamos a hacer un INSERT, por lo que guardar() de ActiveRecord, manda a llamar a crear()
+8) crear() almacena en $atributos (scope local) la ejecucion del metodo sanitizarAtributos()
+9) sanitizarAtributos() almacena en $atributos (scope local) la ejecucion del metodo atributos()
+10) atributos() recorre $columnasDB (atributo protected static de ActiveRecord, array, que se completa en cada modelo que hereda con las columnas de su tabla relacionada en la DB) con un foreach y retorna un array con los datos (columnas) de un modelo instanciado para crear o actualizar un registro en una tabla
+11) de nuevo en sanitizarAtributos(), itera el array $atributos (paso 9) y lo mapea en el array $sainitizado, que por cada iteracion y almacenamiento de dato, ejecuta el metodo nativo escape_string(), de la instancia del objeto mysqli almacenada en $db (conexion a la DB), que sanitiza los datos que le pasamos como argumento, evitando asi la inyeccion SQL 
+12) de nuevo en crear(), ya sanitizados los datos, arma la consulta SQL (string) y ejecuta el metodo nativo query(), de la instancia del objeto mysqli almacenada en $db (conexion a la DB), que ejecuta cualquier instruccion SQL que le pasemos como argumento (SELECT, INSERT INTO, UPDATE, etc) 
+13) Finalmente, crear() retorna un array con el "resultado" de la consulta (TRUE o FALSE) y el "id" si el INSERT fue exitoso 
+14) de nuevo en guardar(), este metodo retorna el mismo array que le llego de crear(), en este caso, al metodo guardar() del controlador ApiController -> json_encode($resultado) = {"resultado":true,"id":4}

@@ -5,7 +5,7 @@ class ActiveRecord {
     // Base DE DATOS
     protected static $db;
     protected static $tabla = ''; // nombre de la tabla
-    protected static $columnasDB = []; // array con los campos de cada tabla, definidos en cada modelo
+    protected static $columnasDB = []; // array con los campos de cada tabla, definidos en cada modelo (se puede acceder y definir desde cada modelo que herede esta clase, gracias a que definimos al atributo como protected static -VIDEO 522-)
 
     // Alertas y Mensajes
     protected static $alertas = [];
@@ -88,15 +88,15 @@ class ActiveRecord {
     public function atributos() {
         $atributos = [];
         foreach(static::$columnasDB as $columna) {
-            if($columna === 'id') continue;
+            if($columna === 'id') continue; // de esta forma evita la ejecucion del codigo siguiente cuando la iteracion se corresponda con $columna === 'id', saltanto automaticamente a la sigiuente iteracion
             $atributos[$columna] = $this->$columna;
         }
-        return $atributos;
+        return $atributos; // array con los datos (columnas) de un modelo instanciado para crear o actualizar un registro en una tabla
     }
 
     // Sanitizar los datos antes de guardarlos en la BD
     public function sanitizarAtributos() {
-        $atributos = $this->atributos();
+        $atributos = $this->atributos(); // array con los datos de un registro a crear u actualizar (excepto el id)
         $sanitizado = [];
         foreach($atributos as $key => $value ) {
             $sanitizado[$key] = self::$db->escape_string($value);
@@ -115,7 +115,6 @@ class ActiveRecord {
 
     // Registros - CRUD
     public function guardar() {
-        $resultado = '';
         if(!is_null($this->id)) {
             // actualizar
             $resultado = $this->actualizar();
@@ -160,15 +159,15 @@ class ActiveRecord {
         $atributos = $this->sanitizarAtributos();
         // Insertar en la base de datos
         $query = " INSERT INTO " . static::$tabla . " (";
-        $query .= join(', ', array_keys($atributos));
+        $query .= join(', ', array_keys($atributos)); // array_keys() genera un array con las keys del array asociativo pasado como parametro
         $query .= ") VALUES ('"; 
-        $query .= join("', '", array_values($atributos));
+        $query .= join("', '", array_values($atributos)); // array_values() genera un array con los values del array asociativo pasado como parametro
         $query .= "') ";
 
         // Resultado de la consulta
         $resultado = self::$db->query($query);
         return [
-           'resultado' =>  $resultado,
+           'resultado' => $resultado,
            'id' => self::$db->insert_id
         ];
     }
