@@ -9,6 +9,7 @@ class CitaController {
         //session_start();
         //debuguear($_SESSION);
         $router->render("cita/index", [
+            "id" => $_SESSION["id"],
             "nombre" => $_SESSION["nombre"]
         ]);
     }

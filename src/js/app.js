@@ -6,6 +6,7 @@ let resumen = false;
 
 // objeto de la cita, que vamos a guardar en la base de datos (VIDEO 502)
 const cita = {
+    id: '',
     nombre: '',
     fecha: '',
     hora: '',
@@ -33,7 +34,9 @@ function iniciarApp(){
 
     consultarAPI(); // consulta la API en el backend de PHP (VIDEO 499)
 
-    nombreCliente(); // añade el nombre del cliente al objeto de cita (VIDEO 505)
+    idCliente(); // añade el id del usuario logueado al objeto de cita (VIDEO 523)
+
+    nombreCliente(); // añade el nombre del usuario logueado al objeto de cita (VIDEO 505)
 
     seleccionarFecha(); // añade la fecha de la cita en el objeto (VIDEO 506)
 
@@ -248,6 +251,11 @@ function seleccionarServicio(servicio) {
 
     // console.clear();
     // console.log(cita);
+}
+
+// añade el id del usuario logueado al objeto de cita (VIDEO 523)
+function idCliente() {
+    cita.id = document.querySelector('#id').value;
 }
 
 // esta funcion inserta en cita.nombre el nombre del usuario logueado y que esta añadiendo servicios para reservar una cita en el salon (VIDEO 505)
@@ -481,7 +489,7 @@ function formatearFecha(fecha, idioma) {
 
 async function reservarCita(){
     
-    const {nombre, fecha, hora, servicios} = cita;
+    const {id, fecha, hora, servicios} = cita;
 
     const arrayIdServicios = servicios.map( servicio => servicio.id)
     // console.log(servicios);
@@ -490,9 +498,9 @@ async function reservarCita(){
 
 
     const datos = new FormData(); // objeto nativo de JS para enviar datos al servidor (VIDEO 517)
-    datos.append('nombre', nombre);
     datos.append('fecha', fecha);
     datos.append('hora', hora);
+    datos.append('usuarioId', id);
     datos.append('servicios', arrayIdServicios);
 
     //console.log([...datos]);

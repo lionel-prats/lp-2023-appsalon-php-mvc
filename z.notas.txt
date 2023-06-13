@@ -763,3 +763,14 @@ Configuramos el metodo guardar() del controlador APIController, que se va a enca
 12) de nuevo en crear(), ya sanitizados los datos, arma la consulta SQL (string) y ejecuta el metodo nativo query(), de la instancia del objeto mysqli almacenada en $db (conexion a la DB), que ejecuta cualquier instruccion SQL que le pasemos como argumento (SELECT, INSERT INTO, UPDATE, etc) 
 13) Finalmente, crear() retorna un array con el "resultado" de la consulta (TRUE o FALSE) y el "id" si el INSERT fue exitoso 
 14) de nuevo en guardar(), este metodo retorna el mismo array que le llego de crear(), en este caso, al metodo guardar() del controlador ApiController -> json_encode($resultado) = {"resultado":true,"id":4}
+
+----- 
+
+VIDEO 523
+
+Repasando lo aprendido (VIDEO 519):
+
+En las herramientas del desarrollador:
+- En Network
+  - En Fetch/XHE
+    Puedo ver la info de la peticion POST que acabamos de hacer al servidor, a /api/citas, para guardar un registro en la tabla citas de la DB
