@@ -70,7 +70,9 @@
 </div>
 
 <?php 
+    // en el VIDEO 524 agrega la libreria (?) Sweet Alert via CDN (Content Delivery Network)
     $script = "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
         <script src=\"build/js/app.js\"></script>
     "; 
 ?>

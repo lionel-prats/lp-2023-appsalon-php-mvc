@@ -774,3 +774,12 @@ En las herramientas del desarrollador:
 - En Network
   - En Fetch/XHE
     Puedo ver la info de la peticion POST que acabamos de hacer al servidor, a /api/citas, para guardar un registro en la tabla citas de la DB
+
+----- 
+
+VIDEO 524
+
+Sweet Alert 
+
+
+

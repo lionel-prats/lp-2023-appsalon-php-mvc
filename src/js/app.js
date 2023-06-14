@@ -491,6 +491,7 @@ async function reservarCita(){
     
     const {id, fecha, hora, servicios} = cita;
 
+    // armo un array con los id de los servicios seleccionados por el usuario 
     const arrayIdServicios = servicios.map( servicio => servicio.id)
     // console.log(servicios);
     // console.log(arrayIdServicios);
@@ -507,27 +508,37 @@ async function reservarCita(){
     //return;
 
     // peticion hacia la api
-    const url = '/api/citas';
-    //const url = 'http://localhost:3000/api/citas'; 
-    // el 2do. parametro es un objeto de configuracion (opcional cuando enviamos peticiones GET, obligatorio cuando enviamos peticiones POST) (VIDEO 519)
-    const respuesta = await fetch(url, {
-        method: 'POST', // nuestro archivo de JS dice "voy a utilizar el meodo POST hacia ${url}"
-        body: datos
-    });
-    const data = await respuesta.json(); // .json es uno de los metodos disponibles en el Prototype (se puede ver en la consola del navegador, si hacemos console.log(respuesta))
-    
-    console.log(data);
+    try {
+        const url = '/api/citas';
+        //const url = 'http://localhost:3000/api/citas'; 
+        // el 2do. parametro es un objeto de configuracion (opcional cuando enviamos peticiones GET, obligatorio cuando enviamos peticiones POST) (VIDEO 519)
+        const respuesta = await fetch(url, {
+            method: 'POST', // nuestro archivo de JS dice "voy a utilizar el meodo POST hacia ${url}"
+            body: datos
+        });
+        const resultado = await respuesta.json(); // .json es uno de los metodos disponibles en el Prototype (se puede ver en la consola del navegador, si hacemos console.log(respuesta))
+        
+        if(resultado.resultado) {
+            Swal.fire( { // Sweet Alert (VIDEO 524)
+                icon: 'success',
+                title: 'Reserva confirmada',
+                text: `Te esperamos el ${formatearFecha(fecha, 'es-AR')} a las ${hora} hs.`,
+                button: 'OK'
+            } ).then( () => { // callback (VIDEO 524)
+                //setTimeout(() => {
+                    window.location.reload(); // metodo nativo de JS para recargar la página (VIDEO 524)
+                //}, 300);
+            } )
+        } 
 
-
-    /* try {
-        const url = '/api/servicios';
-        //const url = 'http://localhost:3000/api/servicios'; 
-        const resultado = await fetch(url);
-        const servicios = await resultado.json();
-        mostrarServicios(servicios);
     } catch (error) {
-        console.log(error);
-    } */
-
-    
+        Swal.fire( {
+            icon: 'error',
+            title: 'Error',
+            text: 'Lo sentimos, ha ocurrio un error inesperado. Por favor, vuelve a ingresar la información',
+            button: 'OK'
+        } ).then( () => {
+            window.location.reload(); 
+        } )
+    }
 }
