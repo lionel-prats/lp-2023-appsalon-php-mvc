@@ -158,11 +158,11 @@ class ActiveRecord {
         // Sanitizar los datos
         $atributos = $this->sanitizarAtributos();
         // Insertar en la base de datos
-        $query = " INSERT INTO " . static::$tabla . " (";
+        $query = "INSERT INTO " . static::$tabla . " (";
         $query .= join(', ', array_keys($atributos)); // array_keys() genera un array con las keys del array asociativo pasado como parametro
         $query .= ") VALUES ('"; 
         $query .= join("', '", array_values($atributos)); // array_values() genera un array con los values del array asociativo pasado como parametro
-        $query .= "') ";
+        $query .= "')";
 
         // Resultado de la consulta
         $resultado = self::$db->query($query);

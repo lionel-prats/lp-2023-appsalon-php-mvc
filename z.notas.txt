@@ -781,5 +781,11 @@ VIDEO 524
 
 Sweet Alert 
 
+----- 
+
+VIDEO 525
+
+Tira tips de como debuguear errores cuando estamos trabajando con Fetch para conectar el front con el back de nuestra aplicacion, como estamos haciendo en este proyecto
+
 
 
