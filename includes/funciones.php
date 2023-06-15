@@ -13,3 +13,13 @@ function s($html) : string {
     $s = htmlspecialchars($html);
     return $s;
 }
+
+// funcion que revisa que el usuario este autenticado (VIDEO 527)
+// con :void especificamos que la funcion isAuth() no va a retornar nada -no es obligatorio, es una buena practica de escritura de codigo-
+function isAuth() :void 
+{
+    if(!isset($_SESSION["login"])) { 
+        // $_SESSION["login"] lo definimos en /controllers/LoginController->login(), una vez que el usuario se logueó (autenticó) correctamente}
+        header("Location: /"); // si el visitante no esta logueado lo redirijo al login
+    }
+}

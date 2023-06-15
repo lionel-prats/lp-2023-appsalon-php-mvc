@@ -19,8 +19,20 @@ class Router
 
     public function comprobarRutas()
     {
+        // // lionel -> VIDEO 527
+        // $rutas_protegidas = [
+        //     "/cita"
+        // ];
+
         // Proteger Rutas...
+        // lionel -> al iniciar sesiones dentro de este metodo, dichas sesiones van a estar disponibles en cualquier tipo de peticion (GET o POST) que se le haga a la aplicacion, ya que este metodo se ejecuta necesariamente en TODAS las peticiones
         session_start();
+        //debuguear($_SESSION);
+
+        // // lionel -> VIDEO 527
+        // $auth = $_SESSION["login"] ?? null;
+        
+
 
         // Arreglo de rutas protegidas...
         // $rutas_protegidas = ['/admin', '/propiedades/crear', '/propiedades/actualizar', '/propiedades/eliminar', '/vendedores/crear', '/vendedores/actualizar', '/vendedores/eliminar'];
@@ -30,16 +42,26 @@ class Router
         $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
+        // // lionel -> VIDEO 527
+        // if(in_array($currentUrl, $rutas_protegidas) && !$auth) {
+        //     header("Location: /");
+        // }
+
+
+        // debuguear($method);
         if ($method === 'GET') {
             $fn = $this->getRoutes[$currentUrl] ?? null;
         } else {
             $fn = $this->postRoutes[$currentUrl] ?? null;
         }
 
+        // $fn = ["Controllers\LoginController", "login"]
+        // $this = object(MVC\Router){...} -> referencia a esta misma clase donde nos encontramos
 
         if ( $fn ) {
             // Call user fn va a llamar una función cuando no sabemos cual sera
-            call_user_func($fn, $this); // This es para pasar argumentos
+            // lionel -> call_user_func( $funcionIncierta, $argumentosParaEsaFuncionIncierta ) es una funcion nativa de PHP que nos perrmite ejecutar una funcion de manera dinamica y pasarle argumentos tambien dinamicos  
+            call_user_func($fn, $this); // pasamos $this como argumento para poder usar render() en los controladores
         } else {
             echo "Página No Encontrada o Ruta no válida";
         }

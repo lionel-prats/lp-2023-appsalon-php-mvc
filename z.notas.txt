@@ -787,5 +787,26 @@ VIDEO 525
 
 Tira tips de como debuguear errores cuando estamos trabajando con Fetch para conectar el front con el back de nuestra aplicacion, como estamos haciendo en este proyecto
 
+----- 
+
+VIDEO 526 
+
+INSERT masivo en citasservicios dentro del controlador ApiController, metodo guardar()
+
+-----
+
+VIDEO 527 
+
+Proteger rutas /cita vvv 
+
+1) Creamos una funcion helper isAuth() en /includes/funciones.php
+
+1.1) esta funcion verifica si existe $_SESSION["login"]; si no existe, redirige al visitante al login (/)
+*** $_SESSION va a estar disponible en la ejecucuion de isAuth() porque /includes/funciones.php esta incluido en /includes/app.php; a su vez, /includes/app.php esta incluido en /public/index.php, que al final del archivo ejecuta $router->comprobarRutas() y es aqui donde se inicia sesion ( session_start() ) 
+
+2) como esta ejecucion de comprobarRutas() es la que manda a llamar a los distintos controladores segun las distintas peticiones posibles, en el caso de /cita, cuando se ejecute el controlador correspondiente (CitaController->index()) session_start() ya viene iniciado desde Router.php
+*** entonces, al ejecutar el helper isAuth() (funciones.php) dentro del controlador de /cita, el helper (o middleware (?)) va a funcionar como esperamos 
 
 
+*** En bienesraicesMVC utilizo otra tecnica (esa proteccion de rutas la hizo dentro del archivo Router.php)
+*** ver Router.php de bienesraicesMVC o z_notas.txt del mismo proyecto (apartado "Repasando lo aprendido")

@@ -62,7 +62,7 @@ class LoginController {
         $componenteEnlacesForm = componenteEnlacesForm($first_path, $first_brand, $second_path, $second_brand);
 
         $alertas = Usuario::getAlertas();
-
+        
         $router->render("auth/login", [
             "componenteEnlacesForm" => $componenteEnlacesForm,
             "alertas" => $alertas,
