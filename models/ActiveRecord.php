@@ -45,7 +45,6 @@ class ActiveRecord {
         
             $array[] = static::crearObjeto($registro);
         }
-        //debuguear();
 
         // liberar la memoria
         $resultado->free();
@@ -86,6 +85,7 @@ class ActiveRecord {
 
     // Identificar y unir los atributos de la BD
     public function atributos() {
+       
         $atributos = [];
         foreach(static::$columnasDB as $columna) {
             if($columna === 'id') continue; // de esta forma evita la ejecucion del codigo siguiente cuando la iteracion se corresponda con $columna === 'id', saltanto automaticamente a la sigiuente iteracion

@@ -517,7 +517,9 @@ async function reservarCita(){
             body: datos
         });
         const resultado = await respuesta.json(); // .json es uno de los metodos disponibles en el Prototype (se puede ver en la consola del navegador, si hacemos console.log(respuesta))
-       
+
+        //console.log(resultado);
+
         if(resultado.resultado) {
             Swal.fire( { // Sweet Alert (VIDEO 524)
                 icon: 'success',
