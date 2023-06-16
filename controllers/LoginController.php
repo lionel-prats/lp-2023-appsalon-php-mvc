@@ -71,7 +71,9 @@ class LoginController {
     }
 
     public static function logout() {
-        echo "Desde logout";
+        //$_SESSION = []; // VIDEO 529
+        session_destroy(); // VIDEO 529
+        header('Location: /'); // VIDEO 529
     }
     
     public static function olvide(/* Router */ $router) {

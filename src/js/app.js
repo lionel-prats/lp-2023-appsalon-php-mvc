@@ -99,9 +99,16 @@ function botonesPaginador(){
     const paginaAnterior = document.querySelector('#anterior');
     const paginaSiguiente = document.querySelector('#siguiente');
 
+    
+
     if(paso === 1) {
         paginaAnterior.classList.add('ocultar');    
         paginaSiguiente.classList.remove('ocultar');
+    
+        // elimino el boton para reservar un turno cuando el usuario este en la seccion servicios
+        const submit = document.querySelector('#submit');
+        if(submit) submit.remove();
+    
     } else if(paso === 3) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');    
@@ -113,6 +120,10 @@ function botonesPaginador(){
     } else {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.remove('ocultar');
+
+        // elimino el boton para reservar un turno cuando el usuario este en la seccion fecha y hora
+        const submit = document.querySelector('#submit');
+        if(submit) submit.remove();
     }
 }
 
@@ -454,13 +465,16 @@ function mostrarResumen() {
         // boton para crear una cita 
         const botonReservar = document.createElement('BUTTON');
         botonReservar.classList.add('boton');
+        botonReservar.id = 'submit';
         botonReservar.textContent = 'Reservar turno';
         //botonReservar.onclick = reservarCita; // asocio la funcion reservarCita al click en el boton (VIDEO 515) 
         botonReservar.onclick = function() {
             reservarCita();
         }   
 
-        seccionResumen.appendChild(botonReservar);
+        // inserto el boton para reservar un turno en el paginador inferior
+        document.querySelector('.paginacion').insertAdjacentElement('beforeend', botonReservar);
+        //seccionResumen.appendChild(botonReservar);
         
     };  
 }
