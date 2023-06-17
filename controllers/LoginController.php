@@ -41,7 +41,7 @@ class LoginController {
                         $_SESSION["login"] = true;
                         
                         if($usuario[0]->admin === "1") {
-                            $_SESSION["admin"] = $usuario[0]->admin ?? null;
+                            $_SESSION["admin"] = $usuario[0]->admin/*  ?? null */;
                             header("Location: /admin");
                         } else {
                             header("Location: /cita");
