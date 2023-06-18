@@ -810,3 +810,110 @@ Proteger rutas /cita vvv
 
 *** En bienesraicesMVC utilizo otra tecnica (esa proteccion de rutas la hizo dentro del archivo Router.php)
 *** ver Router.php de bienesraicesMVC o z_notas.txt del mismo proyecto (apartado "Repasando lo aprendido")
+
+-----
+
+VIDEO 531
+
+tutorial explicativo tipos de JOIN -> https://www.w3schools.com/sql/sql_join.asp
+*** consultas SQL de ejemplo que va mostrando el profesor a lo largo del video, con distintos tipos de JOIN 
+SELECT * FROM citas C LEFT OUTER JOIN usuarios U ON C.usuarioId = U.id; 
+SELECT * FROM citas C INNER JOIN usuarios U ON C.usuarioId = U.id; 
+SELECT * FROM citas C LEFT JOIN usuarios U ON C.usuarioId = U.id; 
+
+*** consulta de ejemplo que arma el profesor hacia el final del video vvv 
+SELECT * FROM citas 
+LEFT OUTER JOIN usuarios 
+ON citas.usuarioId = usuarios.id 
+LEFT OUTER JOIN citasservicios 
+ON citasservicios.citaId = citas.id  
+LEFT OUTER JOIN servicios 
+ON servicios.id = citasservicios.servicioId  
+
+*** consulta armada por Lio hacia el final del video
+SELECT U.nombre, U.apellido, C.fecha, C.hora, S.nombre, S.precio
+FROM citas C 
+LEFT OUTER JOIN usuarios U ON U.id = C.usuarioId 
+LEFT OUTER JOIN citasservicios CS ON CS.citaId = C.id  
+LEFT OUTER JOIN servicios S ON S.id = CS.servicioId
+
+-----
+
+17/6/23 
+
+* quise retomar el cuso, empezé por querer levantar el servicio de MySQL desde XAMPP en el puerto 3306,como siempre, y falló. Acá el mensaje de error que tiró la consola de XAMPP:  
+
+14:07:46  [mysql] 	Error: MySQL shutdown unexpectedly.
+14:07:46  [mysql] 	This may be due to a blocked port, missing dependencies, 
+14:07:46  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+14:07:46  [mysql] 	Press the Logs button to view error logs and check
+14:07:46  [mysql] 	the Windows Event Viewer for more clues
+14:07:46  [mysql] 	If you need more help, copy and post this
+14:07:46  [mysql] 	entire log window on the forums
+
+* encontré este tutorial YT para solucionar el problema (el error que muestra el tipo al principio del video en su consola de XAMPP es exactamente el mismo) vvv
+* https://www.youtube.com/watch?v=5cCT1ThLqqU&t=81s 
+
+-----
+
+* paso a paso de lo que explica (el tipo del tutorial) que hay que hacer para solucionarlo:
+1) En C:\xampp\mysql
+   1.1) la carpeta "data" la renombro como "data-old-fallo-el-17-06-23" 
+   1.2) creo una nueva carpeta llamada "data"
+   1.3) copio el contenido de la carpeta "backup" dentro de la nueva carpeta "data"
+   1.4) entramos en la carpeta "data-old-fallo-el-17-06-23", copiamos el archivo "ibdata1", y lo pegamos en la nueva carpeta "data" (reemplazamos el archivo con el mismo nombre, que ya venía en el contenido de la carpeta "backup" y por eso existe en "data") 
+   1.5) entramos en "data-old-fallo-el-17-06-23" y copiamos todas las carpetas, excepto "mysql", "performance_schema" y "phpmyadmin" y las pegamos dentro de "data"
+   *** observar que si pega en "data" la carpeta "test" de "data-old-fallo-el-17-06-23", reemplazando la carpeta "test" que ya habíamos pegado, proveniente de "backup"
+   *** observar que todas las carpetas que pegamos de "data-old-fallo-el-17-06-23" en "data" (menos "test" explicado en el punto anterior) son las bases de datos "propias, las que fui creando", que tenía en mi conexión mysql local (127.0.0.1)
+   *** en el tutorial deje la pregunta de porque sucede el error -> "Gracias, pude solucionar el problema! Solo me queda la duda de que significa el error y/o por qué sucede, ya que hasta ayer no tenía el problema, creo haber apagado los servicios corectamente, y hoy cuando quise prender el servicio de MySQL como todos los días, me encontré con este error. Gracias nuevamente!" (17/6/23 15:20 hs). Estar atento a la respuesta!!!
+
+----- 
+
+* encontre un articulo en stackoverflow con una consulta por este mismo problema, y la mejor respuesta ofrece esta misma solucion vvv 
+* https://stackoverflow.com/questions/18022809/how-to-solve-error-mysql-shutdown-unexpectedly
+
+----- 
+
+*** analisis de Lio, de la solucion implementada siguiendo el tutorial, para tratar de entender que pasó:
+
+En los hechos, lo que hice fue lo siguiente:
+1) vacie la carpeta "data", la deje totalmente vacia
+2) reutilize algunas carpetas y archivos de la carpeta "backup"
+3) reutilize algunas carpetas y archivos de la carpeta "data" que fallo (y que dejamos renombrada como "data-old-fallo-el-17-06-23")
+* archivos y carpetas de "backup" reutilizados
+  - las carpetas "mysql", "performance_schema" y "phpmyadmin"
+  - todos los archivos, excepto "ibdata1"
+* archivos y carpetas de "data-old-fallo-el-17-06-23" reutilizados
+  - todas las carpetas, excepto "mysql", "performance_schema" y "phpmyadmin" (vale decir que utilize las de "backup", por lo que puede ser que las carpetas "mysql", "performance_schema" y "phpmyadmin" originales se hayan modificado durante el tiempo y se hayan corrompido, y por eso haga falta el reemplazo)
+  - archivo "ibdata1"
+
+----- 
+
+*** solucion alternativa pensada por Lio (no probada) para no dejar colgada dentro de /mysql la carpeta "data-old-fallo-el-17-06-23"
+  - en la carpeta "data" reemplazar las carpetas "mysql", "performance_schema" y "phpmyadmin" por las mismas 3 que existen en "backup"
+  - en este punto noto que en la "data" que falló falta el archivo "ibtmp1" existente en "backup"
+  - copiar los archivos "aria_log.00000001", "aria_log_control", "ib_buffer_pool", "ib_logfile0", "ib_logfile1", "ibtmp1", "multi-master.info" y "my.ini" (conservar "ibdata1", que a simple vista se ve que pesa mucho mas que el de "backup", y sospecho que puede tener que ver con los datos de las distintas bases de datos) (no estoy seguro de que este paso sea necesario, ya que a simple vista noto que ambos grupos de archivos pesan lo mismo en kb, lo que me hace pensar que los de "data" esten en el mismo estado que los de "backup")
+  - borrar de "data" el resto de esos archivitos ligeros que se aparentemente se han ido generando (ver fecha de modificación) (digo aparentemente, porque en la nueva version de "data", que contiene solo los archivos de "backup" no aparece ese largo listado de archivitos -escribo esto el 17-06-23, habria que hacer un seguimiento de "data" y ver que va pasando en el tiempo-), inclusive el archivo "mysql_error.log" (que aparentemente registra logs de error, y que luego de la solucion aplicada noto que se genero de nuevo automaticamente -presumo que se genero al levantar por primera vez mysqli, luego de los cambios que hice en "data" siguiendo el tutorial-)
+
+*** 
+
+----- 
+
+VIDEO 532
+
+*** consulta de ejemplo que arma el profesor durante el video para expicar la funcion de SQL CONCAT() vvv 
+SELECT citas.id, CONCAT(citas.fecha, " ", citas.hora) AS fecha_cita FROM citas 
+LEFT OUTER JOIN usuarios 
+ON citas.usuarioId = usuarios.id 
+LEFT OUTER JOIN citasservicios 
+ON citasservicios.citaId = citas.id  
+LEFT OUTER JOIN servicios 
+ON servicios.id = citasservicios.servicioId  
+
+*** consulta de ejemplo que arma el profesor hacia el final del video vvv 
+SELECT citas.id, citas.hora, CONCAT(usuarios.nombre, " ", usuarios.apellido) AS cliente, usuarios.email, usuarios.telefono, servicios.nombre AS servicio, servicios.precio
+FROM citas 
+LEFT OUTER JOIN usuarios ON usuarios.id = citas.usuarioId 
+LEFT OUTER JOIN citasservicios ON citasservicios.citaId = citas.id  
+LEFT OUTER JOIN servicios ON servicios.id = citasservicios.servicioId  
+WHERE fecha = "2023-06-19"
