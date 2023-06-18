@@ -19,9 +19,4 @@ class Cita extends ActiveRecord{
         $this->hora = $args['hora'] ?? '';
         $this->usuarioId = $args['usuarioId'] ?? '';
     }
-
-
-
-
-
 }
