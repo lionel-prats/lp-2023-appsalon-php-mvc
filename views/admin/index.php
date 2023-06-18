@@ -31,11 +31,11 @@
                         <p>Email: <span><?php echo $cita->email; ?></span></p>
                         <p>Teléfono: <span><?php echo $cita->telefono; ?></span></p>
                         <h3>Servicios</h3>
-                    </li>
                 <?php endif; ?>
-                <p><?php echo $cita->servicio; ?></p>
+                <p class="servicio"><?php echo $cita->servicio . " $" . $cita->precio; ?></p>
 
             <?php endforeach; ?>
+            <!-- tip HTML: observar que no estoy cerrando ninguna etiqueta <li>, pero si inspecciono desde el navegador el DOM, compruebo que HTML cerro cada uno de los <li> automaticamente (VIDEO 536) -->
     </ul>
 
 
