@@ -31,21 +31,22 @@ class ActiveRecord {
 
     // Consulta SQL para crear un objeto en Memoria
     public static function consultarSQL($query) {
+
         // Consultar la base de datos
         $resultado = self::$db->query($query);
-        //debuguear($database);
+        
         
         // Iterar los resultados
         $array = [];
         while($registro = $resultado->fetch_assoc()) {
             
-            /* echo "<pre>";
-            print_r($registro);
-            echo "</pre>"; */
+            // echo "<pre>";
+            // print_r($registro);
+            // echo "</pre>";
         
             $array[] = static::crearObjeto($registro);
         }
-
+        //debuguear($resultado);
         // liberar la memoria
         $resultado->free();
 
@@ -57,7 +58,14 @@ class ActiveRecord {
     // Crea el objeto en memoria que es igual al de la BD
     // VIDEO 497 - recibe un array y lo convierte en objeto
     protected static function crearObjeto($registro) {
-        $objeto = new static; // instancia del modelo que invoque este metodo crearObjeto (en este caso, Servicio - VIDEO 497)
+        
+        // instancia del modelo que invoque este metodo crearObjeto (en este caso, Servicio - VIDEO 497)
+        // tambien lo invoca el modelo AdminCita (VIDEO 534)
+        $objeto = new static; 
+        // echo "<pre>";
+        // print_r($registro);
+        // echo "</pre>";
+        // debuguear($objeto);
         /* 
         VIDEO 497
         object(Model\Servicio)#5 (3) {
@@ -75,11 +83,9 @@ class ActiveRecord {
                 $objeto->$key = $value;
             }
         }
-        /*
-        echo "<pre>";
-        var_dump($objeto);
-        debuguear($registro);
-        */
+        
+        // debuguear($objeto);
+       
         return $objeto;
     }
 
@@ -149,6 +155,13 @@ class ActiveRecord {
     // SELECT en $tabla filtrando por la columna pasada por parametro
     public static function where($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla  . " WHERE $columna = '$valor'";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // (VIDEO 534) Crea este metodo para poder hacer la consulta que necesita para el panel de administrador (que implica JOINS entre varias tablas)
+    // este metodo nos sirve para hacer consultas a la base que no esten definidas entre los metodos con consultas "basicas" que ya tenemos en ActiveRecord (ActiveRecord::where(), ActiveRecord::guardar(), ActiveRecord::get(), etc)
+    public static function SQL($query) {
         $resultado = self::consultarSQL($query);
         return $resultado;
     }

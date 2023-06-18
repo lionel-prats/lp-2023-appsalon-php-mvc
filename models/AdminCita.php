@@ -3,10 +3,9 @@
 namespace Model;
 
 // este modelo no representa literalmente ninguna de las tablas de nuestra DB (VIDEO 533)
-// 
 class AdminCita extends ActiveRecord{
 
-    protected static $tabla = 'citasservicios'; // tabla principa
+    protected static $tabla = 'citasservicios'; // tabla principal
     protected static $columnasDB = ['id','hora','cliente','email','telefono','servicio','precio'];
 
     public $id;

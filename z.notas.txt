@@ -917,3 +917,83 @@ LEFT OUTER JOIN usuarios ON usuarios.id = citas.usuarioId
 LEFT OUTER JOIN citasservicios ON citasservicios.citaId = citas.id  
 LEFT OUTER JOIN servicios ON servicios.id = citasservicios.servicioId  
 WHERE fecha = "2023-06-19"
+
+----- 
+
+VIDEO 534
+
+DICHOS DEL PROFESOR:
+*** Cuando necesitamos hacer consultas mas complejas a la DB, que joinee varias tablas, usualmente lo hacemos por medio de un query builder .
+*** Esto lo voy a explicar en la parte de PDO, mas adelante en el curso.
+
+----- 
+
+analisis del ActiveRecord::SQL() (aprox linea 164 de ActiveRecord)
+public static function SQL($query) {
+  $resultado = self::consultarSQL($query);
+  return $resultado;
+}
+1) recibe cualquier tipo de string valido para ejecutar una consulta SQL
+2) le pasa este string a ActiveRecord::consultarSQL(), y retorna la respuesta que le llega de este segundo metodo.  
+
+analisis del ActiveRecord::consultarSQL() (aprox linea 33 de ActiveRecord)
+public static function consultarSQL($query) {
+    $resultado = self::$db->query($query);
+    $array = [];
+    while($registro = $resultado->fetch_assoc()) {
+        $array[] = static::crearObjeto($registro);
+    }
+    $resultado->free();
+    return $array;
+}
+1)recibe el string de una consulta SQL ($query)
+2)se ejecuta el metodo query() de mysql, el cual ejecuta efectivamente la query recibida
+  $resultado = self::$db->query($query);
+3)itera los resultados de la consulta (pueden ser de 0 a n)
+  cada iteracion es un registro de la consulta, en formato array()  
+  pasa cada registro iterado al metodo ActiveRecord::crearObjeto(), para convertirlo en un objeto
+    analisis del ActiveRecord::crearObjeto() (aprox linea 60 de ActiveRecord)
+    protected static function crearObjeto($registro) {
+      $objeto = new static;
+      foreach($registro as $key => $value ) {
+          if(property_exists( $objeto, $key  )) {
+              $objeto->$key = $value;
+          }
+      }
+      return $objeto;
+    }
+    1) recibe un registro de una consulta a la base de datos en formato array ($registro)
+    Array
+    (
+        [id] => 111
+        [hora] => 09:45:00
+        [cliente] => Danilo Gerlo
+        [email] => lionelprats@hotmail.com
+        [telefono] => 1122049995
+        [servicio] => Corte de Cabello Hombre
+        [precio] => 80.00
+    )
+    2) crea una instancia del modelo que lo invoca (VIDEO 534 - AdmiCita)
+    Model\AdminCita Object
+    (
+        [id] => 
+        [hora] => 
+        [cliente] => 
+        [email] => 
+        [telefono] => 
+        [servicio] => 
+        [precio] => 
+    )
+    3) retorna el objeto/instancia del modelo que que lo invoca, que contiene toda la info del registro que le llego en formato array
+    Model\AdminCita Object
+    (
+        [id] => 111
+        [hora] => 09:45:00
+        [cliente] => Danilo Gerlo
+        [email] => lionelprats@hotmail.com
+        [telefono] => 1122049995
+        [servicio] => Corte de Cabello Hombre
+        [precio] => 80.00
+    )
+4) con "$resultado->free();" libera la memoria (?)
+5) finalmente, consultarSQL() retorna un array de objetos, que representa una coleccion de registros, respuesta a una consulta SQL. 
