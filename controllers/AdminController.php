@@ -21,6 +21,8 @@ class AdminController {
     
         $citas = AdminCita::SQL($consulta); // ver explicacion detallada en z.notas.txt, VIDEO 534
 
+        //debuguear($citas);
+
         $router->render("admin/index", [
             //"id" => $_SESSION["id"],
             "nombre" => $_SESSION["nombre"],
