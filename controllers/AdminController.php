@@ -7,7 +7,9 @@ use Model\AdminCita;
 
 class AdminController {
     public static function index(/* Router */ $router){
-        // isAuth();
+        
+        // funcion en /includes/funciones.php (VIDEO 543)
+        isAdmin();
 
         // debuguear(date("Y-m-d H:i:s"));
 

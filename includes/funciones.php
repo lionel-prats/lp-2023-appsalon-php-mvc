@@ -30,3 +30,9 @@ function isAuth() :void
         header("Location: /"); // si el visitante no esta logueado lo redirijo al login
     }
 }
+
+// VIDEO 543
+function isAdmin() :void 
+{
+    if(!isset($_SESSION["admin"])) header("Location: /cita");
+}
