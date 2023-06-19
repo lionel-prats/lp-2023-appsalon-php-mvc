@@ -1048,3 +1048,14 @@ body {
     };
   }
 }
+
+----- 
+
+VIDEO 541
+
+*** checkdate(mes, dia, fecha) -> funcion PHP para comprbar si una fecha es valida
+              -> devuelve un boolean 
+              -> soporta strings e integers
+*** valida fechas entre el 0001-01-01 hasta el 32767-12-31
+*** contempla los 29/2 de los años bisiestos
+*** ejemplo -> checkdate(12, 31, 32767)
