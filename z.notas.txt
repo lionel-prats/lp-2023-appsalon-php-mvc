@@ -1015,3 +1015,13 @@ for($i = 0; $i < 11; $i++){
 }
 echo $peter;
 exit;
+
+----- 
+
+VIDEO 538 
+
+*** date_default_timezone_set() -> funcion PHP para determinar la zona horaria correcta en el servidor vvv 
+*** la use en AdminController::index() para enviarle a la vista la fecha real en Buenos Aires, Argentina:
+
+date_default_timezone_set('America/Buenos_Aires');
+$fecha = date("Y-m-d H:i:s");
