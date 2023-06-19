@@ -997,3 +997,21 @@ public static function consultarSQL($query) {
     )
 4) con "$resultado->free();" libera la memoria (?)
 5) finalmente, consultarSQL() retorna un array de objetos, que representa una coleccion de registros, respuesta a una consulta SQL. 
+
+----- 
+
+VIDEO 537 
+
+*** scope de una variable en PHP 
+*** ejemplo didactico vvv 
+
+$clave = 147;
+for($i = 0; $i < 11; $i++){
+    echo $clave . "<hr>";
+    if($clave === 154) {
+        $peter = "capusoto";
+    }
+    $clave++;
+}
+echo $peter;
+exit;

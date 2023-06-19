@@ -14,6 +14,13 @@ function s($html) : string {
     return $s;
 }
 
+// VIDEO 537 -> funcion helper utilizada en la vista del administrador, para hacer una validacion y eventualmente imprimir algo en pantalla (ver /views/admin/index.php)
+function esUltimo(string $actual, string $proximo) :bool
+{
+    if($actual !== $proximo) return TRUE;
+    return FALSE;
+}
+
 // funcion que revisa que el usuario este autenticado (VIDEO 527)
 // con :void especificamos que la funcion isAuth() no va a retornar nada -no es obligatorio, es una buena practica de escritura de codigo-
 function isAuth() :void 
