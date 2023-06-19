@@ -1192,4 +1192,4 @@ SHOW CREATE TABLE $nombreTabla;
 
 ----- 
 
-VIDEO 543
+VIDEO

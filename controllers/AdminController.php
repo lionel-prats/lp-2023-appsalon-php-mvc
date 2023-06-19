@@ -23,7 +23,7 @@ class AdminController {
             header("Location: /404");
         }
         $fecha = implode("-", $fecha);
-        
+
         $consulta = "
             SELECT citas.id, citas.hora, CONCAT(usuarios.nombre, ' ', usuarios.apellido) AS cliente, usuarios.email, usuarios.telefono, servicios.nombre AS servicio, servicios.precio 
             FROM citas

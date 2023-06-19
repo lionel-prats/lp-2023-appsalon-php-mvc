@@ -24,6 +24,7 @@
         // VIDEO 539 -> ver explicacion en z-notas.txt
         @include m.tablet {
             overflow: scroll;
+            //overflow-x: scroll
         };
         
     }
@@ -39,5 +40,16 @@
     .boton {
         margin: 0;
         @include m.boton(v.$negro,v.$blanco);
+    }
+}
+
+.barra-servicios {
+    margin-bottom: v.$separacion;
+    @include m.desktop {
+        display: flex;
+        justify-content: space-between;
+    };
+    .boton {
+        margin: 0 0 1rem 0;
     }
 }
