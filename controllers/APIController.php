@@ -8,13 +8,29 @@ use Model\CitaServicio;
 
 class APIController {
 
+    // http://localhost:3000/api/pruebas (GET)
+    // endpoint para hacer pruebas en desarrollo
+    public static function pruebas() {
+        $cita = new Cita([
+            "fecha" => "2023-06-13",
+            "hora" => "10:15",
+            "nombre" => "Pedro Raul Prats",
+            "usuarioId" => "32"
+        ]);
+        print_r($cita);
+    }
+
+    // http://localhost:3000/api/servicios (GET)
+    // retorna un json con los registros de la tabla "servicios" en la DB
     public static function index(){
         //sleep(2);
         $servicios = Servicio::all();
         echo json_encode($servicios);
     }
 
-    public static function guardar(){ // http://localhost:3000/api/citas
+    // http://localhost:3000/api/citas (POST)
+    // guarda en la db un nuevo turno, reservado desde http://localhost:3000/cita, usando fetch de JS
+    public static function guardar(){ 
                 
         $cita = new Cita($_POST); // instancio Cita con lo que envió el usuario desde el form de reserva de turnos
         $resultado = $cita->guardar(); // guardo el turno reservado en citas
@@ -35,34 +51,18 @@ class APIController {
         echo json_encode(["resultado" => $resultado]); // respuesta del endpoint http://localhost:3000/api/citas
     } 
     
-    public static function pruebas() {
-        $cita = new Cita([
-            "fecha" => "2023-06-13",
-            "hora" => "10:15",
-            "nombre" => "Pedro Raul Prats",
-            "usuarioId" => "32"
-        ]);
-        print_r($cita);
+    // http://localhost:3000/api/eliminar (POST)
+    // le permite al administrador, desde el panel de administrador, eliminar citas
+    public static function eliminar(){
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            $id = $_POST["id"];
+            $cita = Cita::find($id);
+            $cita->eliminar();
+
+            header("Location: " . $_SERVER["HTTP_REFERER"]); 
+            // ejemplo -> header("Location: http://localhost:3000/admin?fecha=2023-06-21"]);
+            
+            // ver z.notas.txt VIDEO 542, como generar archivos excel de nuestra info en base de datos (tanto desde PHP como desde JS)
+        }
     }
 }
-
-/* 
-{
-    "nombre": "Pedro Raul Prats",
-    "fecha": "2023-06-13",
-    "hora": "10:30",
-    "servicios": [
-        {
-            "id": "4",
-            "nombre": "Uñas",
-            "id": "75"
-        },
-        {
-            "id": "6",
-            "nombre": "Peinado niño",
-            "id": "40"
-        }
-    ]
-}
-
-*/

@@ -35,8 +35,9 @@ $router->get("/admin", [AdminController::class, "index"]);
 
 // API de Citas
 $router->get("/api/pruebas", [APIController::class, "pruebas"]);
-$router->get("/api/servicios", [APIController::class, "index"]);
+$router->get("/api/servicios", [APIController::class, "index"]); // retorna los registros de la tabla "servicios"
 $router->post("/api/citas", [APIController::class, "guardar"]); // endpoint que va a procesar las reservas de citas en el back (VIDEO 518)
+$router->post("/api/eliminar", [APIController::class, "eliminar"]); // emdpoint para que el administrador pueda eliminar citas desde el panel de administrador
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

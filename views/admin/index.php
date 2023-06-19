@@ -47,10 +47,13 @@
                         // observar que no hay conflicto de SCOPE, ya que la variable $total existe en todas las iteraciones del foreach (VIDEO 537)
                         $total += $cita->precio;
 
-                        if(esUltimo($actual, $proximo)):
-                    ?>
+                        if(esUltimo($actual, $proximo)): ?>
                             <p class="total">Total: <span><?php echo "$$total"; ?></span></p>
-                    <?php endif; ?>
+                            <form action="/api/eliminar" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
+                                <input type="submit" class="boton-eliminar" value="Eliminar">
+                            </form>
+                        <?php endif; ?>
                 <?php endforeach; ?>
                 <!-- tip HTML: observar que no estoy cerrando ninguna etiqueta <li>, pero si inspecciono desde el navegador el DOM, compruebo que HTML cerro cada uno de los <li> automaticamente (VIDEO 536) -->
         </ul>

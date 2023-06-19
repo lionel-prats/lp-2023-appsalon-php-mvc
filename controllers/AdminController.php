@@ -9,12 +9,11 @@ class AdminController {
     public static function index(/* Router */ $router){
         // isAuth();
 
-        date_default_timezone_set('America/Buenos_Aires'); // Establezco la zona horaria de Buenos Aires
-    
+        // debuguear(date("Y-m-d H:i:s"));
+
         $fecha = $_GET["fecha"] ?? date("Y-m-d");
         
-        if($fecha === "")
-            $fecha = date("Y-m-d");
+        if($fecha === "") $fecha = date("Y-m-d");
 
         $fecha = explode("-", $fecha);
         $esFechaValida = checkdate($fecha[1], $fecha[2], $fecha[0]);
@@ -39,8 +38,5 @@ class AdminController {
             "citas" => $citas,
             "fecha" => $fecha
         ]);
-
-
-
     }
 }

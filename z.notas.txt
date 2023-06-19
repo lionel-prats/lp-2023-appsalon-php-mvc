@@ -195,7 +195,10 @@ VIDEO 460
 
 Restricciones de Integridad Referencial...
 
-Para permitir elimiar un usuario por mas que sea FK de registros en otras tablas (el problema que habia con vendedores y propiedades en Bienes Raices) tenemos varias opciones vvv 
+Para permitir eliminar un usuario por mas que sea FK de registros en otras tablas (el problema que habia con vendedores y propiedades en Bienes Raices - VIDEO 387 -) tenemos varias opciones vvv 
+*** en este proyecto, los usuarios son Fk en la tabla citas
+*** en este proyecto, las citas y los servicios son Fk en la tabla citasservicios
+
 
 vamos a solucionar ese problema con los registros de las tabla usuarios y citas vvv 
 
@@ -1054,8 +1057,139 @@ body {
 VIDEO 541
 
 *** checkdate(mes, dia, fecha) -> funcion PHP para comprbar si una fecha es valida
-              -> devuelve un boolean 
-              -> soporta strings e integers
+      -> devuelve un boolean 
+      -> soporta strings e integers
 *** valida fechas entre el 0001-01-01 hasta el 32767-12-31
 *** contempla los 29/2 de los años bisiestos
 *** ejemplo -> checkdate(12, 31, 32767)
+
+----- 
+
+*** El Lunes 19/6, y antes de seguir con el VIDEO 542, configuré en el servidor (XAMPP) la zona horaria, que estaba seteada como 'Europe/Berlin'
+1) Para esto, fuí al archivo /xampp/php/php.ini 
+2) En el archivo, busqué la linea que setea la zona horaria del servidor vvv 
+   date.timezone=Europe/Berlin
+3) comente esa linea, y debajo defini el nuevo seteo vvv
+   ; date.timezone=Europe/Berlin
+   date.timezone=America/Buenos_Aires
+4) reinicie el servidor (XAMPP) y funciono correctamente.
+
+*** PHP proporciona 2 funciones para obtener la zona horaria del servidor donde corre la aplicacion, y setear la zona horaria para un script determinado vvv 
+    date_default_timezone_get() -> obtener zona horaria del servidor donde corre la app
+    date_default_timezone_set($zonaHoraria) -> setear la zona horaria para un script determinado, con la $zonaHoraria que le pasemos como argumento
+
+    ejemplo:
+      echo date_default_timezone_get() . "<br>"; // "America/Buenos_Aires"
+      date_default_timezone_set('Europe/Berlin'); 
+      echo date_default_timezone_get() . "<br>"; // "Europe/Berlin"
+
+*** echo date("Y-m-d H:i:s") // "2023-06-19 12:55:14" -> DATETIME del servidor 
+*** echo date("d-m", strtotime("2021-05-14")) // "14-5"
+
+-----
+  
+VIDEO 542
+
+* creamos el endpoint de nuestra API de citas, para que el administrador pueda eliminar una cita
+  $router->post("/api/eliminar", [APIController::class, "eliminar"]);
+*** en una API, el verbo tendria que ser DELETE, pero http por si solo, solo soporta GET y POST, asi que usamos POST (PUT, PATCH, DELETE, etc, si son soportados por la mayoria de los frameworks)
+
+* $_SERVER["HTTP_REFERER"] 
+  -> este atributo del array superglobal $_SERVER proporciona la url desde donde esta llegando el usuario 
+  -> aparentemente, y por las pruebas que hice, este atributo solo existe cuando se llega por via POST desde una ubicacion anterior 
+  -> ejemplo: funcionó cuando intente crear una nueva cita desde el usuario de un cliente (usando fetch de JS - app.js -); desde ApiController::guardar() retorne $_SERVER en formato json, y desde JS lo pude capturar sin problemas (acusaba que la peticion venia desde http://localhost:3000/cita ) 
+* en este VIDEO, lo usamos en ApiController::eliminar() para redireccionar al administrador a la misma pagina donde se encontraba al momento del click en eliminar una cita (por ejemplo, para redireccionarlo http://localhost:3000/admin?fecha=2023-06-21 luegop de eliminar una cita del 21/6/23)
+
+----- 
+
+* en este video, el profesor no considera la posibilidad de que si elimino una cita, se eliminen los registros de citasservicios asociados 
+* tambien comprobé que pasa lo mismo si elimino un usuario (no se eliminan las citas asociadas a ese usuario, y por ende, los registros en citasservicios asociados a esa/s cita/s eliminadas) 
+* tambien comprobé que pasa lo mismo si elimino un servicio (no se eliminan las citasservicios asociados a ese servicio) 
+* lo investigue y lo hice yo vvv
+
+SHOW CREATE TABLE $nombreTabla;
+1) este comando SQL nos permite ver la configuracion de una tabla existente en nuestra DB (de esta forma, me aseguro si hace falta modificar algo, antes de hacerlo) 
+
+   SHOW CREATE TABLE citas;
+   CREATE TABLE `citas` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `fecha` date DEFAULT NULL,
+      `hora` time DEFAULT NULL,
+      `usuarioId` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      KEY `usuarioId` (`usuarioId`),
+      CONSTRAINT `citas_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+   ) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8
+
+   ** esto significa (hice pruebas y pasa) que si borro un usuario, las citas asociadas quedaran con usuarioId = (NULL)
+
+2) modifico citas, para que a partir de ahora, cuando elimino un usuario, se elimine tambien la cita vvv
+   
+   2.1) primero, elimino la restricción de clave externa existente "citas_ibfk_1"
+    ALTER TABLE citas
+    DROP FOREIGN KEY citas_ibfk_1;
+
+   2.2) compruebo que se elimino correctamente la restriccion vvv 
+    SHOW CREATE TABLE citas; 
+    CREATE TABLE `citas` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `fecha` date DEFAULT NULL,
+      `hora` time DEFAULT NULL,
+      `usuarioId` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      KEY `usuarioId` (`usuarioId`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8
+
+   2.3) luego, la vuelvo a crear, pero con la nueva funcionalidad 
+    ALTER TABLE citas
+    ADD CONSTRAINT citas_ibfk_1 FOREIGN KEY (usuarioId) REFERENCES usuarios (id) ON DELETE CASCADE;
+
+   2.4) compruebo que se creo correctamente la nueva restriccion vvv   
+    CREATE TABLE `citas` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `fecha` date DEFAULT NULL,
+      `hora` time DEFAULT NULL,
+      `usuarioId` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      KEY `citas_ibfk_1` (`usuarioId`),
+      CONSTRAINT `citas_ibfk_1` FOREIGN KEY (`usuarioId`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8
+
+   2.5) Hago pruebas y ahora si, cuando elimino un usuario se eliminan las citas asociadas
+
+3) modifico citasservicios, para que a partir de ahora, cuando elimino una cita (o un usuario desde la BD), se elimine tambien las citasservicios asociados a esa cita (o usuario)
+  3.1) SHOW CREATE TABLE citasservicios; (para comprobar que realmente hace falta la modificacion)
+  3.2) Si hace falta vvv
+  ALTER TABLE citasservicios
+  DROP FOREIGN KEY citasservicios_ibfk_1;
+  3.3)
+  ALTER TABLE citasservicios
+  ADD CONSTRAINT citasservicios_ibfk_1 FOREIGN KEY (citaId) REFERENCES citas (id) ON DELETE CASCADE;
+
+4) quedaria pendiente revisar que conviene cuando se elimina un servicio (por ahora no lo modifico):
+   * con la confuguracion actual, si se elimina un servicio, la citaservicio asociada a ese servicio queda en (NULL)
+   * el problema es que hay, al menos, 2 escenarios posibles:
+   ** si el turno fue pedido con solo el servicio posteriormente eliminado, habria que elimianr la cita y la citaservicio asociada a ese servicio eliminado
+   ** si el turno fue pedido con varios servicios (entre ellos, el posteriormente eliminado) entonces solo habria que eliminar la citaservicio asociado al servicio eliminado, pero no la cita (ya que es válida para que el cliente realize los otros servicios vigentes) 
+
+5) Para estas modificaciones en la DB, por seguridad, es bueno tener una copia de seguridad de la base en su estado previo a la modificación, antes de modificar nada.
+   Entonces, aca va a un paso a paso de como exportar una base con Heidi como paso previo, para tener la copia de seguridad mencionada:
+   1) En Heidi 
+   2) click derecho sobre la base a exportar (panel izquierdo)
+    2.1) se va a abrir un nuevo panel
+   3) en el nuevo panel, en la parte de arriba, puedo seleccionar si quiero exportar la estructura de la base con varias opciones para los datos (select "Datos")
+   4) click en el icono de la carpeta (al final del select "Nombre del archivo") para setear el nombre del archivo .sql que voy a crear, y la ubicacion en mi maquina donde quiero ubicarlo
+   5) click en "Exportar"
+   6) hice una prueba, y exporte el archivo "appsalon.sql" a mi escritorio; la exportacion se genero correctamente (en apariencia, ya que abri el archivo en VSC y se ve toda la sintaxis SQL que crea las tablas, los registros, etc.)
+   7) quedaría pendiente la prueba de importar esa base nuevamente en mi conexion local en Heidi y ver que se importe correctamente.
+
+----- 
+
+*** Hay una pregunta de un alumno muy interesante en este video (en Udemy)
+    "Exportar las citas a un fichero excel, tanto desde PHP como desde JS" 
+*** Hay respuestas a tener en cuenta para las 2 opciones, por uno de los profesores asistentes 
+*** palabras clave: exportar datos db bd base de datos a archivo excel
+
+----- 
+
+VIDEO 543
