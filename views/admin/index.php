@@ -53,3 +53,5 @@
             <!-- tip HTML: observar que no estoy cerrando ninguna etiqueta <li>, pero si inspecciono desde el navegador el DOM, compruebo que HTML cerro cada uno de los <li> automaticamente (VIDEO 536) -->
     </ul>
 </div>
+
+<?php $script = "<script src='build/js/buscador.js'></script>"; ?>
