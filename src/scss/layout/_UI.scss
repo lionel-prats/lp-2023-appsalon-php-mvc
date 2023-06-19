@@ -20,6 +20,12 @@
         width: 95%;
         padding: 3rem 0;
         margin: 0 auto;
+
+        // VIDEO 539 -> ver explicacion en z-notas.txt
+        @include m.tablet {
+            overflow: scroll;
+        };
+        
     }
 }
 

@@ -1025,3 +1025,26 @@ VIDEO 538
 
 date_default_timezone_set('America/Buenos_Aires');
 $fecha = date("Y-m-d H:i:s");
+
+----- 
+
+VIDEO 539 
+
+*** modificaciones en el css para que la imagen de la izquierda se comporte adecuadamente independientemente de la cantidad de contenido renderizada en el lado derecho
+*** habia un problema con el tamaño de la imagen: a mayor cantidad de contenido del lado derecho, mayor tamaño tomaba la imagen, y no quedaba bien esteticamente.
+
+/src/scss/base/_globales.scss
+body {
+    @include m.tablet {
+        height: 100%;
+    };
+}
+
+/src/scss/layout/_UI.scss
+.contenedor-app {
+  .app {
+    @include m.tablet {
+        overflow: scroll;
+    };
+  }
+}
