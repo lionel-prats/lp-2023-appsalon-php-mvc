@@ -1300,3 +1300,37 @@ composer require vlucas/phpdotenv
 ----- 
 
 VIDEO 557
+
+1) en la raiz, creo el archivo Procfile
+  este archivo sirve para indicar que nuestro proyecto debe ejecutarse desde una ubicacion que no sea la raiz del proyecto (en nuestro caso, la app se ejecuta desde /public, entonces necesitamos el Procfile)
+   lo seteo (ver Procfile)
+
+2) Modificar el Router
+  // $currentUrl = $_SERVER['PATH_INFO'] ?? '/'; 
+  $currentUrl = $_SERVER['REQUEST_URI'] === "" ? "/" : $_SERVER['REQUEST_URI'];
+
+  *** en conclusion, reescribimos la variable $currentIrl (ver explicacion en el video, pero dice que "en apache no existe $_SERVER['PATH_INFO'], si existe $_SERVER['REQUEST_URI']")
+
+3) creamos el archivo /public/.htacces 
+  * ".htacces es un archivo de configuracion de apache que le va a decir como se tiene que comportar en esos cambios de las URLs"
+
+  lo seteamos con un script que pasó en un gist vvv 
+  gist -> https://gist.github.com/codigoconjuan/1fe819b8774894c1ac9ae8d3cc35f0c5 vvv
+
+  Options -MultiViews
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [QSA,L]
+
+----- 
+
+VIDEO 558
+
+* comando de git que abre en el navegador el git-branch(1) Manual Page (que me parece que esta dentro de C://Program Files/Git)
+git branch --help
+
+* tambien funciona con git status --help o git checkout --help
+
+*** en cocnclusion, la instalacion de GIT en mi maquina trae un manual, y de esta manera puedo acceder a los diferentes apartados
+
+*** https://www.atlassian.com/es/git // manual GIT en español 

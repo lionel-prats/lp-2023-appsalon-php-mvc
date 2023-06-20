@@ -13,6 +13,7 @@ class LoginController {
     public static function login(/* Router */ $router) {
         //debuguear($_SESSION);
         
+        
         // si el usuario esta logueado (admin o cliente) lo redirige a /admin o a /cita respectivamente
         isGuest();  
 
