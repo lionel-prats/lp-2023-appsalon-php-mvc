@@ -36,3 +36,11 @@ function isAdmin() :void
 {
     if(!isset($_SESSION["admin"])) header("Location: /cita");
 }
+
+// VIDEO 551
+function idValido($array, $clave) :void
+{
+    if (!isset($array["$clave"]) || !(is_numeric($array["$clave"]) && intval($array["$clave"]) == $array["$clave"]) || $array["$clave"] <= 0 ) {
+        header("Location: /servicios");
+    }
+}

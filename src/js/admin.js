@@ -12,7 +12,7 @@ function servicioCreado() {
         Swal.fire( { // Sweet Alert
             icon: 'success',
             title: `${nombreServicio.value}`,
-            text: `Servicio creado correctamente`,
+            text: `Servicio actualizado correctamente`,
             button: 'OK'
         } ).then( () => { // callback 
             // setTimeout(() => {

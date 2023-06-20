@@ -1214,3 +1214,13 @@ VIDEO 549
 * @extend -> directiva de SASS 
 * ver /src/scss/layout/_admin.scss para ver la explicacion
 * tambien se puede repasar este video (VIDEO 549)
+
+----- 
+
+VIDEO 551 
+
+* una buena forma de redireccionar al usuario si lo que llega por GET no es lo esperado
+* en este caso, esperamos recibir un id valido de servicio para actualizarlo (es decir, un numero entero positivo mayor a cero)
+if (!isset($_GET["id"]) || !(is_numeric($_GET["id"]) && intval($_GET["id"]) == $_GET["id"]) || $_GET["id"] <= 0 ) {
+  header("Location: /servicios");
+}
