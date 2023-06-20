@@ -70,9 +70,13 @@ class ServicioController {
             "servicioCreado" => $servicioCreado
         ]);
     }
-    public static function eliminar(){
+    public static function eliminar(/* $router */){
         if($_SERVER["REQUEST_METHOD"] === "POST"){
-
+            $id = $_POST["id"];
+            $servicio = Servicio::find($id);
+            $servicio->eliminar();
+            // header("Location: " . $_SERVER["HTTP_REFERER"]); 
+            header("Location: /servicios"); 
         }
     }
 }
