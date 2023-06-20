@@ -8,8 +8,10 @@ use Model\Servicio;
 
 class ServicioController {
     public static function index(/* Router */ $router){
+        $servicios = Servicio::all();
         $router->render("/servicios/index", [
-            "nombre" => $_SESSION["nombre"]
+            "nombre" => $_SESSION["nombre"],
+            "servicios" => $servicios
         ]);
     }
     public static function crear(/* Router */ $router){

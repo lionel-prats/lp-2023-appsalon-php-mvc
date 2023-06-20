@@ -1204,3 +1204,13 @@ ALTER TABLE servicios MODIFY COLUMN precio INT(11);
 *** le agregué sweetalert por mi cuenta para que le salga un cartel al administrador luego de crear un nuevo servicio, y el redireccionamiento a /servicios lo hago desde JS, en vez de hacerlo desde PHP como muestra el profesor en este video
 
 -----
+
+VIDEO 549 
+
+.servicios {
+    @extend .citas;
+}
+
+* @extend -> directiva de SASS 
+* ver /src/scss/layout/_admin.scss para ver la explicacion
+* tambien se puede repasar este video (VIDEO 549)

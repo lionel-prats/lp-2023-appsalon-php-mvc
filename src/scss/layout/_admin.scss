@@ -22,3 +22,26 @@
         }
     }
 }
+.servicios {
+    @extend .citas;
+    // directiva de SASS con la que estamos diciendo: en .servicios hereda todos los estilos de .citas (VIDEO 549)
+    // de esta forma, todos los estilos asociados a .citas (lineas 8 a 24 de este archivo), se asociaran a .servicios
+    // seria lo mismo que escribir esto, acá adentro de .servicios vvv 
+    /*
+    padding: 0;
+    list-style: none;
+    li {
+        padding: 1rem;
+        border-top: 1px solid v.$blanco;
+        p {
+            font-weight: v.$bold;
+            color: v.$azul;
+        }
+        span,
+        .servicio {
+            font-weight: v.$regular;
+            color: v.$blanco;
+        }
+    }
+    */
+}
