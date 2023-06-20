@@ -272,7 +272,7 @@ el profesor de arranque usa el termino "bannear" cuando habla sobre la capa de s
 "vamos a instalar la extension de PHPMailer" vvv 
 
 composer require phpmailer/phpmailer
-* coon este comando instalo la libreria phpmailer en el proyecto (en los hechos, se creo la carpeta /vendor/phpmailer, que es lo que llamamos "libreria", "dependencia", "extension", etc.)
+* con este comando instalo la libreria phpmailer en el proyecto (en los hechos, se creo la carpeta /vendor/phpmailer, que es lo que llamamos "libreria", "dependencia", "extension", etc.)
 
 composer update -> mensaje por consola vvv 
 
@@ -1192,4 +1192,15 @@ SHOW CREATE TABLE $nombreTabla;
 
 ----- 
 
-VIDEO
+VIDEO 548 
+
+is_numeric($variable) -> determina si el parametro recibido es o no un numero (soporta numeros en formato string, y toma como validos numeros decimales - con punto -)
+* lo uso para la validacion del formulario de creacion y actualizacion de servicios, dentro del panel del administrador
+
+* Alteré el tipo de dato que soporta el campo precio de la tabla servicios, para no tener problema con los precios de los servicios vvv 
+
+ALTER TABLE servicios MODIFY COLUMN precio INT(11);
+
+*** le agregué sweetalert por mi cuenta para que le salga un cartel al administrador luego de crear un nuevo servicio, y el redireccionamiento a /servicios lo hago desde JS, en vez de hacerlo desde PHP como muestra el profesor en este video
+
+-----
