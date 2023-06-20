@@ -1266,3 +1266,37 @@ ADD CONSTRAINT citasservicios_ibfk_2 FOREIGN KEY (servicioId) REFERENCES servici
   *** finalmente la adapté a mis necesidades en ServicioCOntroller::eliminar()
 
 ----- 
+
+VIDEO 556 
+
+Variables superglobales de PHP:
+$_GET
+$_POST
+$_SERVER
+$_SESSION
+$_COOKIE
+$_ENV (para las variables de entorno)
+
+
+1) instalo una dependencia para leer valores de variables de entorno vvv
+composer require vlucas/phpdotenv
+
+  *** se creó la dependencia en composer.json
+      "vlucas/phpdotenv": "^5.5"
+  *** se creó /vlucas/phpdotenv en /vendor
+
+2) creo archivo con las variables de entorno de mi proyecto vvv 
+/includes/.env 
+   seteo las variables de entorno para la conexion a la DB (ver .env)
+
+3) en /includes/app.php instancio la dependencia instalada de vlucas\phpdotenv y algunas configuraciones mas, para poder leer las variables de entorno en el .env y que se agreguen a la variable superglobal de PHP $_ENV
+
+4) en /includes/database.php paso las variables de entorno definidas en .env a la conexion a la base de datos, a traves de la variable superglobal $_ENV (que ya tiene cargadas esas variables definidas en .env)
+
+5) todo funciona correctamente
+
+*** en conclusion (y comprobado), todas las constantes que vaya agregando al .env se van a ir cargando en el superglobal $_ENV
+
+----- 
+
+VIDEO 557

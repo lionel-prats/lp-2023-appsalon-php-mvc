@@ -2,8 +2,10 @@
 /vendor
 /public/build
 /0.PDFs
+/0.deployment
 
 /includes/database.php
+/includes/.env
 package-lock.json
 composer.lock
 
