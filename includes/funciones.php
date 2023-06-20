@@ -37,6 +37,16 @@ function isAdmin() :void
     if(!isset($_SESSION["admin"])) header("Location: /cita");
 }
 
+// implementacion Lio
+function isGuest() :void 
+{
+    if(count($_SESSION)) {
+        if(!isset($_SESSION["admin"])) header("Location: /cita");
+        else header("Location: /admin");
+    }
+    
+}
+
 // VIDEO 551
 function idValido($array, $clave) :void
 {

@@ -2,12 +2,14 @@
 
 namespace Controllers;
 
+use Model\Cita;
 use Model\Servicio;
 
 //use MVC\Router;
 
 class ServicioController {
     public static function index(/* Router */ $router){
+        isAdmin();
         $servicios = Servicio::all();
         $router->render("/servicios/index", [
             "nombre" => $_SESSION["nombre"],
@@ -15,6 +17,7 @@ class ServicioController {
         ]);
     }
     public static function crear(/* Router */ $router){
+        isAdmin();
         $servicio = new Servicio;
         $alertas = [];
         $servicioCreado = 0;
@@ -35,7 +38,7 @@ class ServicioController {
         ]);
     }
     public static function actualizar(/* Router */ $router){
-    
+        isAdmin();
         // valido que el id que llega por GET sea valido
         if($_SERVER["REQUEST_METHOD"] === "GET"){
             idValido($_GET, "id");
@@ -71,10 +74,28 @@ class ServicioController {
         ]);
     }
     public static function eliminar(/* $router */){
+        isAdmin();
         if($_SERVER["REQUEST_METHOD"] === "POST"){
+            
             $id = $_POST["id"];
             $servicio = Servicio::find($id);
             $servicio->eliminar();
+
+            // bloque adicional agregado por Lio (ver explicacion en z.notas.txt VIDEO 553)
+            $consulta = "
+                SELECT C.id
+                FROM citas C
+                LEFT JOIN citasservicios CS ON C.id = CS.citaId
+                WHERE CS.citaId IS NULL
+            ";
+            $citasSinServiciosAsociados = Servicio::SQL($consulta);
+            foreach($citasSinServiciosAsociados as $cita) {
+                $idCitaPorEliminar = $cita->id;
+                $citaPorEliminar = Cita::find($idCitaPorEliminar);
+                $citaPorEliminar->eliminar();
+            }
+            // bloque adicional agregado por Lio (ver explicacion en z.notas.txt VIDEO 553)
+            
             // header("Location: " . $_SERVER["HTTP_REFERER"]); 
             header("Location: /servicios"); 
         }

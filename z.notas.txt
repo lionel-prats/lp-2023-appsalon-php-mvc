@@ -114,17 +114,17 @@ CREATE TABLE `appsalon_mvc`.`servicios` (
 *** insertando algunos registros vvv
 
 INSERT INTO `servicios` (`id`, `nombre`, `precio`) VALUES
-(1, 'Corte de Cabello Mujer', 90.00),
-(2, 'Corte de Cabello Hombre', 80.00),
-(3, 'Corte de Cabello Niño', 60.00),
-(4, 'Peinado Mujer', 80.00),
-(5, 'Peinado Hombre', 60.00),
-(6, 'Peinado Niño', 60.00),
-(7, 'Corte de Barba', 60.00),
-(8, 'Tinte Mujer', 300.00),
-(9, 'Uñas', 400.00),
-(10, 'Lavado de Cabello', 50.00),
-(11, 'Tratamiento Capilar', 150.00);
+(1, 'Corte de Cabello Mujer', 900),
+(2, 'Corte de Cabello Hombre', 800),
+(3, 'Corte de Cabello Niño', 600),
+(4, 'Peinado Mujer', 800),
+(5, 'Peinado Hombre', 600),
+(6, 'Peinado Niño', 600),
+(7, 'Corte de Barba', 600),
+(8, 'Tinte Mujer', 3000),
+(9, 'Uñas', 4000),
+(10, 'Lavado de Cabello', 500),
+(11, 'Tratamiento Capilar', 1500);
 
 -----
 
@@ -1224,3 +1224,45 @@ VIDEO 551
 if (!isset($_GET["id"]) || !(is_numeric($_GET["id"]) && intval($_GET["id"]) == $_GET["id"]) || $_GET["id"] <= 0 ) {
   header("Location: /servicios");
 }
+
+----- 
+
+VIDEO 553 
+
+* en este video, muestra como eliminar servicios desde el panel del administrador
+
+* modifique la tabla citasservicios, para que, si se elimina un servicio, se eliminen tambien los citasservicios asociados a ese servicio vvv  
+
+ALTER TABLE citasservicios
+DROP FOREIGN KEY citasservicios_ibfk_2;
+
+ALTER TABLE citasservicios
+ADD CONSTRAINT citasservicios_ibfk_2 FOREIGN KEY (servicioId) REFERENCES servicios (id) ON DELETE CASCADE;
+
+
+* ademas, agregue la funcionalidad de que, si el administrador elimina un servicio desde el panel, y habia algun turno reservado previamente, solo con ese servicio, se elimine tambien la cita correspondiente en citas
+  esto lo hice desde ServicioCOntroller::eliminar(), el metodo que programamos en este video para eliminar un servicio de servicios
+  esto lo hice con un bloque de codigo adicional, que incluye una consulta SQL de las citas que no tengan registros asociados en citasservicios, una iteracion del resultado de esa consulta, y una eliminacion 1 por 1 de esos registros de citas (si los hubo) (ver ServicioCOntroller::eliminar())
+  
+  *** me ayude con chatGTP, empezando por mandarle este prompt vvv
+  "Traducime esta frase al ingles porfa:
+  'sos un experto en mysql. te voy a hacer preguntas. se lo mas claro y eficiente posible. Te voy a preguntar en español, contestame en español, de acuerdo?'"
+
+  *** respuesta de chatGTP vvv
+  You are an expert in MySQL. I'm going to ask you questions. Be as clear and efficient as possible. I will ask you in Spanish, so please answer me in Spanish, okay?
+
+  *** luego, le pedí una consulta para lo que necesitaba vvv
+  "tengo la tabla "paises" con los campos "id" y "nombre"
+  tengo la tabla "clientes" con los campos "id", "nombre"y "paisId" ("paisId es FK y hace referencia al campo "id" de "paises")
+  quiero un listado de todos los paises que no tienen clientes.
+  Cual es la consulta SQL mas eficiente para lograr este listado?"
+
+  *** me devolvio esta consulta 
+  "SELECT paises.id, paises.nombre
+   FROM paises
+   LEFT JOIN clientes ON paises.id = clientes.paisId
+   WHERE clientes.paisId IS NULL;"
+
+  *** finalmente la adapté a mis necesidades en ServicioCOntroller::eliminar()
+
+----- 

@@ -12,6 +12,10 @@ class LoginController {
 
     public static function login(/* Router */ $router) {
         //debuguear($_SESSION);
+        
+        // si el usuario esta logueado (admin o cliente) lo redirige a /admin o a /cita respectivamente
+        isGuest();  
+
         $alertas = [];
         
         $auth = new Usuario();
@@ -77,6 +81,10 @@ class LoginController {
     }
     
     public static function olvide(/* Router */ $router) {
+
+        // si el usuario esta logueado (admin o cliente) lo redirige a /admin o a /cita respectivamente
+        isGuest();  
+        
         $first_path = "/"; 
         $first_brand = "¿Ya tienes una cuenta? Inicia sesión";
         $second_path = "/crear-cuenta"; 
@@ -185,6 +193,9 @@ class LoginController {
     }
 
     public static function crear(/* Router */ $router) {
+        
+        // si el usuario esta logueado (admin o cliente) lo redirige a /admin o a /cita respectivamente
+        isGuest();  
 
         $first_path = "/"; 
         $first_brand = "¿Ya tienes una cuenta? Inicia sesión";

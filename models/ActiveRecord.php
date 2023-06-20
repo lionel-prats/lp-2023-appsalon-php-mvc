@@ -31,7 +31,6 @@ class ActiveRecord {
 
     // Consulta SQL para crear un objeto en Memoria
     public static function consultarSQL($query) {
-
         // Consultar la base de datos
         $resultado = self::$db->query($query);
         
@@ -39,6 +38,7 @@ class ActiveRecord {
         // Iterar los resultados
         $array = [];
         while($registro = $resultado->fetch_assoc()) {
+            
             
             // echo "<pre>";
             // print_r($registro);
@@ -58,10 +58,10 @@ class ActiveRecord {
     // Crea el objeto en memoria que es igual al de la BD
     // VIDEO 497 - recibe un array y lo convierte en objeto
     protected static function crearObjeto($registro) {
-        
         // instancia del modelo que invoque este metodo crearObjeto (en este caso, Servicio - VIDEO 497)
         // tambien lo invoca el modelo AdminCita (VIDEO 534)
         $objeto = new static; 
+        
         // echo "<pre>";
         // print_r($registro);
         // echo "</pre>";
@@ -85,7 +85,6 @@ class ActiveRecord {
         }
         
         // debuguear($objeto);
-       
         return $objeto;
     }
 
